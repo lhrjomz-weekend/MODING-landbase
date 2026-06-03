@@ -1,0 +1,49 @@
+{
+  "accreditations": [
+    {
+      "accreditationId": "10353460",
+      "principal": "GULF ASIA CONTRACTING COMPANY LLC",
+      "status": "RENEWED",
+      "dateIssued": "10 JUN 2025",
+      "expiration": "09 JUN 2029",
+      "jobSite": "SAUDI ARABIA",
+      "processingUnit": "OSLBC",
+      "jobOrders": [
+        {
+          "joid": "101207378",
+          "directEmployer": "N/A",
+          "status": "ACTIVE",
+          "dateApproved": "10 JUN 2025",
+          "validUntil": "10 JUN 2028",
+          "classType": "REVALIDATED",
+          "needed": 9,
+          "balance": 9,
+          "positions": [
+            {
+              "id": 1,
+              "name": "WELDER PIPE",
+              "code": "1003276",
+              "needed": 8,
+              "processed": 0,
+              "balance": 8,
+              "salary": "2,000.00",
+              "currency": "SAUDI ARABIA RIYAL",
+              "period": "MONTH"
+            },
+            {
+              "id": 2,
+              "name": "GENERAL LABOUR",
+              "code": "671922",
+              "needed": 1,
+              "processed": 0,
+              "balance": 1,
+              "salary": "1,750.00",
+              "currency": "SAUDI ARABIA RIYAL",
+              "period": "MONTH"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

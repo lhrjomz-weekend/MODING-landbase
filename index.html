@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LHR System</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a1512;--card:#162420;--green:#2ecc71;--white:#fff;--muted:#888;--red:#e74c3c;--amber:#f8b739}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--white)}
+.hidden{display:none!important}
+.login-page{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:2000}
+.login-box{background:var(--card);border:2px solid var(--green);border-radius:12px;padding:2rem;width:90%;max-width:350px;text-align:center}
+.login-box h1{color:var(--green);margin-bottom:1rem}
+.form-group{margin:1rem 0;text-align:left}
+.form-group label{display:block;color:var(--green);font-weight:600;margin-bottom:0.5rem;font-size:0.9rem}
+.form-group input{width:100%;padding:10px;background:#1a2a1e;border:1px solid var(--green);border-radius:6px;color:var(--white);font-size:0.95rem}
+.form-group input:focus{outline:none;border-color:#52ff00}
+.btn{width:100%;padding:10px;margin-top:1rem;background:var(--green);color:var(--bg);border:0;border-radius:6px;font-weight:700;cursor:pointer;font-size:0.95rem}
+.btn:hover{background:#27ae60}
+.error{color:var(--red);font-size:0.85rem;margin-top:0.5rem}
+.demo{color:var(--muted);font-size:0.75rem;margin-top:1.5rem;line-height:1.6}
+header{height:60px;background:#0f1814;border-bottom:1px solid var(--green);display:none;align-items:center;padding:0 20px;position:fixed;top:0;left:0;right:0;z-index:100}
+header:not(.hidden){display:flex}
+.header-title{color:var(--green);font-weight:700;flex:1}
+.header-user{display:flex;gap:10px;align-items:center}
+.header-user button{background:none;border:none;color:var(--red);cursor:pointer;font-weight:700;font-size:0.8rem}
+main{margin-top:60px;padding:20px}
+.page{display:none}
+.page.active{display:block}
+.title{font-size:1.5rem;color:var(--green);margin-bottom:1.5rem;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem}
+.stat-card{background:var(--card);border:1px solid var(--green);border-radius:8px;padding:1.5rem;text-align:center;cursor:pointer}
+.stat-num{font-size:1.8rem;font-weight:700;color:var(--green)}
+.stat-label{color:var(--muted);font-size:0.85rem;text-transform:uppercase;margin-top:0.5rem}
+.controls{display:flex;gap:1rem;margin-bottom:2rem;flex-wrap:wrap}
+.controls input,.controls select{background:var(--card);border:1px solid var(--green);border-radius:6px;padding:10px;color:var(--white);font-size:0.9rem;flex:1;min-width:150px}
+.controls button{background:var(--green);color:var(--bg);border:0;padding:10px 20px;border-radius:6px;cursor:pointer;font-weight:600}
+.list{display:flex;flex-direction:column;gap:1rem}
+.card{background:var(--card);border:1px solid var(--green);border-radius:8px;padding:1.5rem}
+.card.expired{border-left:4px solid var(--red)}
+.card.expiring{border-left:4px solid var(--amber)}
+.card-title{font-weight:700;color:var(--green);margin-bottom:0.5rem;font-size:1.1rem}
+.card-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:1rem;font-size:0.85rem}
+.card-field{color:var(--muted);font-size:0.75rem;text-transform:uppercase}
+.card-value{color:var(--white);font-weight:600;margin-top:0.2rem}
+.no-data{color:var(--muted);padding:2rem;text-align:center}
+@media(max-width:600px){.stats{grid-template-columns:1fr}.card-grid{grid-template-columns:1fr}.controls{flex-direction:column}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-page">
+  <div class="login-box">
+    <h1>🏢 LHR SYSTEM</h1>
+    <form onsubmit="login(event)">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" id="username" required>
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" id="password" required>
+      </div>
+      <button type="submit" class="btn">LOGIN</button>
+      <div class="error" id="error"></div>
+    </form>
+    <div class="demo">
+      <strong>Demo Accounts:</strong><br>
+      admin / 1234<br>
+      test / 1234<br>
+      jomz / 4567
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<header id="header" class="hidden">
+  <div style="display:flex;gap:10px;flex:1">
+    <button onclick="switchPage('acc')" style="background:none;border:none;color:var(--green);cursor:pointer;font-weight:700;font-size:0.9rem">ACCREDITATIONS</button>
+    <button onclick="switchPage('wrk')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-weight:700;font-size:0.9rem">WORKERS</button>
+  </div>
+  <div class="header-user">
+    <span id="userName">USER</span>
+    <button onclick="logout()">LOGOUT</button>
+  </div>
+</header>
+
+<main id="mainApp" class="hidden">
+  <!-- ACCREDITATIONS PAGE -->
+  <div id="page-acc" class="page active">
+    <div class="title">ACCREDITATIONS</div>
+    <div class="stats">
+      <div class="stat-card" onclick="filterByStatus('')">
+        <div class="stat-num" id="total">0</div>
+        <div class="stat-label">Total</div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('expiring')">
+        <div class="stat-num" id="expiring">0</div>
+        <div class="stat-label">Expiring</div>
+      </div>
+      <div class="stat-card" onclick="filterByStatus('expired')">
+        <div class="stat-num" id="expired">0</div>
+        <div class="stat-label">Expired</div>
+      </div>
+    </div>
+    <div class="controls">
+      <input type="text" id="search" placeholder="Search employer..." onkeyup="filterEmps()">
+      <select id="site" onchange="filterEmps()">
+        <option value="">All Sites</option>
+      </select>
+      <button onclick="loadEmps()">Refresh</button>
+    </div>
+    <div id="empList" class="list"></div>
+  </div>
+
+  <!-- WORKERS PAGE -->
+  <div id="page-wrk" class="page">
+    <div class="title">WORKERS TRACKER</div>
+    <div class="controls">
+      <input type="text" id="wsearch" placeholder="Search worker..." onkeyup="filterWorkers()">
+      <button onclick="loadWorkers()">Refresh</button>
+    </div>
+    <div id="workersList" class="list"></div>
+  </div>
+</main>
+
+<script>
+const ACCRED_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
+const WORKER_ID='1iXI0O4mxiBNRPwjgbseH24QLB3vCRqwqp3z5QiOXVHw';
+let emps=[],workers=[],filterStatus='';
+
+// LOGIN
+function login(e){
+  e.preventDefault();
+  const users={'admin':'1234','test':'1234','jomz':'4567','mary':'2024'};
+  const u=document.getElementById('username').value.toLowerCase();
+  const p=document.getElementById('password').value;
+  if(users[u]&&users[u]===p){
+    localStorage.setItem('lhr_user',u);
+    showApp();
+    loadEmps();
+  }else{
+    document.getElementById('error').textContent='❌ Invalid credentials';
+  }
+}
+
+function logout(){
+  localStorage.removeItem('lhr_user');
+  location.reload();
+}
+
+function showApp(){
+  document.getElementById('loginPage').classList.add('hidden');
+  document.getElementById('header').classList.remove('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  document.getElementById('userName').textContent=localStorage.getItem('lhr_user').toUpperCase();
+}
+
+// CHECK LOGIN ON LOAD
+window.addEventListener('load',()=>{
+  if(localStorage.getItem('lhr_user')){
+    showApp();
+    loadEmps();
+  }
+});
+
+// FETCH SHEET
+async function fetchSheet(id,sheet){
+  const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+  const res=await fetch(url);
+  const txt=await res.text();
+  const json=JSON.parse(txt.substring(6,txt.length-2));
+  const cols=json.table.cols.map(c=>c.label);
+  return json.table.rows.map(r=>({cols,vals:r.c}));
+}
+
+function getVal(row,col){
+  const idx=row.cols.findIndex(c=>c.toLowerCase()===col.toLowerCase());
+  return idx>=0?(row.vals[idx]?.f||row.vals[idx]?.v||''):'';}
+
+function getStatus(exp){
+  if(!exp)return 'active';
+  const d=new Date(exp);const diff=Math.floor((d-new Date())/86400000);
+  if(diff<0)return 'expired';if(diff<=90)return 'expiring';return 'active';
+}
+
+// ACCREDITATIONS
+async function loadEmps(){
+  document.getElementById('empList').innerHTML='<div class="no-data">Loading...</div>';
+  try{
+    console.log('🔍 Fetching accreditations from:', ACCRED_ID);
+    emps=await fetchSheet(ACCRED_ID,'Sheet1');
+    console.log('✓ Loaded rows:', emps.length);
+    if(emps.length > 0){
+      console.log('First row columns:', emps[0].cols);
+      console.log('First row data:', emps[0].vals);
+    }
+    buildSites();
+    updateStats();
+    filterEmps();
+  }catch(e){
+    console.error('❌ Error loading emps:', e);
+    document.getElementById('empList').innerHTML=`<div class="no-data">❌ Error: ${e.message}<br><br>Check console (F12) for details</div>`;
+  }
+}
+
+function buildSites(){
+  const sites=[...new Set(emps.map(e=>getVal(e,'Job Site')).filter(Boolean))].sort();
+  let html='<option value="">All Sites</option>';
+  sites.forEach(s=>html+=`<option value="${s}">${s}</option>`);
+  document.getElementById('site').innerHTML=html;
+}
+
+function filterByStatus(s){filterStatus=s;filterEmps();}
+
+function filterEmps(){
+  const q=document.getElementById('search').value.toLowerCase();
+  const site=document.getElementById('site').value;
+  const filtered=emps.filter(e=>{
+    const name=getVal(e,'Employer Name').toLowerCase();
+    const id=getVal(e,'Accreditation ID').toLowerCase();
+    const s=getVal(e,'Job Site');
+    const exp=getVal(e,'Expiration Date');
+    const st=getStatus(exp);
+    return (!q||name.includes(q)||id.includes(q))&&(!site||s===site)&&(!filterStatus||st===filterStatus);
+  });
+  renderEmps(filtered);
+}
+
+function updateStats(){
+  document.getElementById('total').textContent=emps.length;
+  document.getElementById('expiring').textContent=emps.filter(e=>getStatus(getVal(e,'Expiration Date'))==='expiring').length;
+  document.getElementById('expired').textContent=emps.filter(e=>getStatus(getVal(e,'Expiration Date'))==='expired').length;
+}
+
+function renderEmps(list){
+  if(!document.getElementById('search').value&&!document.getElementById('site').value&&!filterStatus){
+    document.getElementById('empList').innerHTML='';return;
+  }
+  if(!list.length){document.getElementById('empList').innerHTML='<div class="no-data">No results</div>';return;}
+  document.getElementById('empList').innerHTML=list.map(e=>{
+    const st=getStatus(getVal(e,'Expiration Date'));
+    const cls=st==='expired'?'expired':st==='expiring'?'expiring':'';
+    return `<div class="card ${cls}">
+      <div class="card-title">${getVal(e,'Employer Name')}</div>
+      <div class="card-grid">
+        <div><div class="card-field">ID</div><div class="card-value">${getVal(e,'Accreditation ID')}</div></div>
+        <div><div class="card-field">Site</div><div class="card-value">${getVal(e,'Job Site')}</div></div>
+        <div><div class="card-field">Issued</div><div class="card-value">${getVal(e,'Date Issued')}</div></div>
+        <div><div class="card-field">Expires</div><div class="card-value">${getVal(e,'Expiration Date')}</div></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// WORKERS
+async function loadWorkers(){
+  document.getElementById('workersList').innerHTML='<div class="no-data">Loading workers...</div>';
+  try{
+    console.log('🔍 Fetching workers from:', WORKER_ID);
+    workers=await fetchSheet(WORKER_ID,'Workers');
+    console.log('✓ Loaded workers:', workers.length);
+    if(workers.length > 0){
+      console.log('First worker columns:', workers[0].cols);
+    }
+    document.getElementById('workersList').innerHTML='<div class="no-data">👤 Type to search workers</div>';
+  }catch(e){
+    console.error('❌ Error loading workers:', e);
+    document.getElementById('workersList').innerHTML=`<div class="no-data">❌ Error: ${e.message}<br><br>Check console (F12)</div>`;
+  }
+}
+
+function filterWorkers(){
+  const q=document.getElementById('wsearch').value.toLowerCase();
+  if(!q){document.getElementById('workersList').innerHTML='<div class="no-data">👤 Type to search workers</div>';return;}
+  const filtered=workers.filter(w=>{
+    const name=(getVal(w,'First Name')+' '+getVal(w,'Last Name')).toLowerCase();
+    const ereg=getVal(w,'EReg No').toLowerCase();
+    return name.includes(q)||ereg.includes(q);
+  });
+  if(!filtered.length){document.getElementById('workersList').innerHTML='<div class="no-data">No workers found</div>';return;}
+  document.getElementById('workersList').innerHTML=filtered.map(w=>`<div class="card">
+    <div class="card-title">${getVal(w,'First Name')} ${getVal(w,'Last Name')}</div>
+    <div class="card-grid">
+      <div><div class="card-field">EReg #</div><div class="card-value">${getVal(w,'EReg No')}</div></div>
+      <div><div class="card-field">Position</div><div class="card-value">${getVal(w,'Position')}</div></div>
+      <div><div class="card-field">Vessel</div><div class="card-value">${getVal(w,'Vessel Name')}</div></div>
+      <div><div class="card-field">Principal</div><div class="card-value">${getVal(w,'Principal Name')}</div></div>
+      <div><div class="card-field">Status</div><div class="card-value">${getVal(w,'Status')}</div></div>
+      <div><div class="card-field">Birth Date</div><div class="card-value">${getVal(w,'Birth Date')}</div></div>
+    </div>
+  </div>`).join('');
+}
+
+// SWITCH PAGES
+function switchPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(`page-${p}`).classList.add('active');
+  if(p==='wrk')loadWorkers();
+}
+</script>
+
+</body>
+</html>
