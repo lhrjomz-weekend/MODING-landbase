@@ -94,20 +94,33 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .btn-action:hover{background:var(--primary-light);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
 .btn-action svg{width:16px;height:16px;}
 
-/* TABLE */
-.table-container{background:var(--white);border-radius:12px;border:2px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
-table{width:100%;border-collapse:collapse;font-size:0.9rem;}
-thead{background:var(--secondary);}
-th{padding:1.2rem;text-align:left;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.05em;font-size:0.8rem;border-bottom:2px solid var(--border);}
-td{padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
-tbody tr:hover{background:var(--accent);}
-tbody tr:last-child td{border-bottom:none;}
+/* EMPLOYER CARDS */
+.emp-list{display:flex;flex-direction:column;gap:1rem;}
+.emp-card{background:var(--white);border:2px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.3s;}
+.emp-card:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.emp-header{padding:1.5rem;display:grid;grid-template-columns:32px 1fr 1fr 1fr 1fr;gap:1rem;align-items:center;}
+.emp-chevron{width:32px;height:32px;background:var(--secondary);border:2px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--primary);transition:all 0.3s;}
+.emp-chevron:hover{background:var(--accent);}
+.emp-chevron.open svg{transform:rotate(180deg);}
+.emp-chevron svg{width:16px;height:16px;stroke-width:3;}
+.emp-info strong{display:block;font-size:0.9rem;color:var(--primary);margin-bottom:0.3rem;}
+.emp-info span{display:block;font-size:0.75rem;color:var(--text-muted);}
+.emp-detail{font-size:0.85rem;color:var(--text-dark);}
+.emp-detail.exp-expired{color:var(--danger);font-weight:700;}
+.emp-detail.exp-expiring{color:var(--warning);font-weight:700;}
 
-.status-badge{display:inline-block;padding:0.4rem 0.8rem;border-radius:6px;font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;}
-.status-active{background:rgba(74,124,89,0.15);color:var(--primary);}
-.status-expiring{background:rgba(232,165,58,0.15);color:var(--warning);}
-.status-expired{background:rgba(193,18,31,0.15);color:var(--danger);}
+/* JOB ORDERS PANEL */
+.jo-panel{display:none;background:var(--accent);border-top:2px solid var(--border);padding:1.5rem;}
+.jo-panel.open{display:block;}
+.jo-table-wrap{overflow-x:auto;}
+table.jo-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+table.jo-table th{padding:0.8rem;text-align:left;font-weight:700;color:var(--primary);background:var(--secondary);border-bottom:2px solid var(--border);font-size:0.75rem;text-transform:uppercase;}
+table.jo-table td{padding:0.8rem;border-bottom:1px solid var(--border);color:var(--text-dark);}
+table.jo-table tbody tr:hover{background:var(--white);}
+table.jo-table a{color:var(--primary);cursor:pointer;font-weight:600;text-decoration:none;}
+table.jo-table a:hover{text-decoration:underline;}
 
+/* WORKERS GRID */
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
 .card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.5rem;transition:all 0.3s;}
 .card:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
@@ -116,6 +129,12 @@ tbody tr:last-child td{border-bottom:none;}
 .card-label{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem;}
 .card-value{font-size:0.95rem;font-weight:600;color:var(--text-dark);}
 
+/* STATUS BADGE */
+.status-badge{display:inline-block;padding:0.4rem 0.8rem;border-radius:6px;font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;}
+.status-active{background:rgba(74,124,89,0.15);color:var(--primary);}
+.status-expiring{background:rgba(232,165,58,0.15);color:var(--warning);}
+.status-expired{background:rgba(193,18,31,0.15);color:var(--danger);}
+
 .empty-state{text-align:center;padding:4rem 2rem;color:var(--text-muted);background:var(--white);border:2px dashed var(--border);border-radius:12px;}
 .empty-state svg{width:64px;height:64px;margin-bottom:1rem;opacity:0.3;}
 
@@ -123,11 +142,28 @@ tbody tr:last-child td{border-bottom:none;}
 .loading svg{width:40px;height:40px;animation:spin 1s linear infinite;color:var(--primary);}
 @keyframes spin{to{transform:rotate(360deg)}}
 
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:16px;width:90%;max-width:800px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.modal-header{background:var(--secondary);padding:1.5rem;border-bottom:2px solid var(--border);}
+.modal-header h3{color:var(--primary);margin-bottom:1rem;}
+.modal-body{overflow-y:auto;padding:1.5rem;}
+.modal-footer{padding:1.5rem;border-top:2px solid var(--border);display:flex;justify-content:flex-end;gap:1rem;}
+.btn-close{padding:10px 20px;background:var(--primary);color:var(--white);border:none;border-radius:8px;cursor:pointer;font-weight:600;transition:all 0.3s;}
+.btn-close:hover{background:var(--primary-light);}
+
+table.pos-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+table.pos-table th{padding:0.8rem;text-align:left;font-weight:700;color:var(--white);background:var(--primary);border-bottom:2px solid var(--border);font-size:0.75rem;text-transform:uppercase;}
+table.pos-table td{padding:0.8rem;border-bottom:1px solid var(--border);color:var(--text-dark);}
+table.pos-table tbody tr:hover{background:var(--accent);}
+
 @media(max-width:900px){
   .sidebar{width:0;padding:0;}
   main{margin-left:0;}
   .sidebar.hidden{display:none;}
-  .stats-container{grid-template-columns:1fr;}
+  .emp-header{grid-template-columns:32px 1fr;}
+  .emp-header>div:nth-child(n+3){display:none;}
 }
 </style>
 </head>
@@ -270,11 +306,24 @@ tbody tr:last-child td{border-bottom:none;}
   </div>
 </main>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>Job Order Positions</h3>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer">
+      <button class="btn-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const ACCRED_SHEET_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
-const WORKERS_SHEET_ID='1iXI0O4mxiBNRPwjgbseH24QLB3vCRqwqp3z5QiOXVHw';
+const WORKERS_SHEET_ID='1XyyJTxjvdFSEcuGCf8_ubk-SrG3K_9pM0K9IEqdfEQk';
 const users={'admin':'1234','test':'1234','jomz':'4567','mary':'2024'};
-let employers=[],workers=[],currentStatusFilter='';
+let employers=[],jobOrders=[],positions=[],workers=[],currentStatusFilter='';
 const today=new Date(); today.setHours(0,0,0,0);
 
 function handleLogin(e){
@@ -319,7 +368,6 @@ async function fetchSheet(id,sheet){
   const json=JSON.parse(raw[1]);
   if(!json.table||!json.table.cols) return [];
   const cols=json.table.cols.map(c=>c.label.trim());
-  console.log('Sheet: '+sheet+', Columns:', cols);
   return (json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>{
     const obj={};
     r.c.forEach((cell,i)=>{if(cols[i]){obj[cols[i]]=(cell?.f||cell?.v||'');}});
@@ -361,8 +409,11 @@ function computeStatus(expStr){
 async function loadData(){
   document.getElementById('empList').innerHTML='<div class="loading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>';
   try{
-    employers=await fetchSheet(ACCRED_SHEET_ID,'Sheet1');
-    console.log('Employers loaded:', employers.length);
+    [employers,jobOrders,positions]=await Promise.all([
+      fetchSheet(ACCRED_SHEET_ID,'Sheet1'),
+      fetchSheet(ACCRED_SHEET_ID,'Sheet2'),
+      fetchSheet(ACCRED_SHEET_ID,'Sheet3')
+    ]);
     buildSites();
     updateStats();
     applyFilters();
@@ -411,14 +462,51 @@ function updateStats(){
 
 function renderEmps(list){
   const c=document.getElementById('empList');
-  const q=document.getElementById('searchInput').value.toLowerCase();
-  if(!q&&!currentStatusFilter){c.innerHTML='';return;}
   if(!list.length){c.innerHTML='<div class="empty-state">No employers found</div>';return;}
-  c.innerHTML='<div class="table-container"><table><thead><tr><th>Accreditation ID</th><th>Employer Name</th><th>Job Site</th><th>Date Issued</th><th>Expiration Date</th><th>Status</th></tr></thead><tbody>'+list.map(e=>{
+  c.innerHTML=list.map((e,i)=>{
     const st=computeStatus(gf(e,'Expiration Date'));
-    const stClass='status-'+st;
-    return `<tr><td>${gf(e,'Accreditation ID')}</td><td>${gf(e,'Employer Name')}</td><td>${gf(e,'Job Site')}</td><td>${gf(e,'Date Issued')}</td><td>${gf(e,'Expiration Date')}</td><td><span class="status-badge ${stClass}">${st}</span></td></tr>`;
-  }).join('')+'</tbody></table></div>';
+    const expCls=st==='expired'?'exp-expired':st==='expiring'?'exp-expiring':'';
+    const accId=gf(e,'Accreditation ID');
+    return `<div class="emp-card">
+      <div class="emp-header" onclick="toggleJO(this)">
+        <button class="emp-chevron"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 9l6 6 6-6"/></svg></button>
+        <div class="emp-info"><strong>${accId}</strong><span>${gf(e,'Accreditation ID')}</span></div>
+        <div class="emp-info"><strong>${gf(e,'Employer Name')}</strong><span>Employer</span></div>
+        <div class="emp-info"><strong>${gf(e,'Job Site')}</strong><span>Job Site</span></div>
+        <div class="emp-info"><strong class="emp-detail ${expCls}">${gf(e,'Expiration Date')}</strong><span>Expires</span></div>
+      </div>
+      <div class="jo-panel" data-accid="${accId}"></div>
+    </div>`;
+  }).join('');
+}
+
+function toggleJO(header){
+  const ch=header.querySelector('.emp-chevron');
+  const panel=header.nextElementSibling;
+  const open=panel.classList.contains('open');
+  if(open){panel.classList.remove('open');ch.classList.remove('open');}
+  else{panel.classList.add('open');ch.classList.add('open');if(!panel.dataset.loaded){renderJO(panel);panel.dataset.loaded='1';}}
+}
+
+function renderJO(panel){
+  const accId=String(panel.dataset.accid).trim();
+  const jos=jobOrders.filter(j=>String(gf(j,'Accreditation ID')).trim()===accId);
+  if(!jos.length){panel.innerHTML='<p style="padding:1rem;color:#666">No Job Orders</p>';return;}
+  panel.innerHTML=`<div class="jo-table-wrap"><table class="jo-table"><thead><tr><th>JO ID</th><th>Direct Employer</th><th>Status</th><th>Date Approved</th><th>Valid Until</th></tr></thead><tbody>${jos.map(j=>{
+    const joid=gf(j,'Job Order ID');
+    return `<tr><td><a onclick="openModal('${joid}')">${joid}</a></td><td>${gf(j,'Direct Employer')}</td><td>${gf(j,'Status')}</td><td>${gf(j,'Date Approved')}</td><td>${gf(j,'Valid Until')}</td></tr>`;
+  }).join('')}</tbody></table></div>`;
+}
+
+function openModal(joId){
+  const pos=positions.filter(p=>String(gf(p,'Job Order ID')).trim()===String(joId).trim());
+  const html=!pos.length?'<p>No positions</p>':`<table class="pos-table"><thead><tr><th>#</th><th>Position</th><th>Needed</th><th>Processed</th><th>Balance</th><th>Salary</th></tr></thead><tbody>${pos.map((p,i)=>`<tr><td>${i+1}</td><td>${gf(p,'Position Name')}</td><td>${gf(p,'Needed')}</td><td>${gf(p,'Processed')}</td><td>${gf(p,'Balance')}</td><td>${gf(p,'Salary')}</td></tr>`).join('')}</tbody></table>`;
+  document.getElementById('modalBody').innerHTML=html;
+  document.getElementById('modalOverlay').classList.add('open');
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
 }
 
 function switchPage(p){
@@ -438,11 +526,9 @@ async function loadWorkers(){
   document.getElementById('workersList').innerHTML='<div class="loading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>';
   try{
     workers=await fetchSheet(WORKERS_SHEET_ID,'Workers');
-    console.log('Workers loaded:', workers.length);
-    if(workers.length>0) console.log('First worker columns:', Object.keys(workers[0]));
     document.getElementById('workersList').innerHTML='<div class="empty-state">Type to search workers…</div>';
   }catch(e){
-    console.error('Error loading workers:', e);
+    console.error('Error:', e);
     document.getElementById('workersList').innerHTML=`<div class="empty-state">Error: ${e.message}</div>`;
   }
 }
@@ -458,8 +544,7 @@ function filterWorkers(){
     const lname=gf(w,'Last Name')||'';
     const name=(fname+' '+lname).toLowerCase();
     const ereg=gf(w,'EReg No')||'';
-    const pos=gf(w,'Position')||'';
-    return name.includes(q)||ereg.toLowerCase().includes(q)||pos.toLowerCase().includes(q);
+    return name.includes(q)||ereg.toLowerCase().includes(q);
   });
   if(!filtered.length){
     document.getElementById('workersList').innerHTML='<div class="empty-state">No workers found</div>';
