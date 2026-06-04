@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Landbase HR — Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#4A7C59;--primary-light:#6BA876;--primary-accent:#8BC34A;
+  --secondary:#FFF8DC;--accent:#E8F5E9;
+  --dark:#2D5F3F;--light:#F5F9F2;--white:#ffffff;
+  --text-dark:#1a1a1a;--text-muted:#666666;--border:#D4E8D4;
+  --success:#4A7C59;--warning:#E8A53A;--danger:#c1121f;
+  --header-h:70px;--sidebar-w:260px;
+}
+body{font-family:'Inter',sans-serif;background:#F5F9F2;color:var(--text-dark);min-height:100vh;}
+
+/* LOGIN */
+.login-container{position:fixed;inset:0;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);display:flex;align-items:center;justify-content:center;z-index:2000;}
+.login-container.hidden{display:none;}
+.login-wrapper{display:flex;width:100%;height:100%;}
+.login-brand{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--white);padding:4rem;}
+.login-brand h1{font-family:'Poppins',sans-serif;font-size:3rem;font-weight:800;margin-bottom:1rem;}
+.login-brand p{font-size:1.1rem;opacity:0.9;margin-bottom:2rem;max-width:400px;text-align:center;line-height:1.6;}
+.login-features{display:flex;flex-direction:column;gap:1rem;}
+.login-feature{display:flex;gap:0.8rem;align-items:flex-start;}
+.login-feature svg{width:24px;height:24px;flex-shrink:0;margin-top:2px;}
+
+.login-box{background:var(--white);width:100%;max-width:420px;padding:3rem;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.15);}
+.login-box h2{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--primary);}
+.login-box .subtitle{color:var(--text-muted);font-size:0.9rem;margin-bottom:2rem;}
+.form-group{margin-bottom:1.5rem;}
+.form-group label{display:block;font-weight:600;color:var(--text-dark);margin-bottom:0.6rem;font-size:0.9rem;}
+.form-group input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;font-family:'Inter',sans-serif;background:var(--accent);transition:all 0.3s;}
+.form-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,124,89,0.1);}
+.btn-login{width:100%;padding:12px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:var(--white);border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem;margin-top:1rem;transition:all 0.3s;}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.login-error{color:var(--danger);font-size:0.85rem;margin-top:1rem;display:none;background:#fff5f5;padding:0.8rem;border-radius:6px;border-left:3px solid var(--danger);}
+.login-demo{border-top:1px solid var(--border);margin-top:2rem;padding-top:1.5rem;color:var(--text-muted);font-size:0.8rem;}
+.login-demo strong{color:var(--text-dark);display:block;margin-bottom:0.6rem;font-weight:600;}
+
+/* HEADER */
+header{height:var(--header-h);background:var(--white);border-bottom:2px solid var(--border);display:flex;align-items:center;padding:0 2rem;position:fixed;top:0;left:0;right:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+header.hidden{display:none;}
+.header-left{display:flex;align-items:center;gap:1.5rem;flex:1;}
+.header-logo{display:flex;align-items:center;gap:0.8rem;}
+.header-logo svg{width:32px;height:32px;color:var(--primary);}
+.header-logo span{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--primary);}
+.header-right{display:flex;align-items:center;gap:2rem;}
+.header-user{display:flex;align-items:center;gap:1rem;}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary-light);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;}
+.user-info strong{display:block;font-size:0.9rem;color:var(--text-dark);}
+.user-info span{display:block;font-size:0.75rem;color:var(--text-muted);}
+.btn-logout{background:none;border:none;color:var(--danger);cursor:pointer;font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s;}
+.btn-logout:hover{color:#ff4444;}
+
+/* SIDEBAR */
+.sidebar{width:var(--sidebar-w);background:var(--secondary);position:fixed;top:var(--header-h);bottom:0;left:0;overflow-y:auto;z-index:99;border-right:2px solid var(--border);padding:2rem 0;}
+.sidebar.hidden{display:none;}
+.sidebar-menu{display:flex;flex-direction:column;gap:0;}
+.sidebar-item{padding:1rem 1.5rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:0.8rem;color:var(--primary);font-weight:600;}
+.sidebar-item:hover{background:var(--accent);color:var(--primary);}
+.sidebar-item.active{background:var(--primary);color:var(--white);border-left:4px solid var(--primary-accent);padding-left:calc(1.5rem - 4px);}
+.sidebar-item svg{width:20px;height:20px;}
+
+/* MAIN */
+main{margin-top:var(--header-h);margin-left:var(--sidebar-w);padding:2.5rem;background:#F5F9F2;}
+main.hidden{display:none;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:2.5rem;}
+.page-title{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:0.5rem;}
+.page-subtitle{color:var(--text-muted);font-size:0.95rem;}
+
+.stats-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;margin-bottom:2.5rem;}
+.stat-box{background:var(--white);padding:1.8rem;border-radius:12px;border:2px solid var(--border);cursor:pointer;transition:all 0.3s;}
+.stat-box:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);transform:translateY(-2px);}
+.stat-box.active{border-color:var(--primary);background:var(--accent);}
+.stat-icon{width:48px;height:48px;border-radius:10px;background:var(--secondary);display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:1rem;}
+.stat-icon svg{width:24px;height:24px;}
+.stat-value{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:700;color:var(--primary);margin-bottom:0.3rem;}
+.stat-label{font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+
+.controls{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.search-box{flex:1;min-width:250px;position:relative;}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-muted);}
+.search-box input{width:100%;padding:11px 14px 11px 38px;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;font-family:'Inter',sans-serif;background:var(--white);transition:all 0.3s;}
+.search-box input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,124,89,0.1);}
+select.dropdown{padding:11px 14px;border:2px solid var(--border);border-radius:8px;background:var(--white);color:var(--text-dark);font-size:0.9rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.3s;}
+select.dropdown:focus{outline:none;border-color:var(--primary);}
+.btn-action{padding:11px 18px;background:var(--primary);color:var(--white);border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;transition:all 0.3s;display:flex;align-items:center;gap:0.5rem;}
+.btn-action:hover{background:var(--primary-light);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.btn-action svg{width:16px;height:16px;}
+
+/* TABLE */
+.table-container{background:var(--white);border-radius:12px;border:2px solid var(--border);overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+table{width:100%;border-collapse:collapse;font-size:0.9rem;}
+thead{background:var(--secondary);}
+th{padding:1.2rem;text-align:left;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.05em;font-size:0.8rem;border-bottom:2px solid var(--border);}
+td{padding:1rem 1.2rem;border-bottom:1px solid var(--border);}
+tbody tr:hover{background:var(--accent);}
+tbody tr:last-child td{border-bottom:none;}
+
+.status-badge{display:inline-block;padding:0.4rem 0.8rem;border-radius:6px;font-weight:600;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.05em;}
+.status-active{background:rgba(74,124,89,0.15);color:var(--primary);}
+.status-expiring{background:rgba(232,165,58,0.15);color:var(--warning);}
+.status-expired{background:rgba(193,18,31,0.15);color:var(--danger);}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.5rem;}
+.card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.5rem;transition:all 0.3s;}
+.card:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.card-title{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:1rem;}
+.card-field{margin-bottom:0.8rem;}
+.card-label{font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.3rem;}
+.card-value{font-size:0.95rem;font-weight:600;color:var(--text-dark);}
+
+.empty-state{text-align:center;padding:4rem 2rem;color:var(--text-muted);background:var(--white);border:2px dashed var(--border);border-radius:12px;}
+.empty-state svg{width:64px;height:64px;margin-bottom:1rem;opacity:0.3;}
+
+.loading{text-align:center;padding:3rem;}
+.loading svg{width:40px;height:40px;animation:spin 1s linear infinite;color:var(--primary);}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(max-width:900px){
+  .sidebar{width:0;padding:0;}
+  main{margin-left:0;}
+  .sidebar.hidden{display:none;}
+  .stats-container{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginContainer" class="login-container">
+  <div class="login-wrapper">
+    <div class="login-brand">
+      <h1>Landbase</h1>
+      <p>Human Resources Management System</p>
+      <div class="login-features">
+        <div class="login-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20"/><circle cx="12" cy="12" r="10"/></svg>
+          <span>Employer Accreditations</span>
+        </div>
+        <div class="login-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span>Worker Tracking</span>
+        </div>
+        <div class="login-feature">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+          <span>Real-time Management</span>
+        </div>
+      </div>
+    </div>
+    <div class="login-box">
+      <h2>Welcome Back</h2>
+      <p class="subtitle">Sign in to your account to continue</p>
+      <form onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="username" required autofocus>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" required>
+        </div>
+        <button type="submit" class="btn-login">Sign In</button>
+        <div class="login-error" id="loginError"></div>
+      </form>
+      <div class="login-demo">
+        <strong>Demo Accounts:</strong>
+        admin / 1234<br>jomz / 4567
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<header id="header" class="hidden">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg>
+      <span>Landbase HR</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-user">
+      <div class="user-avatar" id="userAvatar">JZ</div>
+      <div class="user-info">
+        <strong id="userName">User</strong>
+        <span>Administrator</span>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()">LOGOUT</button>
+  </div>
+</header>
+
+<aside class="sidebar hidden" id="sidebar">
+  <div class="sidebar-menu">
+    <div class="sidebar-item active" onclick="switchPage('acc')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg>
+      <span>Accreditations</span>
+    </div>
+    <div class="sidebar-item" onclick="switchPage('wrk')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <span>Workers</span>
+    </div>
+  </div>
+</aside>
+
+<main id="mainApp" class="hidden">
+  <!-- ACCREDITATIONS -->
+  <div id="page-acc" class="page active">
+    <div class="page-header">
+      <h1 class="page-title">Employer Accreditations</h1>
+      <p class="page-subtitle">Manage and monitor employer accreditation records</p>
+    </div>
+    <div class="stats-container">
+      <div class="stat-box" onclick="filterByStatus('')" id="sc-all">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/></svg></div>
+        <div class="stat-value" id="st-total">0</div>
+        <div class="stat-label">Total Employers</div>
+      </div>
+      <div class="stat-box" onclick="filterByStatus('expiring')" id="sc-expiring">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+        <div class="stat-value" id="st-expiring">0</div>
+        <div class="stat-label">Expiring Soon</div>
+      </div>
+      <div class="stat-box" onclick="filterByStatus('expired')" id="sc-expired">
+        <div class="stat-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+        <div class="stat-value" id="st-expired">0</div>
+        <div class="stat-label">Expired</div>
+      </div>
+    </div>
+    <div class="controls">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="searchInput" placeholder="Search employer name or ID…" oninput="applyFilters()">
+      </div>
+      <select class="dropdown" id="jobsiteFilter" onchange="applyFilters()">
+        <option value="">All Job Sites</option>
+      </select>
+      <button class="btn-action" onclick="loadData()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Refresh
+      </button>
+    </div>
+    <div id="empList"></div>
+  </div>
+
+  <!-- WORKERS -->
+  <div id="page-wrk" class="page">
+    <div class="page-header">
+      <h1 class="page-title">Workers Tracker</h1>
+      <p class="page-subtitle">Track and manage worker deployment records</p>
+    </div>
+    <div class="controls">
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg>
+        <input type="text" id="searchWorkers" placeholder="Search worker name or E-Reg…" oninput="filterWorkers()">
+      </div>
+      <button class="btn-action" onclick="loadWorkers()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+        Refresh
+      </button>
+    </div>
+    <div id="workersList" class="grid"></div>
+  </div>
+</main>
+
+<script>
+const ACCRED_SHEET_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
+const WORKERS_SHEET_ID='1iXI0O4mxiBNRPwjgbseH24QLB3vCRqwqp3z5QiOXVHw';
+const users={'admin':'1234','test':'1234','jomz':'4567','mary':'2024'};
+let employers=[],workers=[],currentStatusFilter='';
+const today=new Date(); today.setHours(0,0,0,0);
+
+function handleLogin(e){
+  e.preventDefault();
+  const u=document.getElementById('username').value.toLowerCase().trim();
+  const p=document.getElementById('password').value;
+  if(users[u]&&users[u]===p){
+    localStorage.setItem('lhr_user',u);
+    showApp();
+    loadData();
+  }else{
+    document.getElementById('loginError').textContent='❌ Invalid username or password';
+    document.getElementById('loginError').style.display='block';
+  }
+}
+
+function handleLogout(){
+  localStorage.removeItem('lhr_user');
+  location.reload();
+}
+
+function showApp(){
+  document.getElementById('loginContainer').classList.add('hidden');
+  document.getElementById('header').classList.remove('hidden');
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  const u=localStorage.getItem('lhr_user')||'User';
+  document.getElementById('userName').textContent=u.toUpperCase();
+  document.getElementById('userAvatar').textContent=u.substring(0,2).toUpperCase();
+}
+
+window.addEventListener('load',()=>{
+  if(localStorage.getItem('lhr_user')){showApp();loadData();}
+});
+
+async function fetchSheet(id,sheet){
+  const url=`https://docs.google.com/spreadsheets/d/${id}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(sheet)}`;
+  const res=await fetch(url);
+  const txt=await res.text();
+  const raw=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+  if(!raw) throw new Error('Cannot fetch '+sheet);
+  const json=JSON.parse(raw[1]);
+  if(!json.table||!json.table.cols) return [];
+  const cols=json.table.cols.map(c=>c.label.trim());
+  console.log('Sheet: '+sheet+', Columns:', cols);
+  return (json.table.rows||[]).filter(r=>r&&r.c&&r.c.some(c=>c&&c.v)).map(r=>{
+    const obj={};
+    r.c.forEach((cell,i)=>{if(cols[i]){obj[cols[i]]=(cell?.f||cell?.v||'');}});
+    return obj;
+  });
+}
+
+function gf(obj,...keys){
+  const objKeys=Object.keys(obj);
+  for(const k of keys){
+    const kl=k.toLowerCase().trim();
+    const found=objKeys.find(ok=>ok.toLowerCase().trim()===kl);
+    if(found&&obj[found]) return obj[found];
+  }
+  return '';
+}
+
+function parseDate(str){
+  if(!str) return null;
+  const s=String(str).trim();
+  const mo={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  const m1=s.match(/(\d{1,2})\s+([A-Za-z]{3})\w*\.?\s+(\d{4})/);
+  if(m1) return new Date(+m1[3], mo[m1[2].toLowerCase().slice(0,3)], +m1[1]);
+  const m2=s.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(m2) return new Date(+m2[1],+m2[2]-1,+m2[3]);
+  return null;
+}
+
+function computeStatus(expStr){
+  const exp=parseDate(expStr);
+  if(exp){
+    const diff=Math.ceil((exp-today)/86400000);
+    if(diff<0) return 'expired';
+    if(diff<=90) return 'expiring';
+  }
+  return 'active';
+}
+
+async function loadData(){
+  document.getElementById('empList').innerHTML='<div class="loading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>';
+  try{
+    employers=await fetchSheet(ACCRED_SHEET_ID,'Sheet1');
+    console.log('Employers loaded:', employers.length);
+    buildSites();
+    updateStats();
+    applyFilters();
+  }catch(e){
+    console.error('Error:', e);
+    document.getElementById('empList').innerHTML=`<div class="empty-state">Error loading data: ${e.message}</div>`;
+  }
+}
+
+function buildSites(){
+  const sel=document.getElementById('jobsiteFilter');
+  const sites=[...new Set(employers.map(e=>gf(e,'Job Site')).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">All Job Sites</option>';
+  sites.forEach(s=>{const o=document.createElement('option');o.value=s;o.textContent=s;sel.appendChild(o);});
+}
+
+function filterByStatus(val){
+  currentStatusFilter=val;
+  applyFilters();
+}
+
+function applyFilters(){
+  const q=(document.getElementById('searchInput').value||'').toLowerCase();
+  const site=document.getElementById('jobsiteFilter').value;
+  ['sc-all','sc-expiring','sc-expired'].forEach(id=>{const el=document.getElementById(id);if(el)el.classList.remove('active');});
+  if(!currentStatusFilter) document.getElementById('sc-all').classList.add('active');
+  if(currentStatusFilter==='expiring') document.getElementById('sc-expiring').classList.add('active');
+  if(currentStatusFilter==='expired') document.getElementById('sc-expired').classList.add('active');
+  
+  const filtered=employers.filter(e=>{
+    const name=gf(e,'Employer Name').toLowerCase();
+    const accid=String(gf(e,'Accreditation ID')).toLowerCase();
+    const jobsite=gf(e,'Job Site');
+    const exp=gf(e,'Expiration Date');
+    const st=computeStatus(exp);
+    return (!q||name.includes(q)||accid.includes(q))&&(!site||jobsite===site)&&(!currentStatusFilter||st===currentStatusFilter);
+  });
+  renderEmps(filtered);
+}
+
+function updateStats(){
+  document.getElementById('st-total').textContent=employers.length;
+  document.getElementById('st-expiring').textContent=employers.filter(e=>computeStatus(gf(e,'Expiration Date'))==='expiring').length;
+  document.getElementById('st-expired').textContent=employers.filter(e=>computeStatus(gf(e,'Expiration Date'))==='expired').length;
+}
+
+function renderEmps(list){
+  const c=document.getElementById('empList');
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  if(!q&&!currentStatusFilter){c.innerHTML='';return;}
+  if(!list.length){c.innerHTML='<div class="empty-state">No employers found</div>';return;}
+  c.innerHTML='<div class="table-container"><table><thead><tr><th>Accreditation ID</th><th>Employer Name</th><th>Job Site</th><th>Date Issued</th><th>Expiration Date</th><th>Status</th></tr></thead><tbody>'+list.map(e=>{
+    const st=computeStatus(gf(e,'Expiration Date'));
+    const stClass='status-'+st;
+    return `<tr><td>${gf(e,'Accreditation ID')}</td><td>${gf(e,'Employer Name')}</td><td>${gf(e,'Job Site')}</td><td>${gf(e,'Date Issued')}</td><td>${gf(e,'Expiration Date')}</td><td><span class="status-badge ${stClass}">${st}</span></td></tr>`;
+  }).join('')+'</tbody></table></div>';
+}
+
+function switchPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(x=>x.classList.remove('active'));
+  if(p==='acc'){
+    document.getElementById('page-acc').classList.add('active');
+    document.querySelectorAll('.sidebar-item')[0].classList.add('active');
+  }else{
+    document.getElementById('page-wrk').classList.add('active');
+    document.querySelectorAll('.sidebar-item')[1].classList.add('active');
+    loadWorkers();
+  }
+}
+
+async function loadWorkers(){
+  document.getElementById('workersList').innerHTML='<div class="loading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18"/></svg></div>';
+  try{
+    workers=await fetchSheet(WORKERS_SHEET_ID,'Workers');
+    console.log('Workers loaded:', workers.length);
+    if(workers.length>0) console.log('First worker columns:', Object.keys(workers[0]));
+    document.getElementById('workersList').innerHTML='<div class="empty-state">Type to search workers…</div>';
+  }catch(e){
+    console.error('Error loading workers:', e);
+    document.getElementById('workersList').innerHTML=`<div class="empty-state">Error: ${e.message}</div>`;
+  }
+}
+
+function filterWorkers(){
+  const q=(document.getElementById('searchWorkers').value||'').toLowerCase();
+  if(!q){
+    document.getElementById('workersList').innerHTML='<div class="empty-state">Type to search workers…</div>';
+    return;
+  }
+  const filtered=workers.filter(w=>{
+    const fname=gf(w,'First Name')||'';
+    const lname=gf(w,'Last Name')||'';
+    const name=(fname+' '+lname).toLowerCase();
+    const ereg=gf(w,'EReg No')||'';
+    const pos=gf(w,'Position')||'';
+    return name.includes(q)||ereg.toLowerCase().includes(q)||pos.toLowerCase().includes(q);
+  });
+  if(!filtered.length){
+    document.getElementById('workersList').innerHTML='<div class="empty-state">No workers found</div>';
+    return;
+  }
+  document.getElementById('workersList').innerHTML=filtered.map(w=>`
+    <div class="card">
+      <div class="card-title">${gf(w,'First Name')} ${gf(w,'Last Name')}</div>
+      <div class="card-field"><div class="card-label">E-Reg #</div><div class="card-value">${gf(w,'EReg No')||'—'}</div></div>
+      <div class="card-field"><div class="card-label">Position</div><div class="card-value">${gf(w,'Position')||'—'}</div></div>
+      <div class="card-field"><div class="card-label">Status</div><div class="card-value">${gf(w,'Status')||'—'}</div></div>
+      <div class="card-field"><div class="card-label">Principal</div><div class="card-value">${gf(w,'Principal Name')||'—'}</div></div>
+      <div class="card-field"><div class="card-label">Duration</div><div class="card-value">${gf(w,'Duration')||'—'}</div></div>
+      <div class="card-field"><div class="card-label">Deployment Date</div><div class="card-value">${gf(w,'Deployment Date')||'—'}</div></div>
+    </div>
+  `).join('');
+}
+</script>
+</body>
+</html>
