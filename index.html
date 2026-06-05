@@ -10,7 +10,7 @@ cat > /mnt/user-data/outputs/index.html << 'ENDOFFILE'
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-  
+
 :root{
   --primary:#4A7C59;--primary-light:#6BA876;--primary-accent:#8BC34A;
   --secondary:#FFF8DC;--accent:#E8F5E9;
@@ -377,7 +377,7 @@ const WORKERS_SHEET_ID='1XyyJTxjvdFSEcuGCf8_ubk-SrG3K_9pM0K9IEqdfEQk';
 const users={'admin':'jomar5010','lhr_germany':'germanylhr','lhrmdl':'lhrksa','lhrjapan':'faith2026','lhr_m':'mlhr','boobs':'07182022','jora090287':'abis2024','landbasejeneal':'neal01neal'};
 let employers=[],jobOrders=[],positions=[],workers=[],currentStatusFilter='';
 const today=new Date(); today.setHours(0,0,0,0);
-  
+
 
 function handleLogin(e){
   e.preventDefault();
@@ -494,7 +494,7 @@ function applyFilters(){
   if(!currentStatusFilter) document.getElementById('sc-all').classList.add('active');
   if(currentStatusFilter==='expiring') document.getElementById('sc-expiring').classList.add('active');
   if(currentStatusFilter==='expired') document.getElementById('sc-expired').classList.add('active');
-  
+
   const filtered=employers.filter(e=>{
     const name=gf(e,'Employer Name').toLowerCase();
     const accid=String(gf(e,'Accreditation ID')).toLowerCase();
@@ -606,7 +606,7 @@ function filterWorkers(){
   }
   document.getElementById('workersList').innerHTML=filtered.map(w=>`
     <div class="card">
-      <div class="worker-field"><div class="worker-label">Full Name</div><div class="worker-value">${gf(w,'First Name','first name')} ${gf(w,'Middle Name','middle name')} ${gf(w,'Last Name','last name')} ${gf(w,'Suffix','suffix')}</div></div>
+      <div class="card-title">${gf(w,'First Name')} ${gf(w,'Last Name')}</div>
       <div class="card-field"><div class="card-label">E-Reg #</div><div class="card-value">${gf(w,'EReg No')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Position</div><div class="card-value">${gf(w,'Position')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Status</div><div class="card-value">${gf(w,'Status')||'—'}</div></div>
@@ -625,11 +625,11 @@ function filterStatus(){
     return;
   }
   const filtered=workers.filter(w=>{
-   const name=(gf(w,'First Name','first name')+' '+gf(w,'Last Name','last name')).toLowerCase();
-    const ereg=(gf(w,'EReg No','ereg no')||'').toLowerCase();
-    const pos=(gf(w,'Position','position')||'').toLowerCase();
-    const principal=(gf(w,'Principal Name','principal name')||'').toLowerCase();
-    return name.includes(q)||ereg.includes(q)||pos.includes(q)||principal.includes(q);
+    const fname=gf(w,'First Name')||'';
+    const lname=gf(w,'Last Name')||'';
+    const name=(fname+' '+lname).toLowerCase();
+    const ereg=gf(w,'EReg No')||'';
+    return name.includes(q)||ereg.toLowerCase().includes(q);
   });
   renderStatus(filtered);
 }
@@ -637,12 +637,12 @@ function filterStatus(){
 function renderStatus(list){
   const c=document.getElementById('statusList');
   if(!list.length){c.innerHTML='<div class="empty-state">No workers found</div>';return;}
-  
+
   c.innerHTML=list.map(w=>{
     const fname=gf(w,'First Name')||'';
     const lname=gf(w,'Last Name')||'';
     const ereg=gf(w,'EReg No')||'';
-    
+
     // Mock requirements - adjust based on your actual data
     const requirements=[
       {name:'Valid Passport',done:true,date:'2024-05-15'},
@@ -652,14 +652,14 @@ function renderStatus(list){
       {name:'Contract Signed',done:false,date:'—'},
       {name:'Visa Processing',done:false,date:'—'}
     ];
-    
+
     const completed=requirements.filter(r=>r.done).length;
     const total=requirements.length;
     const percentage=Math.round((completed/total)*100);
     const readyStatus=percentage===100?'ready':percentage>=75?'pending':'incomplete';
     const statusClass=percentage===100?'status-ready':percentage>=75?'status-pending':'status-incomplete';
     const statusText=percentage===100?'Ready to Deploy':percentage>=75?'Pending Completion':'Incomplete';
-    
+
     return `<div class="status-card">
       <div class="status-header">
         <div>
@@ -668,12 +668,12 @@ function renderStatus(list){
         </div>
         <span class="status-badge ${statusClass}">${statusText}</span>
       </div>
-      
+
       <div class="progress-bar">
         <div class="progress-fill" style="width:${percentage}%"></div>
       </div>
       <div style="font-size:0.85rem;color:var(--text-muted);margin-top:0.3rem;">${completed} of ${total} requirements completed (${percentage}%)</div>
-      
+
       <div class="requirements-list">
         ${requirements.map(req=>`
           <div class="req-item">
@@ -683,7 +683,7 @@ function renderStatus(list){
           </div>
         `).join('')}
       </div>
-      
+
       <div class="notes-section">
         <div class="notes-label">📝 Deployment Notes</div>
         <div class="notes-text">Position: ${gf(w,'Position')||'—'} | Destination: [Awaiting Assignment] | Expected Deployment: [Q4 2024]</div>
@@ -694,8 +694,3 @@ function renderStatus(list){
 </script>
 </body>
 </html>
-ENDOFFILE
-echo "✅ New Tab Added: Workers Status with Deployment Readiness!"
-Output
-
-✅ New Tab Added: Workers Status with Deployment Readiness!
