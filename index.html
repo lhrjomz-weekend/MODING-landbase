@@ -374,7 +374,7 @@ table.pos-table tbody tr:hover{background:var(--accent);}
 <script>
 const ACCRED_SHEET_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
 const WORKERS_SHEET_ID='1XyyJTxjvdFSEcuGCf8_ubk-SrG3K_9pM0K9IEqdfEQk';
-const users={'admin':'jomar5010','lhr_germany':'germanylhr','lhrmdl':'lhrksa','lhrjapan':'faith2026','lhr_m':'mlhr','boobs':'07182022','jora090287':'abis2024','landbasejeneal':'neal01neal','lhr_dh':'lanbasedh};
+const users={'lhr_dh':'lanbasedh','lhr_germany':'germanylhr','lhrmdl':'lhrksa','lhrjapan':'faith2026','lhr_m':'mlhr','boobs':'07182022','jora090287':'abis2024','landbasejeneal':'neal01neal'};
 let employers=[],jobOrders=[],positions=[],workers=[],currentStatusFilter='';
 const today=new Date(); today.setHours(0,0,0,0);
 
@@ -606,7 +606,7 @@ function filterWorkers(){
   }
   document.getElementById('workersList').innerHTML=filtered.map(w=>`
     <div class="card">
-      <div class="card-title">${gf(w,'First Name')}${gf(w,'Middle Name')} ${gf(w,'Last Name')}</div>
+      <div class="card-title">${gf(w,'First Name')} ${gf(w,'Middle Name')} ${gf(w,'Last Name')}</div>
       <div class="card-field"><div class="card-label">E-Reg #</div><div class="card-value">${gf(w,'EReg No')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Position</div><div class="card-value">${gf(w,'Position')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Status</div><div class="card-value">${gf(w,'Status')||'—'}</div></div>
