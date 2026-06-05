@@ -606,7 +606,7 @@ function filterWorkers(){
   }
   document.getElementById('workersList').innerHTML=filtered.map(w=>`
     <div class="card">
-      <div class="card-title">${gf(w,'First Name')} ${gf(w,'Last Name')}</div>
+      <div class="worker-field"><div class="worker-label">Full Name</div><div class="worker-value">${gf(w,'First Name','first name')} ${gf(w,'Middle Name','middle name')} ${gf(w,'Last Name','last name')} ${gf(w,'Suffix','suffix')}</div></div>
       <div class="card-field"><div class="card-label">E-Reg #</div><div class="card-value">${gf(w,'EReg No')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Position</div><div class="card-value">${gf(w,'Position')||'—'}</div></div>
       <div class="card-field"><div class="card-label">Status</div><div class="card-value">${gf(w,'Status')||'—'}</div></div>
@@ -625,11 +625,11 @@ function filterStatus(){
     return;
   }
   const filtered=workers.filter(w=>{
-    const fname=gf(w,'First Name')||'';
-    const lname=gf(w,'Last Name')||'';
-    const name=(fname+' '+lname).toLowerCase();
-    const ereg=gf(w,'EReg No')||'';
-    return name.includes(q)||ereg.toLowerCase().includes(q);
+   const name=(gf(w,'First Name','first name')+' '+gf(w,'Last Name','last name')).toLowerCase();
+    const ereg=(gf(w,'EReg No','ereg no')||'').toLowerCase();
+    const pos=(gf(w,'Position','position')||'').toLowerCase();
+    const principal=(gf(w,'Principal Name','principal name')||'').toLowerCase();
+    return name.includes(q)||ereg.includes(q)||pos.includes(q)||principal.includes(q);
   });
   renderStatus(filtered);
 }
