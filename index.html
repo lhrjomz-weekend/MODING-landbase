@@ -16,16 +16,30 @@
   --header-h:70px;--sidebar-w:260px;
 }
 body{font-family:'Inter',sans-serif;background:#F5F9F2;color:var(--text-dark);min-height:100vh;}
-.login-container{position:fixed;inset:0;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);display:flex;align-items:center;justify-content:center;z-index:2000;}
+.login-container{position:fixed;inset:0;background:linear-gradient(150deg,#1a3d2b 0%,#2D5F3F 45%,#4A7C59 100%);display:flex;align-items:center;justify-content:center;z-index:2000;overflow:hidden;}
+.login-container::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:rgba(255,255,255,0.03);top:-150px;left:-100px;pointer-events:none;}
+.login-container::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.03);bottom:-100px;right:200px;pointer-events:none;}
 .login-container.hidden{display:none;}
-.login-wrapper{display:flex;width:100%;height:100%;}
-.login-brand{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;color:var(--white);padding:4rem;}
-.login-brand h1{font-family:'Poppins',sans-serif;font-size:3rem;font-weight:800;margin-bottom:1rem;}
-.login-brand p{font-size:1.1rem;opacity:0.9;margin-bottom:2rem;max-width:400px;text-align:center;line-height:1.6;}
-.login-features{display:flex;flex-direction:column;gap:1rem;}
-.login-feature{display:flex;gap:0.8rem;align-items:flex-start;}
-.login-feature svg{width:24px;height:24px;flex-shrink:0;margin-top:2px;}
-.login-box{background:var(--white);width:100%;max-width:420px;padding:3rem;border-radius:16px;box-shadow:0 10px 40px rgba(0,0,0,0.15);}
+.login-wrapper{display:flex;width:100%;height:100%;max-width:1100px;margin:auto;padding:2rem;}
+.login-brand{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:var(--white);padding:3rem 4rem 3rem 2rem;}
+.login-brand-logo{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;}
+.login-brand-logo-icon{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+.login-brand h1{font-family:'Poppins',sans-serif;font-size:2.8rem;font-weight:800;line-height:1.1;margin-bottom:0.5rem;}
+.login-brand h1 span{color:#8BC34A;}
+.login-brand-sub{font-size:0.8rem;font-weight:700;letter-spacing:0.15em;opacity:0.6;text-transform:uppercase;margin-bottom:2.5rem;}
+.login-divider{width:50px;height:3px;background:rgba(255,255,255,0.3);border-radius:2px;margin-bottom:2rem;}
+.login-features{display:flex;flex-direction:column;gap:0.8rem;}
+.login-feature{display:flex;gap:1rem;align-items:center;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.8rem 1.2rem;backdrop-filter:blur(5px);transition:background 0.2s;}
+.login-feature:hover{background:rgba(255,255,255,0.12);}
+.login-feature-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.login-feature-icon svg{width:18px;height:18px;}
+.login-feature-text strong{display:block;font-size:0.85rem;font-weight:700;}
+.login-feature-text span{display:block;font-size:0.72rem;opacity:0.7;margin-top:0.1rem;}
+.login-right{display:flex;align-items:center;justify-content:center;padding:2rem;}
+.login-box{background:var(--white);width:100%;max-width:400px;padding:2.8rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+.login-box-header{text-align:center;margin-bottom:2rem;}
+.login-box-header h2{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--primary);margin-bottom:0.3rem;}
+.login-box-header p{color:var(--text-muted);font-size:0.85rem;}
 .login-box h2{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--primary);}
 .login-box .subtitle{color:var(--text-muted);font-size:0.9rem;margin-bottom:2rem;}
 .form-group{margin-bottom:1.5rem;}
@@ -195,19 +209,39 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 <div class="login-container" id="loginContainer">
   <div class="login-wrapper">
     <div class="login-brand">
-      <h1>LANDBASE</h1>
-      <h1 style="margin-top:-1rem;">Human Resources Corp.</h1>
-      <p style="margin-top:1rem;font-size:0.85rem;font-weight:600;letter-spacing:0.1em;opacity:0.7;">MONITORING SYSTEM</p>
-      <div class="login-features" style="margin-top:2rem;">
-        <div class="login-feature"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>Employer Accreditations</span></div>
-        <div class="login-feature"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg><span>Worker Tracking</span></div>
-        <div class="login-feature"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg><span>Division Monitoring</span></div>
+      <div class="login-brand-logo">
+        <div class="login-brand-logo-icon">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="none"/><path d="M8 24l4-8 4 4 4-6 4 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <h1>LANDBASE<br/><span>Human Resources</span></h1>
+      <div class="login-brand-sub">DMW Licensed · Monitoring System</div>
+      <div class="login-divider"></div>
+      <div class="login-features">
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div class="login-feature-text"><strong>Employer Accreditations</strong><span>JO tracking, expiry alerts, status filters</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <div class="login-feature-text"><strong>Worker & Deployment Tracking</strong><span>DeployHUB, document status, progress</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg></div>
+          <div class="login-feature-text"><strong>Division Monitoring</strong><span>Middle East · Asia Pacific · Europe</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
+          <div class="login-feature-text"><strong>Walk-in Applicants</strong><span>Receptionist encoding · Project officer view</span></div>
+        </div>
       </div>
     </div>
-    <div style="display:flex;align-items:center;justify-content:center;padding:2rem;background:rgba(255,255,255,0.05);">
+    <div class="login-right">
       <div class="login-box">
-        <h2>Welcome Back</h2>
-        <p class="subtitle">Sign in to your account to continue</p>
+        <div class="login-box-header">
+          <h2>Welcome Back</h2>
+          <p>Sign in to your designated account</p>
+        </div>
         <form onsubmit="handleLogin(event)">
           <div class="form-group"><label>Username</label><input type="text" id="username" autocomplete="username"/></div>
           <div class="form-group"><label>Password</label><input type="password" id="password" autocomplete="current-password"/></div>
@@ -422,19 +456,20 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   <div id="walkinList"><div class="loading">Click Refresh to load applicants...</div></div>
 </div>
 </main>
-<div class="wnew-overlay" id="wnewOverlay">
-  <div class="wnew-modal">
+<div class="wnew-overlay" id="wnewOverlay" onclick="closeWnew(event)">
+  <div class="wnew-modal" onclick="event.stopPropagation()">
     <div class="wnew-header">
       <div class="wnew-badge">&#x1F4E2; WHAT'S NEW</div>
       <h2>Latest Updates</h2>
       <p>Landbase HR Management System &mdash; New Features</p>
     </div>
     <div class="wnew-body">
-      <div class="wnew-item"><div class="wnew-item-icon amber">&#x26A0;&#xFE0F;</div><div class="wnew-item-text"><strong>Job Order Expiry Detection</strong><span>Automatic detection of expiring and expired Job Orders. Stat buttons sa Accreditation page para madaling makita ang affected employers.</span></div></div>
-      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F464;</div><div class="wnew-item-text"><strong>Google Sheet Account Management</strong><span>Ang mga account ay kinukuha na mula sa Google Sheet. Pwede nang mag-manage ng users direkta sa Credentials sheet.</span></div></div>
-      <div class="wnew-item"><div class="wnew-item-icon green">&#x1F30F;</div><div class="wnew-item-text"><strong>Division Pages</strong><span>Tatlong bagong division pages: Middle East, Asia Pacific, at Europe. Makikita ang detalye ng bawat applicant per division.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon amber">&#x26A0;&#xFE0F;</div><div class="wnew-item-text"><strong>Job Order Expiry Detection</strong><span>Automatic detection ng expiring at expired na Job Orders. May stat buttons sa Accreditation page para madaling makita ang affected employers.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F464;</div><div class="wnew-item-text"><strong>Google Sheet Account Management</strong><span>Ang mga account ay kinukuha mula sa Google Sheet. Pwede nang mag-manage ng users direkta sa Credentials sheet.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x1F30F;</div><div class="wnew-item-text"><strong>Division Pages — ME, Asia Pacific, Europe</strong><span>May filter buttons na Ready for Deployment, Incomplete, at Expiry para madaling makita ang status ng bawat worker per division.</span></div></div>
       <div class="wnew-item"><div class="wnew-item-icon amber">&#x1F4C4;</div><div class="wnew-item-text"><strong>Document Tracking &amp; Incomplete Detection</strong><span>Nakikita na ang incomplete at expiring documents ng bawat worker. May progress bar at document status sa worker profile.</span></div></div>
-      <div class="wnew-item"><div class="wnew-item-icon green">&#x2705;</div><div class="wnew-item-text"><strong>Deploy-Ready Workers</strong><span>Madaling ma-identify ang mga workers na pwede nang ma-deploy base sa kanilang document completion status.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x2705;</div><div class="wnew-item-text"><strong>Deploy-Ready Workers</strong><span>Madaling ma-identify ang mga workers na pwede nang ma-deploy base sa document completion status nila.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F6B6;</div><div class="wnew-item-text"><strong>Walk-in Applicants Tab</strong><span>Bagong tab para sa mga walk-in applicants na ini-encode ng receptionist. Makikita ng project officers ang lahat ng applicants — kasama ang pangalan, position applied, preferred country, skills, documents, at status (Available / Processing / Deployed). May search by name, position, at skills.</span></div></div>
     </div>
     <div class="wnew-footer"><button onclick="closeWnew()">Got it &mdash; Let's go! &#x1F680;</button></div>
   </div>
@@ -598,8 +633,8 @@ function handleLogin(e){
   var err=document.getElementById('loginError');
   var match=Object.keys(users).find(function(k){return k.toLowerCase()===u;});
   if(match&&users[match]===p){
-    localStorage.setItem('lhr_user',match);
-    localStorage.setItem('lhr_role',roles[match]||'');
+    sessionUser=match;
+    sessionRole=roles[match]||'';
     err.style.display='none';
     showApp();loadData();loadDivisions();
     setTimeout(showWnew,400);
@@ -609,8 +644,7 @@ function handleLogin(e){
   }
 }
 function handleLogout(){
-  localStorage.removeItem('lhr_user');
-  localStorage.removeItem('lhr_role');
+  sessionUser='';sessionRole='';
   location.reload();
 }
 function showApp(){
@@ -618,16 +652,16 @@ function showApp(){
   document.getElementById('header').classList.remove('hidden');
   document.getElementById('sidebar').classList.remove('hidden');
   document.getElementById('mainApp').classList.remove('hidden');
-  var u=localStorage.getItem('lhr_user')||'User';
-  var r=localStorage.getItem('lhr_role')||'';
+  var u=sessionUser||'User';
+  var r=sessionRole||'';
   document.getElementById('userName').textContent=u.toUpperCase();
   document.getElementById('userAvatar').textContent=u.substring(0,2).toUpperCase();
   var roleEl=document.getElementById('userRole');
   if(roleEl) roleEl.textContent=r||u.toUpperCase();
 }
+var sessionUser='',sessionRole='';
 window.addEventListener('load',async function(){
   await loadCredentials();
-  if(localStorage.getItem('lhr_user')){showApp();loadData();loadDivisions();}
 });
 function switchPage(pg){
   document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
@@ -937,7 +971,7 @@ function showWorkerModal(d,p){
 }
 function closeWorkerModal(e){if(!e||e.target===document.getElementById('wmodalOverlay')) document.getElementById('wmodalOverlay').classList.remove('open');}
 function showWnew(){document.getElementById('wnewOverlay').classList.add('open');}
-function closeWnew(){document.getElementById('wnewOverlay').classList.remove('open');}
+function closeWnew(e){if(!e||e.target===document.getElementById('wnewOverlay')) document.getElementById('wnewOverlay').classList.remove('open');}
 const WALKIN_ID='1FfBU4EdJ1g6BzmE0F2ovJ_G9pkCzrYU4aczc59SnscU';
 var walkinData=[];
 async function loadWalkin(){
