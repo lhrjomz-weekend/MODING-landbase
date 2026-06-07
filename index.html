@@ -112,8 +112,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .badge-expiring{background:#fff8e1;color:#f57c00;}
 .badge-expired{background:#ffebee;color:#c62828;}
 .loading{text-align:center;padding:3rem;color:var(--text-muted);font-size:0.95rem;}
-/* WORKER CARDS */
-.worker-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;}
+.worker-list{display:block;width:100%;}
 .worker-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:1rem;}
 .worker-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
 .worker-info{flex:1;}
@@ -124,17 +123,15 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .worker-prog{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
 .worker-prog-fill{height:100%;background:var(--primary);border-radius:3px;transition:width 0.3s;}
 .worker-pct{font-size:0.75rem;font-weight:600;color:var(--primary);}
-/* DEPLOY HUB CARDS */
-.deploy-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.2rem;}
-.deploy-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.4rem 1.6rem;transition:all 0.2s;}
+.deploy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;width:100%;}
+.deploy-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:2rem 2.2rem;transition:all 0.2s;}
 .deploy-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
-.deploy-card-name{font-weight:700;color:var(--primary);font-size:1rem;text-transform:uppercase;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:2px solid var(--border);letter-spacing:0.03em;}
-.deploy-fields{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1rem;}
+.deploy-card-name{font-weight:700;color:var(--primary);font-size:1.2rem;text-transform:uppercase;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:2px solid var(--border);letter-spacing:0.03em;}
+.deploy-fields{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem 1.5rem;}
 .deploy-field{display:flex;flex-direction:column;}
 .deploy-field.full{grid-column:1/-1;}
-.deploy-label{font-size:0.65rem;font-weight:700;color:var(--text-muted);letter-spacing:0.07em;margin-bottom:0.1rem;text-transform:uppercase;}
-.deploy-val{font-size:0.85rem;color:var(--text-dark);font-weight:500;}
-/* WORKER MODAL */
+.deploy-label{font-size:0.75rem;font-weight:700;color:var(--text-muted);letter-spacing:0.07em;margin-bottom:0.2rem;text-transform:uppercase;}
+.deploy-val{font-size:1rem;color:var(--text-dark);font-weight:500;}
 .wmodal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:center;justify-content:center;}
 .wmodal-overlay.open{display:flex;}
 .wmodal{background:var(--white);border-radius:16px;width:90%;max-width:560px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
@@ -158,7 +155,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .wmod-notes-text{font-size:0.85rem;color:var(--text-muted);font-style:italic;}
 .wmodal-footer{padding:1rem 1.5rem;border-top:2px solid var(--border);display:flex;justify-content:flex-end;}
 .btn-close{padding:0.6rem 1.5rem;background:var(--primary);color:var(--white);border:none;border-radius:8px;cursor:pointer;font-weight:600;}
-/* POSITIONS MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:var(--white);border-radius:16px;width:90%;max-width:800px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
@@ -166,7 +162,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .modal-header h3{color:var(--primary);}
 .modal-body{overflow-y:auto;padding:1.5rem;}
 .modal-footer{padding:1rem 1.5rem;border-top:2px solid var(--border);display:flex;justify-content:flex-end;}
-/* WHAT'S NEW MODAL */
 .wnew-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2100;align-items:center;justify-content:center;}
 .wnew-overlay.open{display:flex;}
 .wnew-modal{background:var(--white);border-radius:20px;width:90%;max-width:520px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:wnewSlide 0.4s ease;}
@@ -190,7 +185,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 </style>
 </head>
 <body>
-<!-- LOGIN -->
 <div class="login-container" id="loginContainer">
   <div class="login-wrapper">
     <div class="login-brand">
@@ -222,7 +216,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     </div>
   </div>
 </div>
-<!-- HEADER -->
 <header class="hidden" id="header">
   <div class="header-left">
     <div class="header-logo">
@@ -241,7 +234,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     <button class="btn-logout" onclick="handleLogout()">LOGOUT</button>
   </div>
 </header>
-<!-- SIDEBAR -->
 <div class="sidebar hidden" id="sidebar">
   <div class="sidebar-menu">
     <div class="sidebar-divider">Main</div>
@@ -268,9 +260,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     </div>
   </div>
 </div>
-<!-- MAIN -->
 <main class="hidden" id="mainApp">
-<!-- ACCREDITATION PAGE -->
 <div class="page active" id="page-acc">
   <div class="page-header">
     <div class="page-title">Employer Accreditations</div>
@@ -311,10 +301,8 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       Refresh
     </button>
   </div>
-  <div id="debugPanel" style="display:none;background:#f0f4ff;border:1px solid #aac;border-radius:8px;padding:0.8rem 1rem;margin-bottom:1rem;font-size:0.75rem;font-family:monospace;color:#334;white-space:pre-wrap;"></div>
   <div id="empList"><div class="loading">Loading employer data...</div></div>
 </div>
-<!-- WORKERS PAGE -->
 <div class="page" id="page-wrk">
   <div class="page-header">
     <div class="page-title">DeployHUB</div>
@@ -328,7 +316,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   </div>
   <div class="worker-list" id="workerList"><div class="loading">Click Workers to load...</div></div>
 </div>
-<!-- MIDDLE EAST PAGE -->
 <div class="page" id="page-me">
   <div class="page-header">
     <div class="page-title">Middle East Division</div>
@@ -346,7 +333,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   </div>
   <div class="worker-list" id="meList"><div class="loading">Loading...</div></div>
 </div>
-<!-- ASIA PACIFIC PAGE -->
 <div class="page" id="page-ap">
   <div class="page-header">
     <div class="page-title">Asia Pacific Division</div>
@@ -357,10 +343,13 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input type="text" id="searchAP" placeholder="Search workers..." oninput="renderDivision('ap')"/>
     </div>
+    <button class="btn-action" onclick="loadDivisions()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
   </div>
   <div class="worker-list" id="apList"><div class="loading">Loading...</div></div>
 </div>
-<!-- EUROPE PAGE -->
 <div class="page" id="page-eu">
   <div class="page-header">
     <div class="page-title">Europe Division</div>
@@ -371,11 +360,14 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input type="text" id="searchEU" placeholder="Search workers..." oninput="renderDivision('eu')"/>
     </div>
+    <button class="btn-action" onclick="loadDivisions()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
   </div>
   <div class="worker-list" id="euList"><div class="loading">Loading...</div></div>
 </div>
 </main>
-<!-- WHAT'S NEW MODAL -->
 <div class="wnew-overlay" id="wnewOverlay">
   <div class="wnew-modal">
     <div class="wnew-header">
@@ -393,7 +385,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     <div class="wnew-footer"><button onclick="closeWnew()">Got it &mdash; Let's go! &#x1F680;</button></div>
   </div>
 </div>
-<!-- POSITIONS MODAL -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
   <div class="modal">
     <div class="modal-header"><h3>Job Order Positions</h3></div>
@@ -401,7 +392,6 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     <div class="modal-footer"><button class="btn-close" onclick="closeModal()">Close</button></div>
   </div>
 </div>
-<!-- WORKER DETAIL MODAL -->
 <div class="wmodal-overlay" id="wmodalOverlay" onclick="closeWorkerModal(event)">
   <div class="wmodal">
     <div class="wmodal-header">
@@ -427,7 +417,6 @@ const ME_ID='1ucGonDZJhyF36k-plfFrSjQ8Q6MFzcFt513YR6qztQk';
 const AP_ID='1XySHOIPeikZoGkTapmtUuE7rksmvX_gaZK697tqMCk4';
 const EU_ID='149jardAs0Khwf1_aIX-5MjQZ15Y1Vl24mG0vfSDXHWg';
 const CREDS_ID='1C_4fGjS6NKct6cUOI4ucrcNbvyjBON14NJt5Qgd25OU';
-
 let users={
   'lhr_dh':'lanbasedh','lhr_germany':'germanylhr','lhrmdl':'lhrksa',
   'lhrjapan':'faith2026','lhr_m':'mlhr','boobs':'07182022',
@@ -438,7 +427,6 @@ let employers=[],jobOrders=[],positions=[],workers=[];
 let currentStatusFilter='',currentJOFilter='';
 let divWorkers={me:[],ap:[],eu:[]};
 const today=new Date();today.setHours(0,0,0,0);
-
 function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 function gf(obj){
   var keys=Object.keys(obj),a=Array.prototype.slice.call(arguments,1);
@@ -453,23 +441,17 @@ function normId(s){return String(s||'').trim().replace(/\.0+$/,'').replace(/,/g,
 function parseDate(str){
   if(!str) return null;
   var s=String(str).trim();
-  /* gviz Date(year,month,day) — month is 0-based */
   var mg=s.match(/^Date\((\d+),(\d+),(\d+)\)/);
   if(mg) return new Date(+mg[1],+mg[2],+mg[3]);
   var mo={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
-  /* DD Mon YYYY or DD Mon. YYYY  e.g. "22 Jan 2029" */
   var m1=s.match(/(\d{1,2})\s+([A-Za-z]{3})\w*\.?\s+(\d{4})/);
   if(m1) return new Date(+m1[3],mo[m1[2].toLowerCase().slice(0,3)],+m1[1]);
-  /* YYYY-MM-DD */
   var m2=s.match(/(\d{4})-(\d{2})-(\d{2})/);
   if(m2) return new Date(+m2[1],+m2[2]-1,+m2[3]);
-  /* M/D/YYYY or MM/DD/YYYY */
   var m3=s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
   if(m3) return new Date(+m3[3],+m3[1]-1,+m3[2]);
-  /* YYYY/MM/DD */
   var m4=s.match(/(\d{4})\/(\d{2})\/(\d{2})/);
   if(m4) return new Date(+m4[1],+m4[2]-1,+m4[3]);
-  /* Mon DD, YYYY e.g. "Jan 22, 2029" */
   var m5=s.match(/([A-Za-z]{3})\w*\.?\s+(\d{1,2}),?\s+(\d{4})/);
   if(m5) return new Date(+m5[3],mo[m5[1].toLowerCase().slice(0,3)],+m5[2]);
   return null;
@@ -482,7 +464,6 @@ function computeStatus(expStr){
   if(diff<=90) return 'expiring';
   return 'active';
 }
-
 async function fetchSheet(id,sheet){
   var url='https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(sheet);
   var res=await fetch(url);
@@ -500,10 +481,7 @@ async function fetchSheet(id,sheet){
         var val='';
         if(cell){
           if(cell.f!=null&&cell.f!=='') val=String(cell.f);
-          else if(cell.v!=null&&cell.v!==''){
-            /* gviz date: v is a JS Date-like string "Date(y,m,d)" */
-            val=String(cell.v);
-          }
+          else if(cell.v!=null&&cell.v!=='') val=String(cell.v);
         }
         obj[cols[i]]=val;
       }
@@ -511,7 +489,6 @@ async function fetchSheet(id,sheet){
     return obj;
   });
 }
-
 function parseCSVLine(line){
   var result=[],cur='',inQ=false;
   for(var i=0;i<line.length;i++){
@@ -523,7 +500,6 @@ function parseCSVLine(line){
   result.push(cur.trim());
   return result;
 }
-
 async function loadCredentials(){
   var dbg=document.getElementById('credsDebug');
   if(dbg) dbg.textContent='Loading accounts...';
@@ -561,7 +537,6 @@ async function loadCredentials(){
     if(dbg) dbg.textContent='Using default accounts (sheet unavailable)';
   }
 }
-
 function handleLogin(e){
   e.preventDefault();
   var u=document.getElementById('username').value.trim().toLowerCase();
@@ -600,7 +575,6 @@ window.addEventListener('load',async function(){
   await loadCredentials();
   if(localStorage.getItem('lhr_user')){showApp();loadData();loadDivisions();}
 });
-
 function switchPage(pg){
   document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
   document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active');});
@@ -609,7 +583,6 @@ function switchPage(pg){
   document.querySelectorAll('.sidebar-item')[idx[pg]].classList.add('active');
   if(pg==='wrk') loadWorkers();
 }
-
 async function loadData(){
   document.getElementById('empList').innerHTML='<div class="loading">Loading employer data...</div>';
   try{
@@ -626,29 +599,15 @@ async function loadData(){
     document.getElementById('empList').innerHTML='<div class="loading">Error loading data: '+escH(e.message)+'</div>';
   }
 }
-
 function updateStats(){
   var s={active:0,expiring:0,expired:0};
-  var dbgEl=document.getElementById('debugPanel');
-  if(employers.length&&dbgEl){
-    var e0=employers[0];
-    var e0keys=Object.keys(e0);
-    /* find any key containing "valid" or "until" or "expiry" or "date" */
-    var dateKeys=e0keys.filter(function(k){return /valid|until|expir|date/i.test(k);});
-    var sample=dateKeys.map(function(k){return k+'='+e0[k];}).join(' | ');
-    dbgEl.style.display='block';
-    dbgEl.textContent='Employers: '+employers.length+' | JOs: '+jobOrders.length+'\nDate fields: '+sample+'\nAll keys: '+e0keys.join(', ');
-  }
   employers.forEach(function(e){var st=computeStatus(gf(e,'Valid Until','Validity','Expiry Date','Expiry','Date of Expiry','Expiration Date'));s[st]=(s[st]||0)+1;});
   document.getElementById('statTotal').textContent=employers.length;
-  /* statActive removed */
   document.getElementById('statExpiring').textContent=s.expiring||0;
   document.getElementById('statExpired').textContent=s.expired||0;
   var jos={expiring:0,expired:0};
   jobOrders.forEach(function(j){var st=computeStatus(gf(j,'Valid Until'));if(st==='expiring') jos.expiring++;if(st==='expired') jos.expired++;});
   document.getElementById('statJOExpiring').textContent=jos.expiring;
-  /* statJOExpired removed */
-  /* highlights */
   var bExp=document.getElementById('stat-expiring');
   var bExpd=document.getElementById('stat-expired');
   var bJO=document.getElementById('stat-jo-expiring');
@@ -656,16 +615,13 @@ function updateStats(){
   bExpd.classList.toggle('highlight-danger',s.expired>0);
   bJO.classList.toggle('highlight-warn',jos.expiring>0);
 }
-
 function populateCountryFilter(){
   var sel=document.getElementById('countryFilter');
   var countries=[...new Set(employers.map(function(e){return gf(e,'Country');}).filter(Boolean))].sort();
   sel.innerHTML='<option value="">All Countries</option>'+countries.map(function(c){return '<option value="'+escH(c)+'">'+escH(c)+'</option>';}).join('');
 }
-
 function filterByStatus(val){currentStatusFilter=val;currentJOFilter='';applyFilters();}
 function filterByJO(val){currentJOFilter=val;currentStatusFilter='';applyFilters();}
-
 function applyFilters(){
   var q=(document.getElementById('searchInput').value||'').toLowerCase();
   var country=document.getElementById('countryFilter').value;
@@ -705,9 +661,8 @@ function applyFilters(){
     },50);
   }
 }
-
 function renderEmps(list){
-  if(!list.length){document.getElementById('empList').innerHTML='<div class="loading">No employers found. <a href="#" onclick="filterByStatus(\'\');return false;" style="color:var(--primary);font-weight:600;">Show all</a></div>';return;}
+  if(!list.length){document.getElementById('empList').innerHTML='<div class="loading">No employers found.</div>';return;}
   document.getElementById('empList').innerHTML=list.map(function(e){
     var name=gf(e,'Employer Name');
     var acc=gf(e,'Accreditation ID');
@@ -733,7 +688,6 @@ function renderEmps(list){
       +'</div>';
   }).join('');
 }
-
 function toggleEmp(header){
   var panel=header.nextElementSibling;
   var ch=header.querySelector('.emp-chevron');
@@ -744,7 +698,6 @@ function toggleEmp(header){
     if(!panel.dataset.loaded){renderJO(panel,'');panel.dataset.loaded='1';}
   }
 }
-
 function getJONum(j){return gf(j,'JO Number','Job Order Number','JO No','JO#','JO No.','Order Number','Order No','JO Num','JO');}
 function getJOPos(j){return gf(j,'Position Title','Position','Job Position','Occupation','Trade','Position Applied');}
 function getJOQty(j){return gf(j,'Quantity','Qty','No. of Workers','Workers','Slots','No of Workers','Num Workers','Vacancy','No.');}
@@ -753,7 +706,6 @@ function renderJO(panel,filterSt){
   var jos=jobOrders.filter(function(j){return normId(gf(j,'Accreditation ID'))===accId;});
   if(filterSt) jos=jos.filter(function(j){return computeStatus(gf(j,'Valid Until'))===filterSt;});
   if(!jos.length){panel.innerHTML='<p style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0;">No job orders'+(filterSt?' ('+filterSt+')':'')+' found.</p>';return;}
-  /* auto-detect JO Number column from first row */
   if(jos.length&&!getJONum(jos[0])){
     var firstKeys=Object.keys(jos[0]);
     console.log('JO columns (first row):', firstKeys, jos[0]);
@@ -770,7 +722,7 @@ function renderJO(panel,filterSt){
       if(!joNum){var keys=Object.keys(j);var fb=keys.find(function(k){return k!=='Accreditation ID'&&k!=='Valid Until'&&j[k];});joNum=fb?j[fb]:'';}
       var st=computeStatus(gf(j,'Valid Until'));
       var directEmp=gf(j,'Direct Employer','Employer','Employer Name','Direct Employer Name','Principal','Company','Name of Employer','Employer/Agency','Agency','Name');
-      if(!directEmp){var keys2=Object.keys(j);console.log('Sheet2 JO row keys:',keys2,j);}
+      if(!directEmp){console.log('Sheet2 JO row keys:',Object.keys(j),j);}
       var dateApproved=gf(j,'Date Approved','Approval Date','Date of Approval','Approved Date','Date Issued','Issue Date','JO Date');
       var valid=gf(j,'Valid Until');
       var posCount=(posMap[normId(joNum)]||[]).length;
@@ -783,13 +735,11 @@ function renderJO(panel,filterSt){
         +'</tr>';
     }).join('')+'</tbody></table>';
 }
-
 function showPositions(e,joNum){
   e.preventDefault();
-  console.log('showPositions joNum='+joNum,'positions count='+positions.length, positions.length?'cols:'+Object.keys(positions[0]).join(','):'');
+  console.log('showPositions joNum='+joNum,'positions count='+positions.length,positions.length?'cols:'+Object.keys(positions[0]).join(','):'');
   var ps=positions.filter(function(p){return normId(getJONum(p))===normId(joNum);});
   if(!ps.length){
-    /* fallback: search any column value matching joNum */
     ps=positions.filter(function(p){return Object.values(p).some(function(v){return normId(v)===normId(joNum);});});
   }
   if(!ps.length){alert('No positions found for JO: '+joNum);return;}
@@ -799,7 +749,6 @@ function showPositions(e,joNum){
   document.getElementById('modalOverlay').classList.add('open');
 }
 function closeModal(e){if(!e||e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open');}
-
 async function loadWorkers(){
   var el=document.getElementById('workerList');
   if(!workers.length){
@@ -811,7 +760,7 @@ async function loadWorkers(){
   var filtered=workers.filter(function(w){
     var name=(gf(w,'First Name','Full Name','Name','Worker Name')+' '+(gf(w,'Last Name','Surname','')||'')).trim().toLowerCase();
     var ereg=(gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #')||'').toLowerCase();
-    var princ=(gf(w,'Principal','Principal Employer','Employer','Company')||'').toLowerCase();
+    var princ=(gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer')||'').toLowerCase();
     var pos=(gf(w,'Position','Position Title','Trade','Occupation')||'').toLowerCase();
     return !q||name.includes(q)||ereg.includes(q)||princ.includes(q)||pos.includes(q);
   });
@@ -821,7 +770,7 @@ async function loadWorkers(){
     var ereg=gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #','Registration No');
     var pos=gf(w,'Position','Position Title','Trade','Occupation');
     var stat=gf(w,'Status','Deployment Status','Deploy Status');
-    var principal=gf(w,'Principal','Principal Employer','Employer','Company');
+    var principal=gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer');
     var dur=gf(w,'Duration','Contract Duration','Contract Length');
     var payDate=gf(w,'Payment Date','Date of Payment','Pay Date');
     var depDate=gf(w,'Deployment Date','Date of Deployment','Deploy Date','Date Deployed');
@@ -839,7 +788,6 @@ async function loadWorkers(){
       +'</div>';
   }).join('')+'</div>';
 }
-
 async function loadDivisions(){
   ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Loading...</div>';});
   try{
@@ -850,7 +798,6 @@ async function loadDivisions(){
     ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Error loading data.</div>';});
   }
 }
-
 function renderDivision(d){
   var listId={me:'meList',ap:'apList',eu:'euList'}[d];
   var searchId={me:'searchME',ap:'searchAP',eu:'searchEU'}[d];
@@ -880,7 +827,6 @@ function renderDivision(d){
       +'<span class="worker-pct">'+pct+'%</span></div></div>';
   }).join('');
 }
-
 function getWorkerDocs(r){
   return [
     {name:'Passport',  status:gf(r,'Passport Status') ||'--',date:gf(r,'Passport Expiry') ||'-'},
@@ -895,7 +841,6 @@ function getWorkerDocs(r){
     {name:'Health Ins',status:gf(r,'Health Insur Status')||'--',date:gf(r,'Health Insur Date')||'-'}
   ];
 }
-
 function showWorkerModal(d,p){
   var w=divWorkers[d].find(function(x){return (gf(x,'Passport No')||gf(x,'EReg No')||'')==p;});
   if(!w) return;
