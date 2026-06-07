@@ -735,7 +735,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
         <div class="divenc-field"><label>Last Name *</label><input type="text" id="de_ln" placeholder="DELA CRUZ"/></div>
         <div class="divenc-field"><label>First Name *</label><input type="text" id="de_fn" placeholder="JUAN"/></div>
         <div class="divenc-field"><label>Middle Name</label><input type="text" id="de_mn" placeholder=""/></div>
-        <div class="divenc-field"><label>Position / Trade *</label><input type="text" id="de_pos" placeholder="Electrician"/></div>
+        <div class="divenc-field"><label>Position *</label><input type="text" id="de_pos" placeholder="Electrician"/></div>
         <div class="divenc-field"><label>Passport No / E-Reg No</label><input type="text" id="de_pass" placeholder="A1234567"/></div>
         <div class="divenc-field"><label>Principal / Employer</label><input type="text" id="de_principal" placeholder="Company Name"/></div>
         <div class="divenc-field"><label>Country Destination</label><input type="text" id="de_country" placeholder="Saudi Arabia"/></div>
@@ -1054,7 +1054,7 @@ function toggleEmp(header){
   }
 }
 function getJONum(j){return gf(j,'JO Number','Job Order Number','JO No','JO#','JO No.','Order Number','Order No','JO Num','JO');}
-function getJOPos(j){return gf(j,'Position Title','Position','Job Position','Occupation','Trade','Position Applied');}
+function getJOPos(j){return gf(j,'Position Title','Position','Job Position','Occupation','Position Applied');}
 function getJOQty(j){return gf(j,'Quantity','Qty','No. of Workers','Workers','Slots','No of Workers','Num Workers','Vacancy','No.');}
 function renderJO(panel,filterSt){
   var accId=normId(panel.dataset.accid);
@@ -1116,14 +1116,14 @@ async function loadWorkers(){
     var name=(gf(w,'First Name','Full Name','Name','Worker Name')+' '+(gf(w,'Last Name','Surname','')||'')).trim().toLowerCase();
     var ereg=(gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #')||'').toLowerCase();
     var princ=(gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer')||'').toLowerCase();
-    var pos=(gf(w,'Position','Position Title','Trade','Occupation')||'').toLowerCase();
+    var pos=(gf(w,'Position','Position Title','Occupation')||'').toLowerCase();
     return !q||name.includes(q)||ereg.includes(q)||princ.includes(q)||pos.includes(q);
   });
   if(!filtered.length){el.innerHTML='<div class="loading">No workers found.</div>';return;}
   el.innerHTML='<div class="deploy-grid">'+filtered.map(function(w){
     var name=(gf(w,'First Name','Full Name','Name','Worker Name')+' '+(gf(w,'Last Name','Surname','')||'')).trim()||gf(w,'Full Name','Name','Worker Name');
     var ereg=gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #','Registration No');
-    var pos=gf(w,'Position','Position Title','Trade','Occupation');
+    var pos=gf(w,'Position','Position Title','Occupation');
     var stat=gf(w,'Status','Deployment Status','Deploy Status');
     var principal=gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer');
     var dur=gf(w,'Duration','Contract Duration','Contract Length');
@@ -1175,7 +1175,7 @@ function renderDivision(d){
     var ln=gf(r,'Last Name','Lastname','Surname','Family Name');
     var fullName=gf(r,'Full Name','Name','Worker Name','Employee Name')||(fn+' '+ln).trim();
     var pass=gf(r,'Passport No','Passport Number','Passport #','E-Reg No','EReg No','EReg','Reg No','Registration No');
-    var pos=gf(r,'Position','Position Title','Job Position','Trade','Occupation');
+    var pos=gf(r,'Position','Position Title','Job Position','Occupation');
     if(!fullName) console.log('Worker row sample:', Object.keys(r), r);
     return {n:fullName,p:pass,pos:pos,raw:r};
   });
@@ -1223,7 +1223,7 @@ function showWorkerModal(d,idx){
   if(!w) return;
   document.getElementById('wModalName').textContent=(gf(w,'First Name')+' '+gf(w,'Last Name')).trim();
   document.getElementById('wModalPass').textContent=gf(w,'Passport No','Passport Number','Passport #','E-Reg No','EReg No','EReg','Reg No','Registration No')||'-';
-  document.getElementById('wModalPos').textContent=gf(w,'Position','Position Title','Job Position','Trade','Occupation')||'-';
+  document.getElementById('wModalPos').textContent=gf(w,'Position','Position Title','Job Position','Occupation')||'-';
   document.getElementById('wModalNotes').textContent=gf(w,'Notes')||'-';
   var docs=getWorkerDocs(w);
   var done=docs.filter(function(dc){return dc.status&&dc.status!=='--'&&dc.status.toLowerCase()!=='pending'&&dc.status.toLowerCase()!=='incomplete';}).length;
@@ -1292,7 +1292,7 @@ function openDivEnc(d,passNo){
     document.getElementById('de_ln').value=gf(w,'Last Name','Lastname','Surname','Family Name')||'';
     document.getElementById('de_fn').value=gf(w,'First Name','Firstname','Given Name','GivenName')||'';
     document.getElementById('de_mn').value=gf(w,'Middle Name','Middlename','Middle Initial','MI')||'';
-    document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Trade','Occupation')||'';
+    document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Occupation')||'';
     document.getElementById('de_pass').value=passNo;
     document.getElementById('de_principal').value=gf(w,'Principal','Principal Employer','Employer','Company')||'';
     document.getElementById('de_country').value=gf(w,'Country','Destination','Host Country','Country Destination')||'';
@@ -1403,7 +1403,7 @@ function openDivEncByIdx(d,idx){
   document.getElementById('de_ln').value=ln2;
   document.getElementById('de_fn').value=fn2;
   document.getElementById('de_mn').value=gf(w,'Middle Name','Middlename','Middle Initial','MI')||'';
-  document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Trade','Occupation','Job Title')||'';
+  document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Occupation','Job Title')||'';
   document.getElementById('de_pass').value=gf(w,'Passport','Passport No','Passport Number','Passport #','E-Reg No','EReg No','Reg No')||'';
   document.getElementById('de_principal').value=gf(w,'Principal','Principal Employer','Employer','Company')||'';
   document.getElementById('de_country').value=gf(w,'Country','Destination','Host Country','Country Destination','Country of Deployment')||'';
