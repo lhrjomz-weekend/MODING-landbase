@@ -258,6 +258,10 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
       Europe
     </div>
+    <div class="sidebar-item" onclick="switchPage('walkin')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      Walk-in Applicants
+    </div>
   </div>
 </div>
 <main class="hidden" id="mainApp">
@@ -366,6 +370,30 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     </button>
   </div>
   <div class="worker-list" id="euList"><div class="loading">Loading...</div></div>
+</div>
+<div class="page" id="page-walkin">
+  <div class="page-header">
+    <div class="page-title">Walk-in Applicants</div>
+    <div class="page-subtitle">Applicants encoded by receptionist — for review by project offices</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkin" placeholder="Search applicants..." oninput="renderWalkin()"/>
+    </div>
+    <select class="dropdown" id="walkinStatusFilter" onchange="renderWalkin()">
+      <option value="">All Status</option>
+      <option value="available">Available</option>
+      <option value="processing">Processing</option>
+      <option value="deployed">Deployed</option>
+      <option value="cancelled">Cancelled</option>
+    </select>
+    <button class="btn-action" onclick="loadWalkin()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div id="walkinList"><div class="loading">Click Refresh to load applicants...</div></div>
 </div>
 </main>
 <div class="wnew-overlay" id="wnewOverlay">
@@ -579,7 +607,7 @@ function switchPage(pg){
   document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
   document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active');});
   document.getElementById('page-'+pg).classList.add('active');
-  var idx={acc:0,wrk:1,me:2,ap:3,eu:4};
+  var idx={acc:0,wrk:1,me:2,ap:3,eu:4,walkin:5};
   document.querySelectorAll('.sidebar-item')[idx[pg]].classList.add('active');
   if(pg==='wrk') loadWorkers();
 }
@@ -617,7 +645,7 @@ function updateStats(){
 }
 function populateCountryFilter(){
   var sel=document.getElementById('countryFilter');
-  var countries=[...new Set(employers.map(function(e){return gf(e,'Country');}).filter(Boolean))].sort();
+  var countries=[...new Set(employers.map(function(e){return gf(e,'Country','Country Name','Nation','Destination','Destination Country','Host Country');}).filter(Boolean))].sort();
   sel.innerHTML='<option value="">All Countries</option>'+countries.map(function(c){return '<option value="'+escH(c)+'">'+escH(c)+'</option>';}).join('');
 }
 function filterByStatus(val){currentStatusFilter=val;currentJOFilter='';applyFilters();}
@@ -863,6 +891,58 @@ function showWorkerModal(d,p){
 function closeWorkerModal(e){if(!e||e.target===document.getElementById('wmodalOverlay')) document.getElementById('wmodalOverlay').classList.remove('open');}
 function showWnew(){document.getElementById('wnewOverlay').classList.add('open');}
 function closeWnew(){document.getElementById('wnewOverlay').classList.remove('open');}
+const WALKIN_ID='YOUR_WALKIN_SHEET_ID_HERE';
+var walkinData=[];
+async function loadWalkin(){
+  var el=document.getElementById('walkinList');
+  el.innerHTML='<div class="loading">Loading applicants...</div>';
+  try{
+    walkinData=await fetchSheet(WALKIN_ID,'Sheet1');
+    renderWalkin();
+  }catch(e){
+    el.innerHTML='<div class="loading">Error loading data: '+escH(e.message)+'<br><small>Please check the Sheet ID in the system settings.</small></div>';
+  }
+}
+function renderWalkin(){
+  var el=document.getElementById('walkinList');
+  var q=(document.getElementById('searchWalkin').value||'').toLowerCase();
+  var sf=(document.getElementById('walkinStatusFilter').value||'').toLowerCase();
+  var filtered=walkinData.filter(function(r){
+    var name=(gf(r,'Full Name','Name','Applicant Name','First Name','Firstname')+' '+(gf(r,'Last Name','Lastname','Surname')||'')).trim().toLowerCase();
+    var pos=(gf(r,'Position','Position Applied','Job Position','Trade','Occupation')||'').toLowerCase();
+    var stat=(gf(r,'Status','Application Status','Applicant Status')||'').toLowerCase();
+    var contact=(gf(r,'Contact','Contact No','Phone','Mobile','Cell No')||'').toLowerCase();
+    var matchQ=!q||name.includes(q)||pos.includes(q)||contact.includes(q);
+    var matchS=!sf||stat.includes(sf);
+    return matchQ&&matchS;
+  });
+  if(!filtered.length){el.innerHTML='<div class="loading">No applicants found.</div>';return;}
+  el.innerHTML='<div class="deploy-grid">'+filtered.map(function(r){
+    var name=(gf(r,'Full Name','Name','Applicant Name','First Name','Firstname')+' '+(gf(r,'Last Name','Lastname','Surname')||'')).trim()||gf(r,'Full Name','Name','Applicant Name');
+    var pos=gf(r,'Position','Position Applied','Job Position','Trade','Occupation');
+    var stat=gf(r,'Status','Application Status','Applicant Status');
+    var contact=gf(r,'Contact','Contact No','Phone','Mobile','Cell No');
+    var addr=gf(r,'Address','Home Address','Province','Region');
+    var age=gf(r,'Age','Date of Birth','Birthday');
+    var educ=gf(r,'Education','Educational Attainment','Highest Education');
+    var exp=gf(r,'Experience','Work Experience','Years of Experience');
+    var dateIn=gf(r,'Date','Date of Visit','Walk-in Date','Date Encoded','Date In');
+    var notes=gf(r,'Notes','Remarks','Comments');
+    var statColor=stat.toLowerCase().includes('available')?'badge-active':stat.toLowerCase().includes('deploy')?'badge-active':stat.toLowerCase().includes('cancel')?'badge-expired':'badge-expiring';
+    return '<div class="deploy-card">'
+      +'<div class="deploy-card-name">'+escH(name)+(stat?'&nbsp;<span class="badge '+statColor+'" style="font-size:0.7rem;vertical-align:middle;">'+escH(stat)+'</span>':'')+'</div>'
+      +'<div class="deploy-fields">'
+      +'<div class="deploy-field full"><span class="deploy-label">POSITION APPLIED</span><span class="deploy-val">'+escH(pos||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">CONTACT</span><span class="deploy-val">'+escH(contact||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">DATE IN</span><span class="deploy-val">'+escH(dateIn||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">AGE / BIRTHDAY</span><span class="deploy-val">'+escH(age||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">EDUCATION</span><span class="deploy-val">'+escH(educ||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">EXPERIENCE</span><span class="deploy-val">'+escH(exp||'-')+'</span></div>'
+      +(addr?'<div class="deploy-field full"><span class="deploy-label">ADDRESS</span><span class="deploy-val">'+escH(addr)+'</span></div>':'')
+      +(notes?'<div class="deploy-field full"><span class="deploy-label">NOTES</span><span class="deploy-val">'+escH(notes)+'</span></div>':'')
+      +'</div></div>';
+  }).join('')+'</div>';
+}
 </script>
 </body>
 </html>
