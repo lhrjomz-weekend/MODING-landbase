@@ -132,6 +132,13 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 .deploy-field.full{grid-column:1/-1;}
 .deploy-label{font-size:0.75rem;font-weight:700;color:var(--text-muted);letter-spacing:0.07em;margin-bottom:0.2rem;text-transform:uppercase;}
 .deploy-val{font-size:1rem;color:var(--text-dark);font-weight:500;}
+.div-filters{display:flex;gap:0.6rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.btn-filter{padding:0.5rem 1.2rem;border:2px solid var(--border);border-radius:20px;background:var(--white);color:var(--text-dark);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-filter:hover{border-color:var(--primary);color:var(--primary);}
+.btn-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.btn-filter.ready.active{background:#2e7d32;border-color:#2e7d32;color:var(--white);}
+.btn-filter.incomplete.active{background:#f57c00;border-color:#f57c00;color:var(--white);}
+.btn-filter.expiry.active{background:#c62828;border-color:#c62828;color:var(--white);}
 .wmodal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:center;justify-content:center;}
 .wmodal-overlay.open{display:flex;}
 .wmodal{background:var(--white);border-radius:16px;width:90%;max-width:560px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
@@ -335,6 +342,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       Refresh
     </button>
   </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('me','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('me','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('me','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('me','expiry')">🔴 Expiry</button>
+  </div>
   <div class="worker-list" id="meList"><div class="loading">Loading...</div></div>
 </div>
 <div class="page" id="page-ap">
@@ -351,6 +364,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Refresh
     </button>
+  </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('ap','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('ap','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('ap','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('ap','expiry')">🔴 Expiry</button>
   </div>
   <div class="worker-list" id="apList"><div class="loading">Loading...</div></div>
 </div>
@@ -369,6 +388,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       Refresh
     </button>
   </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('eu','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('eu','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('eu','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('eu','expiry')">🔴 Expiry</button>
+  </div>
   <div class="worker-list" id="euList"><div class="loading">Loading...</div></div>
 </div>
 <div class="page" id="page-walkin">
@@ -381,13 +406,14 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input type="text" id="searchWalkin" placeholder="Search applicants..." oninput="renderWalkin()"/>
     </div>
-    <select class="dropdown" id="walkinStatusFilter" onchange="renderWalkin()">
-      <option value="">All Status</option>
-      <option value="available">Available</option>
-      <option value="processing">Processing</option>
-      <option value="deployed">Deployed</option>
-      <option value="cancelled">Cancelled</option>
-    </select>
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkinPos" placeholder="Search position applied..." oninput="renderWalkin()"/>
+    </div>
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkinSkills" placeholder="Search skills..." oninput="renderWalkin()"/>
+    </div>
     <button class="btn-action" onclick="loadWalkin()">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Refresh
@@ -610,6 +636,7 @@ function switchPage(pg){
   var idx={acc:0,wrk:1,me:2,ap:3,eu:4,walkin:5};
   document.querySelectorAll('.sidebar-item')[idx[pg]].classList.add('active');
   if(pg==='wrk') loadWorkers();
+  if(pg==='walkin') loadWalkin();
 }
 async function loadData(){
   document.getElementById('empList').innerHTML='<div class="loading">Loading employer data...</div>';
@@ -826,6 +853,15 @@ async function loadDivisions(){
     ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Error loading data.</div>';});
   }
 }
+var divFilters={me:'',ap:'',eu:''};
+function setDivFilter(d,f){
+  divFilters[d]=f;
+  document.querySelectorAll('#page-'+d+' .btn-filter').forEach(function(b){
+    b.classList.remove('active');
+    if(b.dataset.filter===f) b.classList.add('active');
+  });
+  renderDivision(d);
+}
 function renderDivision(d){
   var listId={me:'meList',ap:'apList',eu:'euList'}[d];
   var searchId={me:'searchME',ap:'searchAP',eu:'searchEU'}[d];
@@ -833,6 +869,7 @@ function renderDivision(d){
   var data=divWorkers[d];
   var srch=document.getElementById(searchId);
   var q=srch?(srch.value||'').toLowerCase():'';
+  var df=divFilters[d]||'';
   var w=data.map(function(r){
     var fn=gf(r,'First Name','Firstname','Given Name','GivenName');
     var ln=gf(r,'Last Name','Lastname','Surname','Family Name');
@@ -843,6 +880,16 @@ function renderDivision(d){
     return {n:fullName,p:pass,pos:pos,raw:r};
   });
   if(q) w=w.filter(function(x){return x.n.toLowerCase().includes(q)||x.p.toLowerCase().includes(q);});
+  if(df){
+    w=w.filter(function(x){
+      var docs=getWorkerDocs(x.raw);
+      var done=docs.filter(function(dc){return dc.status&&dc.status!=='--'&&dc.status.toLowerCase()!=='pending'&&dc.status.toLowerCase()!=='incomplete';}).length;
+      if(df==='ready') return done===docs.length;
+      if(df==='incomplete') return done<docs.length;
+      if(df==='expiry') return docs.some(function(dc){var s=computeStatus(dc.date);return s==='expiring'||s==='expired';});
+      return true;
+    });
+  }
   if(!w.length){el.innerHTML='<div class="loading">No workers found.</div>';return;}
   el.innerHTML=w.map(function(x){
     var docs=getWorkerDocs(x.raw);
@@ -891,55 +938,95 @@ function showWorkerModal(d,p){
 function closeWorkerModal(e){if(!e||e.target===document.getElementById('wmodalOverlay')) document.getElementById('wmodalOverlay').classList.remove('open');}
 function showWnew(){document.getElementById('wnewOverlay').classList.add('open');}
 function closeWnew(){document.getElementById('wnewOverlay').classList.remove('open');}
-const WALKIN_ID='YOUR_WALKIN_SHEET_ID_HERE';
+const WALKIN_ID='1FfBU4EdJ1g6BzmE0F2ovJ_G9pkCzrYU4aczc59SnscU';
 var walkinData=[];
 async function loadWalkin(){
   var el=document.getElementById('walkinList');
   el.innerHTML='<div class="loading">Loading applicants...</div>';
   try{
-    walkinData=await fetchSheet(WALKIN_ID,'Sheet1');
+    var url='https://docs.google.com/spreadsheets/d/'+WALKIN_ID+'/gviz/tq?tqx=out:json&sheet=Walk-in+Applicants&headers=3';
+    var res=await fetch(url);
+    var txt=await res.text();
+    var raw=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+    if(!raw) throw new Error('Cannot fetch Walk-in Applicants sheet');
+    var json=JSON.parse(raw[1]);
+    if(!json.table||!json.table.cols){walkinData=[];renderWalkin();return;}
+    var cols=json.table.cols.map(function(c){return c.label.trim();});
+    console.log('Walk-in columns:', cols);
+    walkinData=(json.table.rows||[]).filter(function(r){return r&&r.c&&r.c.some(function(c){return c&&(c.v||c.f);});}).map(function(r){
+      var obj={};
+      r.c.forEach(function(cell,i){
+        if(cols[i]){var val='';if(cell){if(cell.f!=null&&cell.f!=='') val=String(cell.f);else if(cell.v!=null&&cell.v!=='') val=String(cell.v);}obj[cols[i]]=val;}
+      });
+      return obj;
+    });
     renderWalkin();
   }catch(e){
-    el.innerHTML='<div class="loading">Error loading data: '+escH(e.message)+'<br><small>Please check the Sheet ID in the system settings.</small></div>';
+    el.innerHTML='<div class="loading">Error: '+escH(e.message)+'</div>';
   }
 }
 function renderWalkin(){
   var el=document.getElementById('walkinList');
   var q=(document.getElementById('searchWalkin').value||'').toLowerCase();
-  var sf=(document.getElementById('walkinStatusFilter').value||'').toLowerCase();
+  var qp=(document.getElementById('searchWalkinPos').value||'').toLowerCase();
+  var qs=(document.getElementById('searchWalkinSkills').value||'').toLowerCase();
   var filtered=walkinData.filter(function(r){
-    var name=(gf(r,'Full Name','Name','Applicant Name','First Name','Firstname')+' '+(gf(r,'Last Name','Lastname','Surname')||'')).trim().toLowerCase();
-    var pos=(gf(r,'Position','Position Applied','Job Position','Trade','Occupation')||'').toLowerCase();
-    var stat=(gf(r,'Status','Application Status','Applicant Status')||'').toLowerCase();
-    var contact=(gf(r,'Contact','Contact No','Phone','Mobile','Cell No')||'').toLowerCase();
-    var matchQ=!q||name.includes(q)||pos.includes(q)||contact.includes(q);
-    var matchS=!sf||stat.includes(sf);
-    return matchQ&&matchS;
+    var fn=(gf(r,'First Name')||'').toLowerCase();
+    var ln=(gf(r,'Last Name')||'').toLowerCase();
+    var name=(fn+' '+ln).trim();
+    var pos=(gf(r,'Position Applied')||'').toLowerCase();
+    var skills=(gf(r,'Skills / Specialization')||'').toLowerCase();
+    var contact=(gf(r,'Contact Number')||'').toLowerCase();
+    var matchQ=!q||name.includes(q)||contact.includes(q);
+    var matchP=!qp||pos.includes(qp);
+    var matchS=!qs||skills.includes(qs);
+    return matchQ&&matchP&&matchS;
   });
   if(!filtered.length){el.innerHTML='<div class="loading">No applicants found.</div>';return;}
   el.innerHTML='<div class="deploy-grid">'+filtered.map(function(r){
-    var name=(gf(r,'Full Name','Name','Applicant Name','First Name','Firstname')+' '+(gf(r,'Last Name','Lastname','Surname')||'')).trim()||gf(r,'Full Name','Name','Applicant Name');
-    var pos=gf(r,'Position','Position Applied','Job Position','Trade','Occupation');
-    var stat=gf(r,'Status','Application Status','Applicant Status');
-    var contact=gf(r,'Contact','Contact No','Phone','Mobile','Cell No');
-    var addr=gf(r,'Address','Home Address','Province','Region');
-    var age=gf(r,'Age','Date of Birth','Birthday');
-    var educ=gf(r,'Education','Educational Attainment','Highest Education');
-    var exp=gf(r,'Experience','Work Experience','Years of Experience');
-    var dateIn=gf(r,'Date','Date of Visit','Walk-in Date','Date Encoded','Date In');
-    var notes=gf(r,'Notes','Remarks','Comments');
-    var statColor=stat.toLowerCase().includes('available')?'badge-active':stat.toLowerCase().includes('deploy')?'badge-active':stat.toLowerCase().includes('cancel')?'badge-expired':'badge-expiring';
+    var fn=gf(r,'First Name');var ln=gf(r,'Last Name');var mn=gf(r,'Middle Name');
+    var name=(fn+' '+(mn?mn+' ':'')+ln).trim();
+    var pos=gf(r,'Position Applied');
+    var stat=gf(r,'Status');
+    var contact=gf(r,'Contact Number');
+    var addr=gf(r,'Address');
+    var province=gf(r,'Province / Region');
+    var age=gf(r,'Age');
+    var dob=gf(r,'Date of Birth');
+    var educ=gf(r,'Highest Education');
+    var exp=gf(r,'Work Experience (Years)');
+    var prevEmp=gf(r,'Previous Employer');
+    var skills=gf(r,'Skills / Specialization');
+    var country=gf(r,'Preferred Country');
+    var dateIn=gf(r,'Date of Visit');
+    var passport=gf(r,'Passport (Yes/No)');
+    var passExp=gf(r,'Passport Expiry');
+    var nbi=gf(r,'NBI Clearance (Yes/No)');
+    var med=gf(r,'Medical Certificate (Yes/No)');
+    var tesda=gf(r,'TESDA / Training (Yes/No)');
+    var assigned=gf(r,'Assigned To (Project Officer)');
+    var notes=gf(r,'Remarks / Notes');
+    var statLow=(stat||'').toLowerCase();
+    var statColor=statLow.includes('available')?'badge-active':statLow.includes('deploy')?'badge-active':statLow.includes('cancel')?'badge-expired':'badge-expiring';
     return '<div class="deploy-card">'
       +'<div class="deploy-card-name">'+escH(name)+(stat?'&nbsp;<span class="badge '+statColor+'" style="font-size:0.7rem;vertical-align:middle;">'+escH(stat)+'</span>':'')+'</div>'
       +'<div class="deploy-fields">'
-      +'<div class="deploy-field full"><span class="deploy-label">POSITION APPLIED</span><span class="deploy-val">'+escH(pos||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">DATE OF VISIT</span><span class="deploy-val">'+escH(dateIn||'-')+'</span></div>'
       +'<div class="deploy-field"><span class="deploy-label">CONTACT</span><span class="deploy-val">'+escH(contact||'-')+'</span></div>'
-      +'<div class="deploy-field"><span class="deploy-label">DATE IN</span><span class="deploy-val">'+escH(dateIn||'-')+'</span></div>'
-      +'<div class="deploy-field"><span class="deploy-label">AGE / BIRTHDAY</span><span class="deploy-val">'+escH(age||'-')+'</span></div>'
-      +'<div class="deploy-field"><span class="deploy-label">EDUCATION</span><span class="deploy-val">'+escH(educ||'-')+'</span></div>'
-      +'<div class="deploy-field"><span class="deploy-label">EXPERIENCE</span><span class="deploy-val">'+escH(exp||'-')+'</span></div>'
-      +(addr?'<div class="deploy-field full"><span class="deploy-label">ADDRESS</span><span class="deploy-val">'+escH(addr)+'</span></div>':'')
-      +(notes?'<div class="deploy-field full"><span class="deploy-label">NOTES</span><span class="deploy-val">'+escH(notes)+'</span></div>':'')
+      +'<div class="deploy-field full"><span class="deploy-label">POSITION APPLIED</span><span class="deploy-val">'+escH(pos||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PREFERRED COUNTRY</span><span class="deploy-val">'+escH(country||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">AGE</span><span class="deploy-val">'+escH(age||dob||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">EXPERIENCE (YRS)</span><span class="deploy-val">'+escH(exp||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PREV. EMPLOYER</span><span class="deploy-val">'+escH(prevEmp||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">EDUCATION</span><span class="deploy-val">'+escH(educ||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">SKILLS / SPECIALIZATION</span><span class="deploy-val">'+escH(skills||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PASSPORT</span><span class="deploy-val">'+escH(passport||'-')+(passExp?' (exp: '+escH(passExp)+')':'')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">NBI</span><span class="deploy-val">'+escH(nbi||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">MEDICAL CERT</span><span class="deploy-val">'+escH(med||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">TESDA / TRAINING</span><span class="deploy-val">'+escH(tesda||'-')+'</span></div>'
+      +(addr||province?'<div class="deploy-field full"><span class="deploy-label">ADDRESS</span><span class="deploy-val">'+escH((addr?(addr+', '):'')+province)+'</span></div>':'')
+      +(assigned?'<div class="deploy-field full"><span class="deploy-label">ASSIGNED TO</span><span class="deploy-val">'+escH(assigned)+'</span></div>':'')
+      +(notes?'<div class="deploy-field full"><span class="deploy-label">REMARKS</span><span class="deploy-val">'+escH(notes)+'</span></div>':'')
       +'</div></div>';
   }).join('')+'</div>';
 }
