@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Landbase HR Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --primary:#4A7C59;--primary-light:#6BA876;--primary-accent:#8BC34A;
+  --secondary:#FFF8DC;--accent:#E8F5E9;
+  --dark:#2D5F3F;--light:#F5F9F2;--white:#ffffff;
+  --text-dark:#1a1a1a;--text-muted:#666666;--border:#D4E8D4;
+  --success:#4A7C59;--warning:#E8A53A;--danger:#c1121f;
+  --header-h:70px;--sidebar-w:260px;
+}
+body{font-family:'Inter',sans-serif;background:#F5F9F2;color:var(--text-dark);min-height:100vh;}
+.login-container{position:fixed;inset:0;background:linear-gradient(150deg,#1a3d2b 0%,#2D5F3F 45%,#4A7C59 100%);display:flex;align-items:center;justify-content:center;z-index:2000;overflow:hidden;}
+.login-container::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:rgba(255,255,255,0.03);top:-150px;left:-100px;pointer-events:none;}
+.login-container::after{content:'';position:absolute;width:400px;height:400px;border-radius:50%;background:rgba(255,255,255,0.03);bottom:-100px;right:200px;pointer-events:none;}
+.login-container.hidden{display:none;}
+.login-wrapper{display:flex;width:100%;height:100%;max-width:1100px;margin:auto;padding:2rem;}
+.login-brand{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:flex-start;color:var(--white);padding:3rem 4rem 3rem 2rem;}
+.login-brand-logo{display:flex;align-items:center;gap:1rem;margin-bottom:2.5rem;}
+.login-brand-logo-icon{width:56px;height:56px;border-radius:14px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(10px);}
+.login-brand h1{font-family:'Poppins',sans-serif;font-size:2.8rem;font-weight:800;line-height:1.1;margin-bottom:0.5rem;}
+.login-brand h1 span{color:#8BC34A;}
+.login-brand-sub{font-size:0.8rem;font-weight:700;letter-spacing:0.15em;opacity:0.6;text-transform:uppercase;margin-bottom:2.5rem;}
+.login-divider{width:50px;height:3px;background:rgba(255,255,255,0.3);border-radius:2px;margin-bottom:2rem;}
+.login-features{display:flex;flex-direction:column;gap:0.8rem;}
+.login-feature{display:flex;gap:1rem;align-items:center;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:0.8rem 1.2rem;backdrop-filter:blur(5px);transition:background 0.2s;}
+.login-feature:hover{background:rgba(255,255,255,0.12);}
+.login-feature-icon{width:36px;height:36px;border-radius:8px;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.login-feature-icon svg{width:18px;height:18px;}
+.login-feature-text strong{display:block;font-size:0.85rem;font-weight:700;}
+.login-feature-text span{display:block;font-size:0.72rem;opacity:0.7;margin-top:0.1rem;}
+.login-right{display:flex;align-items:center;justify-content:center;padding:2rem;}
+.login-box{background:var(--white);width:100%;max-width:400px;padding:2.8rem;border-radius:20px;box-shadow:0 20px 60px rgba(0,0,0,0.25);}
+.login-box-header{text-align:center;margin-bottom:2rem;}
+.login-box-header h2{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;color:var(--primary);margin-bottom:0.3rem;}
+.login-box-header p{color:var(--text-muted);font-size:0.85rem;}
+.login-box h2{font-family:'Poppins',sans-serif;font-size:1.5rem;font-weight:700;margin-bottom:0.5rem;color:var(--primary);}
+.login-box .subtitle{color:var(--text-muted);font-size:0.9rem;margin-bottom:2rem;}
+.form-group{margin-bottom:1.5rem;}
+.form-group label{display:block;font-weight:600;color:var(--text-dark);margin-bottom:0.6rem;font-size:0.9rem;}
+.form-group input{width:100%;padding:12px 14px;border:2px solid var(--border);border-radius:8px;font-size:0.95rem;font-family:'Inter',sans-serif;background:var(--accent);transition:all 0.3s;}
+.form-group input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,124,89,0.1);}
+.btn-login{width:100%;padding:12px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:var(--white);border:none;border-radius:8px;font-weight:700;cursor:pointer;font-size:0.95rem;margin-top:1rem;transition:all 0.3s;}
+.btn-login:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.15);}
+.login-error{color:var(--danger);font-size:0.85rem;margin-top:1rem;display:none;background:#fff5f5;padding:0.8rem;border-radius:6px;border-left:3px solid var(--danger);}
+.login-demo{border-top:1px solid var(--border);margin-top:2rem;padding-top:1.5rem;color:var(--text-muted);font-size:0.8rem;}
+.login-demo strong{color:var(--text-dark);display:block;margin-bottom:0.6rem;font-weight:600;}
+header{height:var(--header-h);background:var(--white);border-bottom:2px solid var(--border);display:flex;align-items:center;padding:0 2rem;position:fixed;top:0;left:0;right:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,0.05);}
+header.hidden{display:none;}
+.header-left{display:flex;align-items:center;gap:1.5rem;flex:1;}
+.header-logo{display:flex;align-items:center;gap:0.8rem;}
+.header-logo span{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--primary);}
+.header-right{display:flex;align-items:center;gap:2rem;}
+.header-user{display:flex;align-items:center;gap:1rem;}
+.user-avatar{width:40px;height:40px;border-radius:50%;background:var(--primary-light);color:var(--white);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem;}
+.user-info strong{display:block;font-size:0.9rem;color:var(--text-dark);}
+.user-info span{display:block;font-size:0.75rem;color:var(--text-muted);}
+.btn-logout{background:none;border:none;color:var(--danger);cursor:pointer;font-weight:600;font-size:0.85rem;text-transform:uppercase;letter-spacing:0.05em;transition:all 0.3s;}
+.btn-logout:hover{color:#ff4444;}
+.sidebar{width:var(--sidebar-w);background:var(--secondary);position:fixed;top:var(--header-h);bottom:0;left:0;overflow-y:auto;z-index:99;border-right:2px solid var(--border);padding:2rem 0;}
+.sidebar.hidden{display:none;}
+.sidebar-menu{display:flex;flex-direction:column;gap:0;}
+.sidebar-item{padding:1rem 1.5rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:0.8rem;color:var(--primary);font-weight:600;}
+.sidebar-item:hover{background:var(--accent);color:var(--primary);}
+.sidebar-item.active{background:var(--primary);color:var(--white);border-left:4px solid var(--primary-accent);padding-left:calc(1.5rem - 4px);}
+.sidebar-item svg{width:20px;height:20px;}
+.sidebar-divider{padding:0.5rem 1.5rem;font-size:0.7rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-top:0.5rem;}
+main{margin-top:var(--header-h);margin-left:var(--sidebar-w);padding:2.5rem;background:#F5F9F2;}
+main.hidden{display:none;}
+.page{display:none;}
+.page.active{display:block;}
+.page-header{margin-bottom:2.5rem;}
+.page-title{font-family:'Poppins',sans-serif;font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:0.5rem;}
+.page-subtitle{color:var(--text-muted);font-size:0.95rem;}
+.stats-container{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-bottom:2.5rem;}
+.stat-box{background:var(--white);padding:1.5rem;border-radius:12px;border:2px solid var(--border);cursor:pointer;transition:all 0.3s;}
+.stat-box:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);transform:translateY(-2px);}
+.stat-box.active{border-color:var(--primary);background:var(--accent);}
+.stat-box.highlight-warn{border-color:#f57c00;background:#fffde7;animation:pulse-warn 2s infinite;}
+.stat-box.highlight-danger{border-color:#c62828;background:#fff5f5;animation:pulse-danger 2s infinite;}
+@keyframes pulse-warn{0%,100%{box-shadow:0 0 0 0 rgba(245,124,0,0.3);}50%{box-shadow:0 0 0 8px rgba(245,124,0,0);}}
+@keyframes pulse-danger{0%,100%{box-shadow:0 0 0 0 rgba(198,40,40,0.3);}50%{box-shadow:0 0 0 8px rgba(198,40,40,0);}}
+.stat-icon{width:44px;height:44px;border-radius:10px;background:var(--secondary);display:flex;align-items:center;justify-content:center;color:var(--primary);margin-bottom:0.8rem;}
+.stat-icon svg{width:22px;height:22px;}
+.stat-value{font-family:'Poppins',sans-serif;font-size:1.8rem;font-weight:700;color:var(--primary);margin-bottom:0.3rem;}
+.stat-label{font-size:0.8rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;}
+.controls{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem;flex-wrap:wrap;}
+.search-box{flex:1;min-width:250px;position:relative;}
+.search-box svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--text-muted);}
+.search-box input{width:100%;padding:11px 14px 11px 38px;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;font-family:'Inter',sans-serif;background:var(--white);transition:all 0.3s;}
+.search-box input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(74,124,89,0.1);}
+select.dropdown{padding:11px 14px;border:2px solid var(--border);border-radius:8px;background:var(--white);color:var(--text-dark);font-size:0.9rem;font-family:'Inter',sans-serif;cursor:pointer;transition:all 0.3s;}
+select.dropdown:focus{outline:none;border-color:var(--primary);}
+.btn-action{padding:11px 18px;background:var(--primary);color:var(--white);border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem;transition:all 0.3s;display:flex;align-items:center;gap:0.5rem;}
+.btn-action:hover{background:var(--primary-light);box-shadow:0 4px 12px rgba(0,0,0,0.15);}
+.btn-action svg{width:16px;height:16px;}
+.emp-card{background:var(--white);border:2px solid var(--border);border-radius:12px;overflow:hidden;cursor:pointer;transition:all 0.3s;margin-bottom:1rem;}
+.emp-card:hover{border-color:var(--primary);box-shadow:0 6px 20px rgba(0,0,0,0.08);}
+.emp-header{padding:1.2rem 1.5rem;display:flex;align-items:center;gap:1rem;}
+.emp-chevron{width:20px;height:20px;color:var(--text-muted);transition:transform 0.3s;flex-shrink:0;}
+.emp-chevron.open{transform:rotate(90deg);}
+.emp-avatar{width:44px;height:44px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--primary);font-size:1rem;flex-shrink:0;}
+.emp-info{flex:1;}
+.emp-name{font-weight:700;color:var(--text-dark);font-size:0.95rem;}
+.emp-meta{display:flex;gap:1.5rem;margin-top:0.3rem;flex-wrap:wrap;}
+.emp-meta span{font-size:0.8rem;color:var(--text-muted);}
+.emp-status{padding:0.3rem 0.8rem;border-radius:20px;font-size:0.75rem;font-weight:600;background:var(--accent);color:var(--primary);}
+.emp-status.expired{background:#fff0f0;color:var(--danger);}
+.emp-status.expiring{background:#fff8e1;color:var(--warning);}
+.jo-panel{display:none;border-top:2px solid var(--border);padding:1rem 1.5rem;}
+.jo-panel.open{display:block;}
+.jo-table{width:100%;border-collapse:collapse;font-size:0.85rem;}
+.jo-table th{background:var(--accent);padding:0.6rem 1rem;text-align:left;font-weight:600;color:var(--primary);font-size:0.75rem;text-transform:uppercase;}
+.jo-table td{padding:0.7rem 1rem;border-bottom:1px solid var(--border);color:var(--text-dark);}
+.jo-table tr:last-child td{border-bottom:none;}
+.jo-table tr.expiring td{background:#fffde7;}
+.jo-table tr.expired td{background:#fff5f5;}
+.badge{display:inline-block;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.72rem;font-weight:600;}
+.badge-active{background:#e8f5e9;color:#2e7d32;}
+.badge-expiring{background:#fff8e1;color:#f57c00;}
+.badge-expired{background:#ffebee;color:#c62828;}
+.loading{text-align:center;padding:3rem;color:var(--text-muted);font-size:0.95rem;}
+.worker-list{display:block;width:100%;}
+.worker-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.2rem 1.5rem;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;gap:1rem;}
+.worker-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.worker-info{flex:1;}
+.worker-name{display:block;font-weight:700;color:var(--text-dark);font-size:0.95rem;}
+.worker-pos{display:block;font-size:0.8rem;color:var(--text-muted);margin-top:0.2rem;}
+.worker-meta{display:flex;flex-direction:column;align-items:flex-end;gap:0.4rem;}
+.worker-pass{font-size:0.75rem;color:var(--text-muted);}
+.worker-prog{width:80px;height:6px;background:var(--border);border-radius:3px;overflow:hidden;}
+.worker-prog-fill{height:100%;background:var(--primary);border-radius:3px;transition:width 0.3s;}
+.worker-pct{font-size:0.75rem;font-weight:600;color:var(--primary);}
+.deploy-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem;width:100%;}
+.deploy-card{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:2rem 2.2rem;transition:all 0.2s;}
+.deploy-card:hover{border-color:var(--primary);box-shadow:0 4px 16px rgba(0,0,0,0.08);}
+.deploy-card-name{font-weight:700;color:var(--primary);font-size:1.2rem;text-transform:uppercase;margin-bottom:1.2rem;padding-bottom:0.8rem;border-bottom:2px solid var(--border);letter-spacing:0.03em;}
+.deploy-fields{display:grid;grid-template-columns:1fr 1fr;gap:0.9rem 1.5rem;}
+.deploy-field{display:flex;flex-direction:column;}
+.deploy-field.full{grid-column:1/-1;}
+.deploy-label{font-size:0.75rem;font-weight:700;color:var(--text-muted);letter-spacing:0.07em;margin-bottom:0.2rem;text-transform:uppercase;}
+.deploy-val{font-size:1rem;color:var(--text-dark);font-weight:500;}
+.div-filters{display:flex;gap:0.6rem;margin-bottom:1.5rem;flex-wrap:wrap;}
+.btn-filter{padding:0.5rem 1.2rem;border:2px solid var(--border);border-radius:20px;background:var(--white);color:var(--text-dark);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.btn-filter:hover{border-color:var(--primary);color:var(--primary);}
+.btn-filter.active{background:var(--primary);color:var(--white);border-color:var(--primary);}
+.btn-filter.ready.active{background:#2e7d32;border-color:#2e7d32;color:var(--white);}
+.btn-filter.incomplete.active{background:#f57c00;border-color:#f57c00;color:var(--white);}
+.btn-filter.expiry.active{background:#c62828;border-color:#c62828;color:var(--white);}
+.enc-layout{display:grid;grid-template-columns:280px 1fr;gap:1.5rem;align-items:start;}
+.enc-search-panel{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.4rem;}
+.enc-form-panel{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.8rem;}
+.enc-panel-title{font-weight:700;color:var(--primary);font-size:1rem;margin-bottom:1rem;}
+.enc-results{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:0.4rem;}
+.enc-result-item{padding:0.6rem 0.8rem;border-radius:8px;cursor:pointer;border:1px solid var(--border);font-size:0.85rem;transition:all 0.2s;}
+.enc-result-item:hover{background:var(--accent);border-color:var(--primary);}
+.enc-result-item strong{display:block;color:var(--primary);}
+.enc-result-item span{color:var(--text-muted);font-size:0.78rem;}
+.enc-hint{color:var(--text-muted);font-size:0.85rem;text-align:center;padding:1rem 0;}
+.enc-section-label{font-size:0.75rem;font-weight:700;color:var(--primary);letter-spacing:0.08em;text-transform:uppercase;margin:1.2rem 0 0.8rem;padding-bottom:0.4rem;border-bottom:2px solid var(--border);}
+.enc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.enc-field{display:flex;flex-direction:column;gap:0.3rem;}
+.enc-field.enc-full{grid-column:1/-1;}
+.enc-field label{font-size:0.78rem;font-weight:600;color:var(--text-dark);}
+.enc-field input,.enc-field select,.enc-field textarea{padding:9px 12px;border:2px solid var(--border);border-radius:8px;font-size:0.88rem;font-family:'Inter',sans-serif;background:var(--light);transition:all 0.2s;width:100%;}
+.enc-field input:focus,.enc-field select:focus,.enc-field textarea:focus{outline:none;border-color:var(--primary);background:var(--white);box-shadow:0 0 0 3px rgba(74,124,89,0.08);}
+.enc-field textarea{resize:vertical;}
+.enc-actions{display:flex;align-items:center;gap:1rem;margin-top:1.5rem;padding-top:1.2rem;border-top:2px solid var(--border);flex-wrap:wrap;}
+.enc-btn-save{padding:12px 2rem;font-size:0.95rem;}
+.enc-msg{font-size:0.85rem;font-weight:600;padding:0.5rem 1rem;border-radius:8px;display:none;}
+.enc-msg.success{display:block;background:#e8f5e9;color:#2e7d32;}
+.enc-msg.error{display:block;background:#ffebee;color:#c62828;}
+.enc-setup-note{margin-top:0.5rem;font-size:0.82rem;color:#f57c00;background:#fff8e1;padding:0.6rem 1rem;border-radius:8px;border-left:3px solid #f57c00;}
+.div-script-setup{background:var(--accent);border:1.5px solid var(--border);border-radius:10px;padding:0.7rem 1rem;margin-bottom:0.8rem;}
+.enc-setup-note a{color:var(--primary);font-weight:600;}
+.enc-setup-modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:500;display:flex;align-items:center;justify-content:center;}
+.enc-setup-box{background:var(--white);border-radius:16px;padding:2rem;max-width:560px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,0.2);}
+.enc-setup-box h3{color:var(--primary);margin-bottom:1rem;font-family:'Poppins',sans-serif;}
+.enc-setup-box ol{margin:1rem 0 1rem 1.2rem;font-size:0.88rem;line-height:2;}
+.enc-setup-box a{color:var(--primary);font-weight:600;}
+.wmodal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1100;align-items:center;justify-content:center;}
+.wmodal-overlay.open{display:flex;}
+.wmodal{background:var(--white);border-radius:16px;width:90%;max-width:560px;max-height:85vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.wmodal-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:1.5rem;color:var(--white);}
+.wmodal-title{font-family:'Poppins',sans-serif;font-size:1.2rem;font-weight:700;}
+.wmodal-sub{font-size:0.85rem;opacity:0.85;margin-top:0.3rem;}
+.wmodal-body{overflow-y:auto;padding:1.5rem;display:flex;flex-direction:column;gap:1.2rem;}
+.wmod-progress{background:var(--accent);padding:1rem;border-radius:10px;}
+.wmod-prog-header{display:flex;justify-content:space-between;margin-bottom:0.5rem;}
+.wmod-prog-label{font-size:0.85rem;font-weight:600;color:var(--primary);}
+.wmod-prog-pct{font-size:0.85rem;font-weight:700;color:var(--primary);}
+.wmod-prog-bar{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-bottom:0.5rem;}
+.wmod-prog-fill{height:100%;background:var(--primary);border-radius:4px;transition:width 0.4s;}
+.wmod-docs-title{font-weight:700;color:var(--text-dark);margin-bottom:0.8rem;font-size:0.9rem;}
+.doc-row{display:flex;align-items:center;gap:1rem;padding:0.5rem 0;border-bottom:1px solid var(--border);font-size:0.85rem;}
+.doc-row:last-child{border-bottom:none;}
+.doc-icon{width:70px;font-size:0.75rem;font-weight:600;color:var(--text-muted);}
+.doc-name{flex:1;color:var(--text-dark);}
+.doc-date{font-size:0.75rem;color:var(--text-muted);}
+.wmod-notes-label{font-weight:700;font-size:0.85rem;color:var(--text-dark);margin-bottom:0.4rem;}
+.wmod-notes-text{font-size:0.85rem;color:var(--text-muted);font-style:italic;}
+.wmodal-footer{padding:1rem 1.5rem;border-top:2px solid var(--border);display:flex;justify-content:flex-end;}
+.btn-close{padding:0.6rem 1.5rem;background:var(--primary);color:var(--white);border:none;border-radius:8px;cursor:pointer;font-weight:600;}
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;}
+.divenc-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1200;align-items:center;justify-content:center;}
+.divenc-overlay.open{display:flex;}
+.divenc-modal{background:var(--white);border-radius:16px;width:95%;max-width:700px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.divenc-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:1.2rem 1.5rem;color:var(--white);display:flex;justify-content:space-between;align-items:center;}
+.divenc-header-title{font-family:'Poppins',sans-serif;font-size:1.1rem;font-weight:700;}
+.divenc-body{overflow-y:auto;padding:1.4rem;display:flex;flex-direction:column;gap:1rem;}
+.divenc-section{font-size:0.75rem;font-weight:700;color:var(--primary);letter-spacing:0.07em;text-transform:uppercase;padding-bottom:0.4rem;border-bottom:2px solid var(--border);margin-bottom:0.2rem;}
+.divenc-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.7rem;}
+.divenc-field{display:flex;flex-direction:column;gap:0.25rem;font-size:0.82rem;}
+.divenc-field label{font-weight:600;color:var(--text-dark);}
+.divenc-field input,.divenc-field select{border:1.5px solid var(--border);border-radius:7px;padding:0.4rem 0.6rem;font-size:0.82rem;font-family:inherit;transition:border-color 0.2s;}
+.divenc-field input:focus,.divenc-field select:focus{outline:none;border-color:var(--primary);}
+.divenc-full{grid-column:1/-1;}
+.divenc-doc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem;}
+.divenc-doc-row{display:grid;grid-template-columns:auto 1fr 1fr;gap:0.5rem;align-items:center;background:var(--accent);border-radius:8px;padding:0.5rem 0.7rem;}
+.divenc-doc-label{font-size:0.78rem;font-weight:600;color:var(--text-dark);white-space:nowrap;}
+.divenc-footer{padding:1rem 1.5rem;border-top:2px solid var(--border);display:flex;gap:0.8rem;justify-content:flex-end;}
+.btn-enc-save{padding:0.6rem 1.5rem;background:var(--primary);color:var(--white);border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.9rem;}
+.btn-enc-cancel{padding:0.6rem 1.2rem;background:transparent;color:var(--text-muted);border:1.5px solid var(--border);border-radius:8px;cursor:pointer;font-weight:600;font-size:0.9rem;}
+.btn-edit-worker{padding:0.5rem 1.1rem;background:#e8f5e9;color:var(--primary);border:1.5px solid var(--primary);border-radius:8px;cursor:pointer;font-weight:600;font-size:0.85rem;}
+.btn-edit-worker:hover{background:var(--primary);color:var(--white);}
+.divenc-msg{padding:0.5rem 0.8rem;border-radius:8px;font-size:0.85rem;font-weight:600;display:none;}
+.divenc-msg.success{display:block;background:#e8f5e9;color:#2e7d32;}
+.divenc-msg.error{display:block;background:#ffebee;color:#c62828;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--white);border-radius:16px;width:90%;max-width:800px;max-height:80vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.modal-header{background:var(--secondary);padding:1.5rem;border-bottom:2px solid var(--border);}
+.modal-header h3{color:var(--primary);}
+.modal-body{overflow-y:auto;padding:1.5rem;}
+.modal-footer{padding:1rem 1.5rem;border-top:2px solid var(--border);display:flex;justify-content:flex-end;}
+.wnew-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:2100;align-items:center;justify-content:center;}
+.wnew-overlay.open{display:flex;}
+.wnew-modal{background:var(--white);border-radius:20px;width:95%;max-width:640px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.25);animation:wnewSlide 0.4s ease;}
+@keyframes wnewSlide{from{transform:translateY(-30px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.wnew-header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);padding:2rem 2rem 1.5rem;text-align:center;color:var(--white);}
+.wnew-header .wnew-badge{display:inline-block;background:rgba(255,255,255,0.2);border-radius:20px;padding:0.3rem 1rem;font-size:0.75rem;font-weight:700;letter-spacing:0.08em;margin-bottom:0.8rem;}
+.wnew-header h2{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:0.4rem;}
+.wnew-header p{font-size:0.85rem;opacity:0.85;}
+.wnew-body{padding:1.8rem 2rem;max-height:70vh;overflow-y:auto;}
+.wnew-item{display:flex;gap:1rem;align-items:flex-start;padding:1rem 0;border-bottom:1px solid var(--border);}
+.wnew-item:last-child{border-bottom:none;}
+.wnew-item-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.2rem;}
+.wnew-item-icon.green{background:#E8F5E9;}
+.wnew-item-icon.amber{background:#FFF3E0;}
+.wnew-item-icon.blue{background:#E3F2FD;}
+.wnew-item-icon.purple{background:#F3E5F5;}
+.wnew-item-text strong{display:block;font-size:0.95rem;color:var(--text-dark);margin-bottom:0.3rem;}
+.wnew-item-text span{font-size:0.83rem;color:var(--text-muted);line-height:1.6;}
+.wnew-footer{padding:1.2rem 2rem 1.8rem;text-align:center;}
+.wnew-footer button{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-light) 100%);color:var(--white);border:none;border-radius:10px;padding:0.85rem 2.5rem;font-weight:700;font-size:0.95rem;cursor:pointer;width:100%;transition:all 0.3s;}
+.wnew-footer button:hover{box-shadow:0 6px 20px rgba(74,124,89,0.4);transform:translateY(-1px);}
+/* ── USER MANAGEMENT ──────────────────────────────────── */
+.um-section{background:var(--white);border-radius:14px;border:1.5px solid var(--border);padding:1.5rem;margin-bottom:1.2rem;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.um-section-title{font-size:0.78rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:1rem;padding-bottom:0.6rem;border-bottom:2px solid var(--border);}
+.um-script-row{display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.um-script-row span{font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;}
+.um-script-row input{flex:1;min-width:200px;border:1.5px solid var(--border);border-radius:8px;padding:0.4rem 0.7rem;font-size:0.82rem;font-family:inherit;}
+.um-script-row input:focus{outline:none;border-color:var(--primary);}
+.um-status-text{font-size:0.78rem;margin-top:0.4rem;}
+.um-add-grid{display:grid;grid-template-columns:1fr 1fr 1.2fr 0.8fr auto;gap:0.6rem;align-items:end;margin-bottom:0.8rem;}
+@media(max-width:700px){.um-add-grid{grid-template-columns:1fr 1fr;}}
+.um-add-grid input,.um-add-grid select{border:1.5px solid var(--border);border-radius:8px;padding:0.45rem 0.7rem;font-size:0.83rem;font-family:inherit;background:var(--white);}
+.um-add-grid input:focus,.um-add-grid select:focus{outline:none;border-color:var(--primary);}
+.um-add-grid label{font-size:0.75rem;font-weight:600;color:var(--text-dark);display:block;margin-bottom:0.2rem;}
+.um-add-grid .um-field{display:flex;flex-direction:column;}
+.btn-um-add{background:var(--primary);color:#fff;border:none;border-radius:8px;padding:0.48rem 1.2rem;font-weight:700;font-size:0.83rem;cursor:pointer;white-space:nowrap;align-self:end;}
+.btn-um-add:hover{background:var(--primary-light);}
+.um-msg{font-size:0.8rem;margin-top:0.5rem;padding:0.4rem 0.7rem;border-radius:6px;display:none;}
+.um-msg.success{display:block;background:#e8f5e9;color:#2e7d32;}
+.um-msg.error{display:block;background:#fff5f5;color:#c62828;}
+.um-table-wrap{overflow-x:auto;}
+.um-table{width:100%;border-collapse:collapse;font-size:0.83rem;}
+.um-table th{background:var(--accent);color:var(--primary);font-weight:700;padding:0.6rem 0.8rem;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;}
+.um-table td{padding:0.55rem 0.8rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+.um-table tr:last-child td{border-bottom:none;}
+.um-table tr:hover td{background:#f9fcf7;}
+.um-table select,.um-table input[type=text],.um-table input[type=password]{border:1.5px solid var(--border);border-radius:6px;padding:0.3rem 0.5rem;font-size:0.8rem;font-family:inherit;background:var(--white);width:100%;}
+.um-table select:focus,.um-table input:focus{outline:none;border-color:var(--primary);}
+.um-badge{display:inline-block;padding:0.18rem 0.6rem;border-radius:20px;font-size:0.72rem;font-weight:700;}
+.um-badge.active{background:#e8f5e9;color:#2e7d32;}
+.um-badge.inactive{background:#fce4e4;color:#c62828;}
+.btn-um-save{background:var(--primary);color:#fff;border:none;border-radius:6px;padding:0.3rem 0.9rem;font-weight:600;font-size:0.78rem;cursor:pointer;white-space:nowrap;}
+.btn-um-save:hover{background:var(--primary-light);}
+.btn-um-del{background:#fce4e4;color:#c62828;border:none;border-radius:6px;padding:0.3rem 0.7rem;font-weight:600;font-size:0.78rem;cursor:pointer;}
+.btn-um-del:hover{background:#f8d7d7;}
+.um-access-grid{display:flex;flex-wrap:wrap;gap:0.3rem 0.7rem;}
+.um-access-grid label{display:flex;align-items:center;gap:0.25rem;font-size:0.75rem;white-space:nowrap;cursor:pointer;}
+.um-access-grid input[type=checkbox]{width:14px;height:14px;accent-color:var(--primary);}
+.um-add-access{background:var(--accent);border-radius:8px;padding:0.7rem 0.9rem;margin-top:0.5rem;}
+.um-add-access .um-access-label{font-size:0.75rem;font-weight:700;color:var(--primary);margin-bottom:0.4rem;}
+</style>
+</head>
+<body>
+<div class="login-container" id="loginContainer">
+  <div class="login-wrapper">
+    <div class="login-brand">
+      <div class="login-brand-logo">
+        <div class="login-brand-logo-icon">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="none"/><path d="M8 24l4-8 4 4 4-6 4 10" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </div>
+      <h1>LANDBASE<br/><span>Human Resources</span></h1>
+      <div class="login-brand-sub">DMW Licensed · Monitoring System</div>
+      <div class="login-divider"></div>
+      <div class="login-features">
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <div class="login-feature-text"><strong>Employer Accreditations</strong><span>JO tracking, expiry alerts, status filters</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
+          <div class="login-feature-text"><strong>Worker & Deployment Tracking</strong><span>DeployHUB, document status, progress</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg></div>
+          <div class="login-feature-text"><strong>Division Monitoring</strong><span>Middle East · Asia Pacific · Europe</span></div>
+        </div>
+        <div class="login-feature">
+          <div class="login-feature-icon"><svg fill="none" stroke="white" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg></div>
+          <div class="login-feature-text"><strong>Walk-in Applicants</strong><span>Receptionist encoding · Project officer view</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="login-right">
+      <div class="login-box">
+        <div class="login-box-header">
+          <h2>Welcome Back</h2>
+          <p>Sign in to your designated account</p>
+        </div>
+        <form onsubmit="handleLogin(event)">
+          <div class="form-group"><label>Username</label><input type="text" id="username" autocomplete="username"/></div>
+          <div class="form-group"><label>Password</label><input type="password" id="password" autocomplete="current-password"/></div>
+          <button type="submit" class="btn-login">Sign In</button>
+          <div class="login-error" id="loginError"></div>
+        </form>
+        <div class="login-demo">
+          <strong>PLEASE LOG IN YOUR DESIGNATED DIVISION:</strong>
+          Forgot password? Contact Support LHRadmin
+          <div id="credsDebug" style="margin-top:0.5rem;font-size:0.75rem;color:#4A7C59;">Checking accounts...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<header class="hidden" id="header">
+  <div class="header-left">
+    <div class="header-logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#4A7C59"/><path d="M8 24l4-8 4 4 4-6 4 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>Landbase HR Management System</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-user">
+      <div class="user-avatar" id="userAvatar">LR</div>
+      <div class="user-info">
+        <strong id="userName">User</strong>
+        <span id="userRole"></span>
+      </div>
+    </div>
+    <button class="btn-logout" onclick="handleLogout()">LOGOUT</button>
+  </div>
+</header>
+<div class="sidebar hidden" id="sidebar">
+  <div class="sidebar-menu">
+    <div class="sidebar-divider">Main</div>
+    <div class="sidebar-item active" id="nav-acc" onclick="switchPage('acc')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+      Accreditation
+    </div>
+    <div class="sidebar-item" id="nav-wrk" onclick="switchPage('wrk')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      Workers
+    </div>
+    <div class="sidebar-divider" id="nav-divider-div">Divisions</div>
+    <div class="sidebar-item" id="nav-me" onclick="switchPage('me')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+      Middle East
+    </div>
+    <div class="sidebar-item" id="nav-ap" onclick="switchPage('ap')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+      Asia Pacific
+    </div>
+    <div class="sidebar-item" id="nav-eu" onclick="switchPage('eu')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
+      Europe
+    </div>
+    <div class="sidebar-item" id="nav-walkin" onclick="switchPage('walkin')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      Walk-in Applicants
+    </div>
+    <div class="sidebar-divider" id="nav-divider-tools">Tools</div>
+    <div class="sidebar-item" id="nav-enc" onclick="switchPage('enc')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+      Encoder / Update
+    </div>
+    <div class="sidebar-item" id="nav-users" onclick="switchPage('users')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+      User Management
+    </div>
+  </div>
+</div>
+<main class="hidden" id="mainApp">
+<div class="page active" id="page-acc">
+  <div class="page-header">
+    <div class="page-title">Employer Accreditations</div>
+    <div class="page-subtitle">DMW Licensed Accreditations &amp; Job Orders</div>
+  </div>
+  <div class="stats-container" id="statsContainer">
+    <div class="stat-box" onclick="filterByStatus('')" id="stat-all">
+      <div class="stat-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-2 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg></div>
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-label">Total Employers</div>
+    </div>
+    <div class="stat-box" onclick="filterByStatus('expiring')" id="stat-expiring">
+      <div class="stat-icon" style="background:#fff8e1;color:#f57c00;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div class="stat-value" id="statExpiring" style="color:#f57c00;">0</div>
+      <div class="stat-label">Employer Expiring Soon</div>
+    </div>
+    <div class="stat-box" onclick="filterByStatus('expired')" id="stat-expired">
+      <div class="stat-icon" style="background:#ffebee;color:#c62828;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+      <div class="stat-value" id="statExpired" style="color:#c62828;">0</div>
+      <div class="stat-label">Expired Employer</div>
+    </div>
+    <div class="stat-box" onclick="filterByJO('jo-expiring')" id="stat-jo-expiring">
+      <div class="stat-icon" style="background:#fff8e1;color:#f57c00;"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg></div>
+      <div class="stat-value" id="statJOExpiring" style="color:#f57c00;">0</div>
+      <div class="stat-label">JO Expiring Soon</div>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchInput" placeholder="Search employers..." oninput="applyFilters()"/>
+    </div>
+    <select class="dropdown" id="countryFilter" onchange="applyFilters()">
+      <option value="">All Countries</option>
+    </select>
+    <button class="btn-action" onclick="loadData()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div id="empList"><div class="loading">Loading employer data...</div></div>
+</div>
+<div class="page" id="page-wrk">
+  <div class="page-header">
+    <div class="page-title">DeployHUB</div>
+    <div class="page-subtitle">Track and manage worker deployment records</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWorkers" placeholder="Search workers..." oninput="loadWorkers()"/>
+    </div>
+  </div>
+  <div class="worker-list" id="workerList"><div class="loading">Click Workers to load...</div></div>
+</div>
+<div class="page" id="page-me">
+  <div class="page-header">
+    <div class="page-title">Middle East Division</div>
+    <div class="page-subtitle">Workers deployed to Middle East countries</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchME" placeholder="Search workers..." oninput="renderDivision('me')"/>
+    </div>
+    <button class="btn-action" onclick="loadDivisions()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+    <button class="btn-action" onclick="openDivEnc('me',null)">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Bagong Record
+    </button>
+  </div>
+  <div class="div-script-setup" id="meScriptSetup">
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">⚙️ ME Apps Script URL:</span>
+      <input type="text" id="meScriptUrlInput" placeholder="I-paste ang Google Apps Script /exec URL..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <button class="btn-action" style="white-space:nowrap;padding:8px 12px;font-size:0.8rem;" onclick="divSaveUrl('me')">✅ I-set</button>
+    </div>
+    <div id="meUrlStatus" style="font-size:0.78rem;margin-top:0.3rem;display:none;"></div>
+    <div id="meSetupNote" class="enc-setup-note" style="display:none;">⚠️ <strong>Setup needed:</strong> Walang Apps Script URL. Kailangan ito para gumana ang Bagong Record at I-edit.</div>
+  </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('me','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('me','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('me','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('me','expiry')">🔴 Expiry</button>
+  </div>
+  <div class="worker-list" id="meList"><div class="loading">Loading...</div></div>
+</div>
+<div class="page" id="page-ap">
+  <div class="page-header">
+    <div class="page-title">Asia Pacific Division</div>
+    <div class="page-subtitle">Workers deployed to Asia Pacific countries</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchAP" placeholder="Search workers..." oninput="renderDivision('ap')"/>
+    </div>
+    <button class="btn-action" onclick="loadDivisions()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+    <button class="btn-action" onclick="openDivEnc('ap',null)">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Bagong Record
+    </button>
+  </div>
+  <div class="div-script-setup" id="apScriptSetup">
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">⚙️ AP Apps Script URL:</span>
+      <input type="text" id="apScriptUrlInput" placeholder="I-paste ang Google Apps Script /exec URL..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <button class="btn-action" style="white-space:nowrap;padding:8px 12px;font-size:0.8rem;" onclick="divSaveUrl('ap')">✅ I-set</button>
+    </div>
+    <div id="apUrlStatus" style="font-size:0.78rem;margin-top:0.3rem;display:none;"></div>
+    <div id="apSetupNote" class="enc-setup-note" style="display:none;">⚠️ <strong>Setup needed:</strong> Walang Apps Script URL. Kailangan ito para gumana ang Bagong Record at I-edit.</div>
+  </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('ap','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('ap','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('ap','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('ap','expiry')">🔴 Expiry</button>
+  </div>
+  <div class="worker-list" id="apList"><div class="loading">Loading...</div></div>
+</div>
+<div class="page" id="page-eu">
+  <div class="page-header">
+    <div class="page-title">Europe Division</div>
+    <div class="page-subtitle">Workers deployed to European countries</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchEU" placeholder="Search workers..." oninput="renderDivision('eu')"/>
+    </div>
+    <button class="btn-action" onclick="loadDivisions()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+    <button class="btn-action" onclick="openDivEnc('eu',null)">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+      Bagong Record
+    </button>
+  </div>
+  <div class="div-script-setup" id="euScriptSetup">
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
+      <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">⚙️ EU Apps Script URL:</span>
+      <input type="text" id="euScriptUrlInput" placeholder="I-paste ang Google Apps Script /exec URL..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <button class="btn-action" style="white-space:nowrap;padding:8px 12px;font-size:0.8rem;" onclick="divSaveUrl('eu')">✅ I-set</button>
+    </div>
+    <div id="euUrlStatus" style="font-size:0.78rem;margin-top:0.3rem;display:none;"></div>
+    <div id="euSetupNote" class="enc-setup-note" style="display:none;">⚠️ <strong>Setup needed:</strong> Walang Apps Script URL. Kailangan ito para gumana ang Bagong Record at I-edit.</div>
+  </div>
+  <div class="div-filters">
+    <button class="btn-filter active" data-filter="" onclick="setDivFilter('eu','')">All</button>
+    <button class="btn-filter ready" data-filter="ready" onclick="setDivFilter('eu','ready')">✅ Ready for Deployment</button>
+    <button class="btn-filter incomplete" data-filter="incomplete" onclick="setDivFilter('eu','incomplete')">⚠️ Incomplete</button>
+    <button class="btn-filter expiry" data-filter="expiry" onclick="setDivFilter('eu','expiry')">🔴 Expiry</button>
+  </div>
+  <div class="worker-list" id="euList"><div class="loading">Loading...</div></div>
+</div>
+<div class="page" id="page-walkin">
+  <div class="page-header">
+    <div class="page-title">Walk-in Applicants</div>
+    <div class="page-subtitle">Applicants encoded by receptionist — for review by project offices</div>
+  </div>
+  <div class="controls">
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkin" placeholder="Search applicants..." oninput="renderWalkin()"/>
+    </div>
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkinPos" placeholder="Search position applied..." oninput="renderWalkin()"/>
+    </div>
+    <div class="search-box">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      <input type="text" id="searchWalkinSkills" placeholder="Search skills..." oninput="renderWalkin()"/>
+    </div>
+    <button class="btn-action" onclick="loadWalkin()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+      Refresh
+    </button>
+  </div>
+  <div id="walkinList"><div class="loading">Click Refresh to load applicants...</div></div>
+</div>
+<div class="page" id="page-enc">
+  <div class="page-header">
+    <div class="page-title">Encoder / Update</div>
+    <div class="page-subtitle">Mag-encode ng bagong applicant o i-update ang existing record</div>
+  </div>
+  <div class="enc-layout">
+    <div class="enc-search-panel">
+      <div class="enc-panel-title">🔍 Hanapin ang Record</div>
+      <div class="search-box" style="margin-bottom:0.8rem;">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        <input type="text" id="encSearch" placeholder="Maghanap ng pangalan..." oninput="encDoSearch()"/>
+      </div>
+      <div id="encResults" class="enc-results"><p class="enc-hint">I-type ang pangalan para maghanap</p></div>
+      <button class="btn-action" style="width:100%;margin-top:1rem;justify-content:center;" onclick="encClearForm()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        Bagong Record
+      </button>
+    </div>
+    <div class="enc-form-panel">
+      <div class="enc-panel-title" id="encFormTitle">📝 Bagong Walk-in Applicant</div>
+      <input type="hidden" id="encRowNum" value=""/>
+      <div class="enc-section-label">Personal Information</div>
+      <div class="enc-grid">
+        <div class="enc-field"><label>Last Name *</label><input type="text" id="ef_ln" placeholder="DELA CRUZ"/></div>
+        <div class="enc-field"><label>First Name *</label><input type="text" id="ef_fn" placeholder="MARIA"/></div>
+        <div class="enc-field"><label>Middle Name</label><input type="text" id="ef_mn" placeholder="S."/></div>
+        <div class="enc-field"><label>Date of Visit</label><input type="date" id="ef_dov"/></div>
+        <div class="enc-field"><label>Date of Birth</label><input type="date" id="ef_dob" oninput="encCalcAge()"/></div>
+        <div class="enc-field"><label>Age</label><input type="number" id="ef_age" placeholder="25"/></div>
+        <div class="enc-field"><label>Gender</label>
+          <select id="ef_gender"><option value="">--Select--</option><option>Male</option><option>Female</option></select>
+        </div>
+        <div class="enc-field"><label>Civil Status</label>
+          <select id="ef_civil"><option value="">--Select--</option><option>Single</option><option>Married</option><option>Widow</option><option>Separated</option></select>
+        </div>
+        <div class="enc-field enc-full"><label>Contact Number</label><input type="text" id="ef_contact" placeholder="09XXXXXXXXX"/></div>
+        <div class="enc-field enc-full"><label>Address</label><input type="text" id="ef_addr" placeholder="Street, Barangay, City"/></div>
+        <div class="enc-field enc-full"><label>Province / Region</label><input type="text" id="ef_province" placeholder="Metro Manila"/></div>
+      </div>
+      <div class="enc-section-label">Application Details</div>
+      <div class="enc-grid">
+        <div class="enc-field enc-full"><label>Position Applied *</label><input type="text" id="ef_pos" placeholder="Domestic Helper, Welder, Driver..."/></div>
+        <div class="enc-field"><label>Preferred Country</label><input type="text" id="ef_country" placeholder="Saudi Arabia, Japan..."/></div>
+        <div class="enc-field"><label>Work Experience (Years)</label><input type="number" id="ef_exp" placeholder="0"/></div>
+        <div class="enc-field enc-full"><label>Previous Employer</label><input type="text" id="ef_prev" placeholder="Pangalan ng dati nang pinagtrabauhan"/></div>
+        <div class="enc-field enc-full"><label>Highest Education</label><input type="text" id="ef_educ" placeholder="High School Graduate, College, Vocational..."/></div>
+        <div class="enc-field enc-full"><label>Skills / Specialization</label><input type="text" id="ef_skills" placeholder="Cooking, Cleaning, Welding, Driving..."/></div>
+      </div>
+      <div class="enc-section-label">Documents</div>
+      <div class="enc-grid">
+        <div class="enc-field"><label>Passport</label>
+          <select id="ef_passport"><option value="">--</option><option>Yes</option><option>No</option></select>
+        </div>
+        <div class="enc-field"><label>Passport Expiry</label><input type="date" id="ef_passexp"/></div>
+        <div class="enc-field"><label>NBI Clearance</label>
+          <select id="ef_nbi"><option value="">--</option><option>Yes</option><option>No</option></select>
+        </div>
+        <div class="enc-field"><label>Medical Certificate</label>
+          <select id="ef_med"><option value="">--</option><option>Yes</option><option>No</option></select>
+        </div>
+        <div class="enc-field"><label>TESDA / Training</label>
+          <select id="ef_tesda"><option value="">--</option><option>Yes</option><option>No</option></select>
+        </div>
+        <div class="enc-field"><label>Birth Certificate</label>
+          <select id="ef_birth"><option value="">--</option><option>Yes</option><option>No</option></select>
+        </div>
+      </div>
+      <div class="enc-section-label">⚙️ Apps Script URL (para sa pag-save)</div>
+      <div class="enc-grid">
+        <div class="enc-field enc-full" style="flex-direction:row;align-items:center;gap:0.6rem;">
+          <input type="text" id="encScriptUrlInput" placeholder="I-paste dito ang Google Apps Script Web App URL..." style="flex:1;"/>
+          <button class="btn-action" style="white-space:nowrap;padding:9px 14px;" onclick="encSaveUrlInline()">✅ I-set</button>
+        </div>
+        <div class="enc-field enc-full" id="encUrlStatus" style="font-size:0.8rem;color:var(--text-muted);display:none;"></div>
+      </div>
+      <div class="enc-section-label">Status & Assignment</div>
+      <div class="enc-grid">
+        <div class="enc-field"><label>Status</label>
+          <select id="ef_status"><option value="">--Select--</option><option>Available</option><option>Processing</option><option>Deployed</option><option>Cancelled</option><option>On Hold</option></select>
+        </div>
+        <div class="enc-field"><label>Assigned To (Project Officer)</label><input type="text" id="ef_assigned" placeholder="Pangalan ng Project Officer"/></div>
+        <div class="enc-field enc-full"><label>Remarks / Notes</label><textarea id="ef_notes" rows="3" placeholder="Mga karagdagang impormasyon..."></textarea></div>
+      </div>
+      <div class="enc-actions">
+        <div id="encMsg" class="enc-msg"></div>
+        <button class="btn-action enc-btn-save" onclick="encSubmit()">
+          <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          <span id="encBtnLabel">💾 I-save ang Record</span>
+        </button>
+      </div>
+      <div class="enc-setup-note" id="encSetupNote">
+        ⚠️ <strong>Setup needed:</strong> Para gumana ang pag-save, kailangan ng Google Apps Script URL.
+        <a href="#" onclick="encShowSetup()">Tingnan ang setup instructions →</a>
+      </div>
+    </div>
+  </div>
+  <div class="enc-setup-modal" id="encSetupModal" style="display:none;">
+    <div class="enc-setup-box">
+      <h3>🔧 Google Apps Script Setup</h3>
+      <p>Sundan ang mga hakbang na ito para ma-enable ang pag-save ng data sa Google Sheet:</p>
+      <ol>
+        <li>Buksan ang <a href="https://script.google.com" target="_blank">script.google.com</a></li>
+        <li>Gumawa ng bagong project → i-paste ang script mula sa <strong>encoder-script.gs</strong> file</li>
+        <li>I-click ang <strong>Deploy → New Deployment → Web App</strong></li>
+        <li>I-set ang "Execute as" = <strong>Me</strong> at "Who has access" = <strong>Anyone</strong></li>
+        <li>I-copy ang Web App URL at i-paste dito:</li>
+      </ol>
+      <input type="text" id="encScriptUrl" placeholder="https://script.google.com/macros/s/..." style="width:100%;padding:10px;border:2px solid var(--border);border-radius:8px;font-size:0.9rem;margin:0.8rem 0;"/>
+      <div style="display:flex;gap:1rem;">
+        <button class="btn-action" onclick="encSaveUrl()">✅ I-save ang URL</button>
+        <button class="btn-action" style="background:var(--text-muted);" onclick="encHideSetup()">Isara</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-users">
+  <div class="page-header">
+    <div class="page-title">👥 User Management</div>
+    <div class="page-subtitle">Mag-manage ng mga accounts at access levels</div>
+  </div>
+  <!-- Apps Script Setup -->
+  <div class="um-section">
+    <div class="um-section-title">⚙️ Credentials Apps Script URL</div>
+    <div class="um-script-row">
+      <span>Apps Script URL:</span>
+      <input type="text" id="umScriptUrlInput" placeholder="I-paste ang /exec URL ng Credentials Manager script..."/>
+      <button class="btn-action" onclick="umSaveUrl()">✅ I-set</button>
+    </div>
+    <div id="umUrlStatus" class="um-status-text"></div>
+  </div>
+  <!-- Add New User -->
+  <div class="um-section">
+    <div class="um-section-title">➕ Magdagdag ng Bagong User</div>
+    <div class="um-add-grid">
+      <div class="um-field"><label>Username</label><input type="text" id="um-new-user" placeholder="username"/></div>
+      <div class="um-field"><label>Password</label><input type="text" id="um-new-pass" placeholder="password"/></div>
+      <div class="um-field"><label>Role (display)</label><input type="text" id="um-new-role" placeholder="e.g. ME Encoder"/></div>
+      <div class="um-field"><label>Status</label>
+        <select id="um-new-status"><option value="Active">Active</option><option value="Inactive">Inactive</option></select>
+      </div>
+      <button class="btn-um-add" onclick="umAddUser()">➕ I-add</button>
+    </div>
+    <div class="um-add-access">
+      <div class="um-access-label">🔒 Access — piliin ang mga tab na makikita ng user:</div>
+      <div class="um-access-grid" id="um-new-access-grid">
+        <label><input type="checkbox" class="um-new-ac" value="1"/> 1. Accreditation</label>
+        <label><input type="checkbox" class="um-new-ac" value="2"/> 2. Workers</label>
+        <label><input type="checkbox" class="um-new-ac" value="3"/> 3. Middle East</label>
+        <label><input type="checkbox" class="um-new-ac" value="4"/> 4. Asia Pacific</label>
+        <label><input type="checkbox" class="um-new-ac" value="5"/> 5. Europe</label>
+        <label><input type="checkbox" class="um-new-ac" value="6"/> 6. Walk-in Applicants</label>
+        <label><input type="checkbox" class="um-new-ac" value="7"/> 7. Encoder / Update</label>
+        <label><input type="checkbox" class="um-new-ac" value="8"/> 8. User Management</label>
+      </div>
+    </div>
+    <div id="umAddMsg" class="um-msg"></div>
+  </div>
+  <!-- Users Table -->
+  <div class="um-section">
+    <div class="um-section-title" style="display:flex;justify-content:space-between;align-items:center;">
+      <span>👥 Mga Users</span>
+      <button class="btn-action" style="font-size:0.78rem;padding:0.3rem 0.9rem;" onclick="umRenderTable()">🔄 I-refresh</button>
+    </div>
+    <div class="um-table-wrap">
+      <table class="um-table" id="umTable">
+        <thead><tr><th>#</th><th>Username</th><th>Password</th><th>Role</th><th>Status</th><th>Access (tab numbers)</th><th>I-save</th></tr></thead>
+        <tbody id="umTableBody"><tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Walang data. I-set muna ang Apps Script URL.</td></tr></tbody>
+      </table>
+    </div>
+    <div id="umSaveMsg" class="um-msg"></div>
+  </div>
+</div>
+</main>
+<div class="wnew-overlay" id="wnewOverlay" onclick="closeWnew(event)">
+  <div class="wnew-modal" onclick="event.stopPropagation()">
+    <div class="wnew-header">
+      <div class="wnew-badge">&#x1F4E2; WHAT'S NEW</div>
+      <h2>Latest Updates</h2>
+      <p>Landbase HR Management System &mdash; New Features</p>
+    </div>
+    <div class="wnew-body">
+      <div class="wnew-item"><div class="wnew-item-icon amber">&#x26A0;&#xFE0F;</div><div class="wnew-item-text"><strong>Job Order Expiry Detection</strong><span>Automatic detection ng expiring at expired na Job Orders. May stat buttons sa Accreditation page para madaling makita ang affected employers.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F464;</div><div class="wnew-item-text"><strong>Google Sheet Account Management</strong><span>Ang mga account ay kinukuha mula sa Google Sheet. Pwede nang mag-manage ng users direkta sa Credentials sheet.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x1F30F;</div><div class="wnew-item-text"><strong>Division Pages — ME, Asia Pacific, Europe</strong><span>May filter buttons na Ready for Deployment, Incomplete, at Expiry para madaling makita ang status ng bawat worker per division.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon amber">&#x1F4C4;</div><div class="wnew-item-text"><strong>Document Tracking &amp; Incomplete Detection</strong><span>Nakikita na ang incomplete at expiring documents ng bawat worker. May progress bar at document status sa worker profile.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x2705;</div><div class="wnew-item-text"><strong>Deploy-Ready Workers</strong><span>Madaling ma-identify ang mga workers na pwede nang ma-deploy base sa document completion status nila.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F6B6;</div><div class="wnew-item-text"><strong>Walk-in Applicants Tab</strong><span>Bagong tab para sa mga walk-in applicants na ini-encode ng receptionist. Makikita ng project officers ang lahat ng applicants — kasama ang pangalan, position applied, preferred country, skills, documents, at status (Available / Processing / Deployed). May search by name, position, at skills.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x270F;&#xFE0F;</div><div class="wnew-item-text"><strong>Division Encode &amp; Update — ME, AP, EU</strong><span>Pwede nang mag-add ng bagong record at mag-edit ng existing worker direkta sa ME, Asia Pacific, at Europe tabs — hindi na kailangang lumabas sa system. May "+ Bagong Record" button at "✏️ I-edit" sa bawat worker profile.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon purple">&#x1F517;</div><div class="wnew-item-text"><strong>Separate Google Apps Script per Division</strong><span>Ang ME, AP, at EU ay may sariling Apps Script URL na maaaring i-set sa bawat tab. Kapag may error, madaling matukoy kung saang division ang problema. I-paste lang ang /exec URL sa settings ng bawat division.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon green">&#x1F4E5;</div><div class="wnew-item-text"><strong>Auto-Load ng Worker Data sa Edit Form</strong><span>Pag nag-i-edit ng worker, awtomatikong nalo-load na ang lahat ng existing data mula sa Google Sheet — pangalan, passport, posisyon, lahat ng document status at dates. Sinusuportahan ang Name, Passport, at checkbox-style status columns.</span></div></div>
+      <div class="wnew-item"><div class="wnew-item-icon blue">&#x1F9D1;</div><div class="wnew-item-text"><strong>Middle Name Field &amp; Mas Malaking Notes</strong><span>Naidagdag ang Middle Name field sa encode/edit form para sa mas kumpleto na impormasyon ng worker. Ang Notes field ay naging mas malaki (textarea) para makita ng buo ang mga remarks.</span></div></div>
+    </div>
+    <div class="wnew-footer"><button onclick="closeWnew()">Got it &mdash; Let's go! &#x1F680;</button></div>
+  </div>
+</div>
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-header"><h3>Job Order Positions</h3></div>
+    <div class="modal-body" id="modalBody"></div>
+    <div class="modal-footer"><button class="btn-close" onclick="closeModal()">Close</button></div>
+  </div>
+</div>
+<div class="wmodal-overlay" id="wmodalOverlay" onclick="closeWorkerModal(event)">
+  <div class="wmodal">
+    <div class="wmodal-header">
+      <div class="wmodal-title" id="wModalName">Worker Name</div>
+      <div class="wmodal-sub">Passport: <span id="wModalPass">-</span> &nbsp;|&nbsp; Position: <span id="wModalPos">-</span></div>
+    </div>
+    <div class="wmodal-body">
+      <div class="wmod-progress">
+        <div class="wmod-prog-header"><span class="wmod-prog-label">Document Completion</span><span class="wmod-prog-pct" id="wModalPct">0%</span></div>
+        <div class="wmod-prog-bar"><div class="wmod-prog-fill" id="wModalBar" style="width:0%"></div></div>
+        <div style="font-size:0.85rem;color:var(--text-muted);"><span id="wModalDone">0</span> of <span id="wModalTotal">0</span> documents complete</div>
+      </div>
+      <div class="wmod-docs"><div class="wmod-docs-title">Documents Status</div><div id="wModalDocs"></div></div>
+      <div class="wmod-notes"><div class="wmod-notes-label">Notes</div><div class="wmod-notes-text" id="wModalNotes">-</div></div>
+    </div>
+    <div class="wmodal-footer">
+      <button class="btn-edit-worker" id="wModalEditBtn" onclick="editCurrentWorker()">✏️ I-edit</button>
+      <button class="btn-close" onclick="closeWorkerModal()">Close</button>
+    </div>
+  </div>
+</div>
+<div class="divenc-overlay" id="divencOverlay" onclick="closeDivEnc(event)">
+  <div class="divenc-modal" onclick="event.stopPropagation()">
+    <div class="divenc-header">
+      <div class="divenc-header-title" id="divencTitle">📝 Bagong Record</div>
+      <button onclick="closeDivEnc()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;border-radius:6px;padding:0.3rem 0.7rem;cursor:pointer;font-size:1rem;">✕</button>
+    </div>
+    <div class="divenc-body">
+      <input type="hidden" id="divencDiv" value=""/>
+      <input type="hidden" id="divencRowNum" value=""/>
+      <div class="divenc-section">Personal Information</div>
+      <div class="divenc-grid">
+        <div class="divenc-field"><label>Last Name *</label><input type="text" id="de_ln" placeholder="DELA CRUZ"/></div>
+        <div class="divenc-field"><label>First Name *</label><input type="text" id="de_fn" placeholder="JUAN"/></div>
+        <div class="divenc-field"><label>Middle Name</label><input type="text" id="de_mn" placeholder=""/></div>
+        <div class="divenc-field"><label>Position / Trade *</label><input type="text" id="de_pos" placeholder="Electrician"/></div>
+        <div class="divenc-field"><label>Passport No / E-Reg No</label><input type="text" id="de_pass" placeholder="A1234567"/></div>
+        <div class="divenc-field"><label>Principal / Employer</label><input type="text" id="de_principal" placeholder="Company Name"/></div>
+        <div class="divenc-field"><label>Country Destination</label><input type="text" id="de_country" placeholder="Saudi Arabia"/></div>
+        <div class="divenc-field"><label>Contact Number</label><input type="text" id="de_contact" placeholder="09XXXXXXXXX"/></div>
+        <div class="divenc-field divenc-full"><label>Notes</label><textarea id="de_notes" placeholder="Remarks..." rows="3" style="border:1.5px solid var(--border);border-radius:7px;padding:0.4rem 0.6rem;font-size:0.82rem;font-family:inherit;resize:vertical;transition:border-color 0.2s;width:100%;box-sizing:border-box;" onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"></textarea></div>
+      </div>
+      <div class="divenc-section">Document Status</div>
+      <div class="divenc-doc-grid">
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Passport</span><select id="de_passstat"><option value="--">--</option><option>Active</option><option>Processing</option><option>In process</option><option>Pending</option><option>Expired</option></select><input type="date" id="de_passexp" title="Passport Expiry"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Medical</span><select id="de_medstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_meddate" title="Medical Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Training</span><select id="de_trainstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_traindate" title="Training Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Police</span><select id="de_policestat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_policedate" title="Police Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">NBI</span><select id="de_nbistat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_nbidate" title="NBI Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Visa</span><select id="de_visastat"><option value="--">--</option><option>Active</option><option>In process</option><option>Pending</option><option>Expired</option></select><input type="date" id="de_visadate" title="Visa Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Contract</span><select id="de_contrstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_contrdate" title="Contract Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Travel</span><select id="de_travstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_travdate" title="Travel Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Insurance</span><select id="de_insurstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_insurdate" title="Insurance Date"/></div>
+        <div class="divenc-doc-row"><span class="divenc-doc-label">Health Ins</span><select id="de_healthstat"><option value="--">--</option><option>Done</option><option>Pending</option><option>Incomplete</option><option>Expired</option></select><input type="date" id="de_healthdate" title="Health Ins Date"/></div>
+      </div>
+      <div id="divencMsg" class="divenc-msg"></div>
+    </div>
+    <div class="divenc-footer">
+      <button class="btn-enc-cancel" onclick="closeDivEnc()">Kanselahin</button>
+      <button class="btn-enc-save" onclick="submitDivEnc()" id="divencSaveBtn">💾 I-save</button>
+    </div>
+  </div>
+</div>
+<script>
+const ACCRED_SHEET_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
+const WORKERS_SHEET_ID='1XyyJTxjvdFSEcuGCf8_ubk-SrG3K_9pM0K9IEqdfEQk';
+const ME_ID='1ucGonDZJhyF36k-plfFrSjQ8Q6MFzcFt513YR6qztQk';
+const AP_ID='1XySHOIPeikZoGkTapmtUuE7rksmvX_gaZK697tqMCk4';
+const EU_ID='149jardAs0Khwf1_aIX-5MjQZ15Y1Vl24mG0vfSDXHWg';
+const CREDS_ID='1C_4fGjS6NKct6cUOI4ucrcNbvyjBON14NJt5Qgd25OU';
+let users={
+  'lhr_dh':'lanbasedh','lhr_germany':'germanylhr','lhrmdl':'lhrksa',
+  'lhrjapan':'faith2026','lhr_m':'mlhr','boobs':'07182022',
+  'jora090287':'abis2024','landbasejeneal':'neal01neal'
+};
+let roles={};
+let employers=[],jobOrders=[],positions=[],workers=[];
+let currentStatusFilter='',currentJOFilter='';
+let divWorkers={me:[],ap:[],eu:[]};
+const today=new Date();today.setHours(0,0,0,0);
+function escH(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+function gf(obj){
+  var keys=Object.keys(obj),a=Array.prototype.slice.call(arguments,1);
+  for(var i=0;i<a.length;i++){
+    var kl=a[i].toLowerCase().trim();
+    var found=keys.find(function(ok){return ok.toLowerCase().trim()===kl;});
+    if(found&&obj[found]) return obj[found];
+  }
+  return '';
+}
+function normId(s){return String(s||'').trim().replace(/\.0+$/,'').replace(/,/g,'');}
+function parseDate(str){
+  if(!str) return null;
+  var s=String(str).trim();
+  var mg=s.match(/^Date\((\d+),(\d+),(\d+)\)/);
+  if(mg) return new Date(+mg[1],+mg[2],+mg[3]);
+  var mo={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  var m1=s.match(/(\d{1,2})\s+([A-Za-z]{3})\w*\.?\s+(\d{4})/);
+  if(m1) return new Date(+m1[3],mo[m1[2].toLowerCase().slice(0,3)],+m1[1]);
+  var m2=s.match(/(\d{4})-(\d{2})-(\d{2})/);
+  if(m2) return new Date(+m2[1],+m2[2]-1,+m2[3]);
+  var m3=s.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m3) return new Date(+m3[3],+m3[1]-1,+m3[2]);
+  var m4=s.match(/(\d{4})\/(\d{2})\/(\d{2})/);
+  if(m4) return new Date(+m4[1],+m4[2]-1,+m4[3]);
+  var m5=s.match(/([A-Za-z]{3})\w*\.?\s+(\d{1,2}),?\s+(\d{4})/);
+  if(m5) return new Date(+m5[3],mo[m5[1].toLowerCase().slice(0,3)],+m5[2]);
+  return null;
+}
+function computeStatus(expStr){
+  var d=parseDate(expStr);
+  if(!d) return 'active';
+  var diff=Math.floor((d-today)/(1000*60*60*24));
+  if(diff<0) return 'expired';
+  if(diff<=90) return 'expiring';
+  return 'active';
+}
+async function fetchSheet(id,sheet){
+  var url='https://docs.google.com/spreadsheets/d/'+id+'/gviz/tq?tqx=out:json&sheet='+encodeURIComponent(sheet);
+  var res=await fetch(url);
+  var txt=await res.text();
+  var raw=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+  if(!raw) throw new Error('Cannot fetch '+sheet);
+  var json=JSON.parse(raw[1]);
+  if(!json.table||!json.table.cols) return [];
+  var cols=json.table.cols.map(function(c){return c.label.trim();});
+  console.log('Sheet ['+sheet+'] columns:', cols);
+  return (json.table.rows||[]).filter(function(r){return r&&r.c&&r.c.some(function(c){return c&&(c.v||c.f);});}).map(function(r){
+    var obj={};
+    r.c.forEach(function(cell,i){
+      if(cols[i]){
+        var val='';
+        if(cell){
+          if(cell.f!=null&&cell.f!=='') val=String(cell.f);
+          else if(cell.v!=null&&cell.v!=='') val=String(cell.v);
+        }
+        obj[cols[i]]=val;
+      }
+    });
+    return obj;
+  });
+}
+function parseCSVLine(line){
+  var result=[],cur='',inQ=false;
+  for(var i=0;i<line.length;i++){
+    var ch=line[i];
+    if(ch==='"'){inQ=!inQ;}
+    else if(ch===','&&!inQ){result.push(cur.trim());cur='';}
+    else{cur+=ch;}
+  }
+  result.push(cur.trim());
+  return result;
+}
+async function loadCredentials(){
+  var dbg=document.getElementById('credsDebug');
+  if(dbg) dbg.textContent='Loading accounts...';
+  var loaded={},loadedRoles={},loadedAccess={};
+  umUsersData=[];
+  function parseRows(txt){
+    var lines=txt.trim().split(/\r?\n/);
+    for(var i=1;i<lines.length;i++){
+      if(!lines[i].trim()) continue;
+      var cols=parseCSVLine(lines[i]);
+      var u=(cols[0]||'').trim();
+      var p=(cols[1]||'').trim();
+      var r=(cols[2]||'').trim();
+      var st=(cols[3]||'Active').trim();
+      var ac=(cols[4]||'').trim(); // column E: access numbers e.g. "1,2,3,5,7"
+      if(!u||!p) continue;
+      var accessNums=ac?ac.split(',').map(function(n){return n.trim();}).filter(Boolean):[];
+      // Store all users for User Management (including inactive)
+      umUsersData.push({username:u,password:p,role:r,status:st,access:ac,rowNum:i+1});
+      // For login, skip inactive
+      if(st.toLowerCase()==='inactive'||st.toLowerCase()==='disabled') continue;
+      loaded[u.toLowerCase()]=p;
+      if(r) loadedRoles[u.toLowerCase()]=r;
+      if(accessNums.length) loadedAccess[u.toLowerCase()]=accessNums;
+    }
+  }
+  try{
+    var r1=await fetch('https://docs.google.com/spreadsheets/d/'+CREDS_ID+'/export?format=csv&sheet=Credentials',{redirect:'follow'});
+    if(r1.ok) parseRows(await r1.text());
+  }catch(e1){console.warn('export failed:',e1);}
+  if(!Object.keys(loaded).length){
+    try{
+      var r2=await fetch('https://docs.google.com/spreadsheets/d/'+CREDS_ID+'/gviz/tq?tqx=out:csv&sheet=Credentials');
+      if(r2.ok) parseRows(await r2.text());
+    }catch(e2){console.warn('gviz csv failed:',e2);}
+  }
+  var cnt=Object.keys(loaded).length;
+  if(cnt){
+    users=loaded;roles=loadedRoles;userAccess=loadedAccess;
+    if(dbg){dbg.style.color='green';dbg.textContent='Sheet accounts loaded: '+cnt+' active users';}
+  } else {
+    if(dbg) dbg.textContent='Using default accounts (sheet unavailable)';
+  }
+}
+function handleLogin(e){
+  e.preventDefault();
+  var u=document.getElementById('username').value.trim().toLowerCase();
+  var p=document.getElementById('password').value;
+  var err=document.getElementById('loginError');
+  var match=Object.keys(users).find(function(k){return k.toLowerCase()===u;});
+  if(match&&users[match]===p){
+    sessionUser=match;
+    sessionRole=roles[match]||'';
+    err.style.display='none';
+    // ── LOGIN AUDIT LOG (silent background) ──
+    if(umScriptUrl){
+      fetch(umScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify({action:'log',username:match,role:sessionRole})})}).catch(function(){});
+    }
+    showApp();loadData();loadDivisions();
+    setTimeout(showWnew,400);
+  }else{
+    err.textContent='Invalid username or password';
+    err.style.display='block';
+  }
+}
+function handleLogout(){
+  sessionUser='';sessionRole='';
+  location.reload();
+}
+function showApp(){
+  document.getElementById('loginContainer').classList.add('hidden');
+  document.getElementById('header').classList.remove('hidden');
+  document.getElementById('sidebar').classList.remove('hidden');
+  document.getElementById('mainApp').classList.remove('hidden');
+  var u=sessionUser||'User';
+  var r=sessionRole||'';
+  document.getElementById('userName').textContent=u.toUpperCase();
+  document.getElementById('userAvatar').textContent=u.substring(0,2).toUpperCase();
+  var roleEl=document.getElementById('userRole');
+  if(roleEl) roleEl.textContent=r||u.toUpperCase();
+  applyRoleAccess(r);
+}
+// Page number map: 1=Acc,2=Workers,3=ME,4=AP,5=EU,6=Walk-in,7=Encoder,8=User Mgmt
+var PAGE_MAP=[
+  {n:'1',pg:'acc',nav:'nav-acc'},
+  {n:'2',pg:'wrk',nav:'nav-wrk'},
+  {n:'3',pg:'me', nav:'nav-me'},
+  {n:'4',pg:'ap', nav:'nav-ap'},
+  {n:'5',pg:'eu', nav:'nav-eu'},
+  {n:'6',pg:'walkin',nav:'nav-walkin'},
+  {n:'7',pg:'enc',nav:'nav-enc'},
+  {n:'8',pg:'users',nav:'nav-users'}
+];
+function applyRoleAccess(role){
+  var access=userAccess[sessionUser.toLowerCase()]||[];
+  // If no access numbers in sheet → full access (backward compatible)
+  var hasAll=access.length===0;
+  function can(n){return hasAll||access.indexOf(String(n))>=0;}
+  function vis(id,show){var el=document.getElementById(id);if(el)el.style.display=show?'':'none';}
+  // Show/hide each nav item
+  PAGE_MAP.forEach(function(p){vis(p.nav,can(p.n));});
+  // Dividers
+  vis('nav-divider-div',can(3)||can(4)||can(5));
+  vis('nav-divider-tools',can(7)||can(8));
+  // Auto-navigate to first accessible page in order
+  var first=null;
+  for(var i=0;i<PAGE_MAP.length;i++){
+    if(can(PAGE_MAP[i].n)){first=PAGE_MAP[i].pg;break;}
+  }
+  if(first) switchPage(first);
+  if(can(8)) umCheckSetup();
+}
+var sessionUser='',sessionRole='';
+var userAccess={}; // username → ['1','2','3',...] from Credentials col E
+window.addEventListener('load',async function(){
+  await loadCredentials();
+  divInitSetup();
+});
+function switchPage(pg){
+  // Access guard — block if user doesn't have access to this page
+  var pgNum=PAGE_MAP.find(function(p){return p.pg===pg;});
+  if(pgNum&&sessionUser){
+    var acc=userAccess[sessionUser.toLowerCase()]||[];
+    if(acc.length&&acc.indexOf(pgNum.n)<0) return; // blocked
+  }
+  document.querySelectorAll('.page').forEach(function(x){x.classList.remove('active');});
+  document.querySelectorAll('.sidebar-item').forEach(function(x){x.classList.remove('active');});
+  var pageEl=document.getElementById('page-'+pg);
+  if(pageEl) pageEl.classList.add('active');
+  var navEl=document.getElementById('nav-'+pg);
+  if(navEl) navEl.classList.add('active');
+  if(pg==='wrk') loadWorkers();
+  if(pg==='walkin') loadWalkin();
+  if(pg==='enc'){encCheckSetup();encClearForm();if(!walkinData.length)loadWalkin();}
+  if(pg==='users'){umCheckSetup();}
+}
+async function loadData(){
+  document.getElementById('empList').innerHTML='<div class="loading">Loading employer data...</div>';
+  try{
+    var results=await Promise.all([
+      fetchSheet(ACCRED_SHEET_ID,'Sheet1'),
+      fetchSheet(ACCRED_SHEET_ID,'Sheet2'),
+      fetchSheet(ACCRED_SHEET_ID,'Sheet3')
+    ]);
+    employers=results[0];jobOrders=results[1];positions=results[2];
+    updateStats();
+    populateCountryFilter();
+    applyFilters();
+  }catch(e){
+    document.getElementById('empList').innerHTML='<div class="loading">Error loading data: '+escH(e.message)+'</div>';
+  }
+}
+function updateStats(){
+  var s={active:0,expiring:0,expired:0};
+  employers.forEach(function(e){var st=computeStatus(gf(e,'Valid Until','Validity','Expiry Date','Expiry','Date of Expiry','Expiration Date'));s[st]=(s[st]||0)+1;});
+  document.getElementById('statTotal').textContent=employers.length;
+  document.getElementById('statExpiring').textContent=s.expiring||0;
+  document.getElementById('statExpired').textContent=s.expired||0;
+  var jos={expiring:0,expired:0};
+  jobOrders.forEach(function(j){var st=computeStatus(gf(j,'Valid Until'));if(st==='expiring') jos.expiring++;if(st==='expired') jos.expired++;});
+  document.getElementById('statJOExpiring').textContent=jos.expiring;
+  var bExp=document.getElementById('stat-expiring');
+  var bExpd=document.getElementById('stat-expired');
+  var bJO=document.getElementById('stat-jo-expiring');
+  bExp.classList.toggle('highlight-warn',s.expiring>0);
+  bExpd.classList.toggle('highlight-danger',s.expired>0);
+  bJO.classList.toggle('highlight-warn',jos.expiring>0);
+}
+function populateCountryFilter(){
+  var sel=document.getElementById('countryFilter');
+  var countries=[...new Set(employers.map(function(e){return gf(e,'Country','Country Name','Nation','Destination','Destination Country','Host Country');}).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">All Countries</option>'+countries.map(function(c){return '<option value="'+escH(c)+'">'+escH(c)+'</option>';}).join('');
+}
+function filterByStatus(val){currentStatusFilter=val;currentJOFilter='';applyFilters();}
+function filterByJO(val){currentJOFilter=val;currentStatusFilter='';applyFilters();}
+function applyFilters(){
+  var q=(document.getElementById('searchInput').value||'').toLowerCase();
+  var country=document.getElementById('countryFilter').value;
+  var filtered=employers.filter(function(e){
+    var name=gf(e,'Employer Name').toLowerCase();
+    var accid=normId(gf(e,'Accreditation ID')).toLowerCase();
+    var matchQ=!q||name.includes(q)||accid.includes(q);
+    var matchC=!country||gf(e,'Country')===country;
+    var matchS=!currentStatusFilter||computeStatus(gf(e,'Valid Until','Validity','Expiry Date','Expiry','Date of Expiry','Expiration Date'))===currentStatusFilter;
+    var matchJO=true;
+    if(currentJOFilter){
+      var joSt=currentJOFilter==='jo-expiring'?'expiring':'expired';
+      var aid=normId(gf(e,'Accreditation ID'));
+      matchJO=jobOrders.some(function(j){return normId(gf(j,'Accreditation ID'))===aid&&computeStatus(gf(j,'Valid Until'))===joSt;});
+    }
+    return matchQ&&matchC&&matchS&&matchJO;
+  });
+  document.querySelectorAll('.stat-box').forEach(function(b){b.classList.remove('active');});
+  if(currentStatusFilter){
+    var mp={active:'stat-active',expiring:'stat-expiring',expired:'stat-expired'};
+    var el=document.getElementById(mp[currentStatusFilter]);if(el) el.classList.add('active');
+  } else if(currentJOFilter){
+    var el2=document.getElementById('stat-jo-'+(currentJOFilter==='jo-expiring'?'expiring':'expired'));
+    if(el2) el2.classList.add('active');
+  } else {
+    var el3=document.getElementById('stat-all');if(el3) el3.classList.add('active');
+  }
+  renderEmps(filtered);
+  if(currentJOFilter){
+    var joSt2=currentJOFilter==='jo-expiring'?'expiring':'expired';
+    setTimeout(function(){
+      document.querySelectorAll('.jo-panel').forEach(function(panel){
+        var ch=panel.previousElementSibling&&panel.previousElementSibling.querySelector('.emp-chevron');
+        renderJO(panel,joSt2);panel.dataset.loaded='1';panel.classList.add('open');
+        if(ch) ch.classList.add('open');
+      });
+    },50);
+  }
+}
+function renderEmps(list){
+  if(!list.length){document.getElementById('empList').innerHTML='<div class="loading">No employers found.</div>';return;}
+  document.getElementById('empList').innerHTML=list.map(function(e){
+    var name=gf(e,'Employer Name');
+    var acc=gf(e,'Accreditation ID');
+    var country=gf(e,'Country');
+    var valid=gf(e,'Valid Until','Validity','Expiry Date','Expiry','Date of Expiry','Expiration Date');
+    var st=computeStatus(valid);
+    var joCount=jobOrders.filter(function(j){return normId(gf(j,'Accreditation ID'))===normId(acc);}).length;
+    return '<div class="emp-card">'
+      +'<div class="emp-header" onclick="toggleEmp(this)">'
+      +'<svg class="emp-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>'
+      +'<div class="emp-avatar">'+escH((name||'?').charAt(0).toUpperCase())+'</div>'
+      +'<div class="emp-info">'
+      +'<div class="emp-name">'+escH(name)+'</div>'
+      +'<div class="emp-meta">'
+      +'<span>ID: '+escH(normId(acc))+'</span>'
+      +(country?'<span>'+escH(country)+'</span>':'')
+      +(valid?'<span>Valid Until: '+escH(valid)+'</span>':'')
+      +'<span>JOs: '+joCount+'</span>'
+      +'</div></div>'
+      +'<span class="emp-status'+((st==='expired'||st==='expiring')?' '+st:'')+'">'+st.charAt(0).toUpperCase()+st.slice(1)+'</span>'
+      +'</div>'
+      +'<div class="jo-panel" data-accid="'+escH(normId(acc))+'"></div>'
+      +'</div>';
+  }).join('');
+}
+function toggleEmp(header){
+  var panel=header.nextElementSibling;
+  var ch=header.querySelector('.emp-chevron');
+  var isOpen=panel.classList.contains('open');
+  if(isOpen){panel.classList.remove('open');ch.classList.remove('open');}
+  else{
+    panel.classList.add('open');ch.classList.add('open');
+    if(!panel.dataset.loaded){renderJO(panel,'');panel.dataset.loaded='1';}
+  }
+}
+function getJONum(j){return gf(j,'JO Number','Job Order Number','JO No','JO#','JO No.','Order Number','Order No','JO Num','JO');}
+function getJOPos(j){return gf(j,'Position Title','Position','Job Position','Occupation','Trade','Position Applied');}
+function getJOQty(j){return gf(j,'Quantity','Qty','No. of Workers','Workers','Slots','No of Workers','Num Workers','Vacancy','No.');}
+function renderJO(panel,filterSt){
+  var accId=normId(panel.dataset.accid);
+  var jos=jobOrders.filter(function(j){return normId(gf(j,'Accreditation ID'))===accId;});
+  if(filterSt) jos=jos.filter(function(j){return computeStatus(gf(j,'Valid Until'))===filterSt;});
+  if(!jos.length){panel.innerHTML='<p style="color:var(--text-muted);font-size:0.85rem;padding:0.5rem 0;">No job orders'+(filterSt?' ('+filterSt+')':'')+' found.</p>';return;}
+  if(jos.length&&!getJONum(jos[0])){
+    var firstKeys=Object.keys(jos[0]);
+    console.log('JO columns (first row):', firstKeys, jos[0]);
+  }
+  var posMap={};
+  positions.forEach(function(ps){
+    var id=normId(getJONum(ps)||gf(ps,'JO Number','Job Order Number','JO No','JO#'));
+    if(!posMap[id]) posMap[id]=[];
+    posMap[id].push(ps);
+  });
+  panel.innerHTML='<table class="jo-table"><thead><tr><th>JO ID</th><th>DIRECT EMPLOYER</th><th>STATUS</th><th>DATE APPROVED</th><th>VALID UNTIL</th></tr></thead><tbody>'
+    +jos.map(function(j){
+      var joNum=getJONum(j);
+      if(!joNum){var keys=Object.keys(j);var fb=keys.find(function(k){return k!=='Accreditation ID'&&k!=='Valid Until'&&j[k];});joNum=fb?j[fb]:'';}
+      var st=computeStatus(gf(j,'Valid Until'));
+      var directEmp=gf(j,'Direct Employer','Employer','Employer Name','Direct Employer Name','Principal','Company','Name of Employer','Employer/Agency','Agency','Name');
+      if(!directEmp){console.log('Sheet2 JO row keys:',Object.keys(j),j);}
+      var dateApproved=gf(j,'Date Approved','Approval Date','Date of Approval','Approved Date','Date Issued','Issue Date','JO Date');
+      var valid=gf(j,'Valid Until');
+      var posCount=(posMap[normId(joNum)]||[]).length;
+      return '<tr class="'+(st==='expiring'?'expiring':st==='expired'?'expired':'')+'">'
+        +'<td><a href="#" onclick="showPositions(event,\''+escH(normId(joNum))+'\')">'+escH(joNum)+'</a>'+(posCount?' <small>('+posCount+')</small>':'')+'</td>'
+        +'<td>'+escH(directEmp||'-')+'</td>'
+        +'<td><span class="badge badge-'+st+'">'+st+'</span></td>'
+        +'<td>'+escH(dateApproved)+'</td>'
+        +'<td>'+escH(valid)+'</td>'
+        +'</tr>';
+    }).join('')+'</tbody></table>';
+}
+function showPositions(e,joNum){
+  e.preventDefault();
+  console.log('showPositions joNum='+joNum,'positions count='+positions.length,positions.length?'cols:'+Object.keys(positions[0]).join(','):'');
+  var ps=positions.filter(function(p){return normId(getJONum(p))===normId(joNum);});
+  if(!ps.length){
+    ps=positions.filter(function(p){return Object.values(p).some(function(v){return normId(v)===normId(joNum);});});
+  }
+  if(!ps.length){alert('No positions found for JO: '+joNum);return;}
+  var cols=ps.length?Object.keys(ps[0]):[];
+  document.getElementById('modalBody').innerHTML='<table class="jo-table"><thead><tr>'+cols.map(function(c){return '<th>'+escH(c)+'</th>';}).join('')+'</tr></thead><tbody>'
+    +ps.map(function(row){return '<tr>'+cols.map(function(c){return '<td>'+escH(row[c]||'')+'</td>';}).join('')+'</tr>';}).join('')+'</tbody></table>';
+  document.getElementById('modalOverlay').classList.add('open');
+}
+function closeModal(e){if(!e||e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open');}
+async function loadWorkers(){
+  var el=document.getElementById('workerList');
+  if(!workers.length){
+    el.innerHTML='<div class="loading">Loading workers...</div>';
+    try{workers=await fetchSheet(WORKERS_SHEET_ID,'Sheet1');}
+    catch(e){el.innerHTML='<div class="loading">Error: '+escH(e.message)+'</div>';return;}
+  }
+  var q=(document.getElementById('searchWorkers').value||'').toLowerCase();
+  var filtered=workers.filter(function(w){
+    var name=(gf(w,'First Name','Full Name','Name','Worker Name')+' '+(gf(w,'Last Name','Surname','')||'')).trim().toLowerCase();
+    var ereg=(gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #')||'').toLowerCase();
+    var princ=(gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer')||'').toLowerCase();
+    var pos=(gf(w,'Position','Position Title','Trade','Occupation')||'').toLowerCase();
+    return !q||name.includes(q)||ereg.includes(q)||princ.includes(q)||pos.includes(q);
+  });
+  if(!filtered.length){el.innerHTML='<div class="loading">No workers found.</div>';return;}
+  el.innerHTML='<div class="deploy-grid">'+filtered.map(function(w){
+    var name=(gf(w,'First Name','Full Name','Name','Worker Name')+' '+(gf(w,'Last Name','Surname','')||'')).trim()||gf(w,'Full Name','Name','Worker Name');
+    var ereg=gf(w,'EReg No','E-Reg No','EReg','Reg No','E-Reg #','Registration No');
+    var pos=gf(w,'Position','Position Title','Trade','Occupation');
+    var stat=gf(w,'Status','Deployment Status','Deploy Status');
+    var principal=gf(w,'Principal','Principal Employer','Employer','Company','Agency','Agency Name','Principal Name','Employer Name','Name of Employer');
+    var dur=gf(w,'Duration','Contract Duration','Contract Length');
+    var payDate=gf(w,'Payment Date','Date of Payment','Pay Date');
+    var depDate=gf(w,'Deployment Date','Date of Deployment','Deploy Date','Date Deployed');
+    return '<div class="deploy-card">'
+      +'<div class="deploy-card-name">'+escH(name)+'</div>'
+      +'<div class="deploy-fields">'
+      +'<div class="deploy-field full"><span class="deploy-label">E-REG #</span><span class="deploy-val">'+escH(ereg)+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">PRINCIPAL</span><span class="deploy-val">'+escH(principal||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">POSITION</span><span class="deploy-val">'+escH(pos||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">STATUS</span><span class="deploy-val">'+escH(stat||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">DURATION</span><span class="deploy-val">'+escH(dur||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PAYMENT DATE</span><span class="deploy-val">'+escH(payDate||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">DEPLOYMENT DATE</span><span class="deploy-val">'+escH(depDate||'-')+'</span></div>'
+      +'</div>'
+      +'</div>';
+  }).join('')+'</div>';
+}
+async function loadDivisions(){
+  ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Loading...</div>';});
+  try{
+    var results=await Promise.all([fetchSheet(ME_ID,'Workers'),fetchSheet(AP_ID,'Workers'),fetchSheet(EU_ID,'Workers')]);
+    divWorkers.me=results[0];divWorkers.ap=results[1];divWorkers.eu=results[2];
+    renderDivision('me');renderDivision('ap');renderDivision('eu');
+  }catch(e){
+    ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Error loading data.</div>';});
+  }
+}
+var divFilters={me:'',ap:'',eu:''};
+function setDivFilter(d,f){
+  divFilters[d]=f;
+  document.querySelectorAll('#page-'+d+' .btn-filter').forEach(function(b){
+    b.classList.remove('active');
+    if(b.dataset.filter===f) b.classList.add('active');
+  });
+  renderDivision(d);
+}
+function renderDivision(d){
+  var listId={me:'meList',ap:'apList',eu:'euList'}[d];
+  var searchId={me:'searchME',ap:'searchAP',eu:'searchEU'}[d];
+  var el=document.getElementById(listId);
+  var data=divWorkers[d];
+  var srch=document.getElementById(searchId);
+  var q=srch?(srch.value||'').toLowerCase():'';
+  var df=divFilters[d]||'';
+  var w=data.map(function(r){
+    var fn=gf(r,'First Name','Firstname','Given Name','GivenName');
+    var ln=gf(r,'Last Name','Lastname','Surname','Family Name');
+    var fullName=gf(r,'Full Name','Name','Worker Name','Employee Name')||(fn+' '+ln).trim();
+    var pass=gf(r,'Passport No','Passport Number','Passport #','E-Reg No','EReg No','EReg','Reg No','Registration No');
+    var pos=gf(r,'Position','Position Title','Job Position','Trade','Occupation');
+    if(!fullName) console.log('Worker row sample:', Object.keys(r), r);
+    return {n:fullName,p:pass,pos:pos,raw:r};
+  });
+  if(q) w=w.filter(function(x){return x.n.toLowerCase().includes(q)||x.p.toLowerCase().includes(q);});
+  if(df){
+    w=w.filter(function(x){
+      var docs=getWorkerDocs(x.raw);
+      var done=docs.filter(function(dc){return dc.status&&dc.status!=='--'&&dc.status.toLowerCase()!=='pending'&&dc.status.toLowerCase()!=='incomplete';}).length;
+      if(df==='ready') return done===docs.length;
+      if(df==='incomplete') return done<docs.length;
+      if(df==='expiry') return docs.some(function(dc){var s=computeStatus(dc.date);return s==='expiring'||s==='expired';});
+      return true;
+    });
+  }
+  if(!w.length){el.innerHTML='<div class="loading">No workers found.</div>';return;}
+  el.innerHTML=w.map(function(x){
+    var docs=getWorkerDocs(x.raw);
+    var done=docs.filter(function(dc){return dc.status&&dc.status!=='--'&&dc.status.toLowerCase()!=='pending'&&dc.status.toLowerCase()!=='incomplete';}).length;
+    var pct=Math.round(done/docs.length*100);
+    var origIdx=divWorkers[d].indexOf(x.raw);
+    return '<div class="worker-card" onclick="showWorkerModal(\''+d+'\','+origIdx+')">'
+      +'<div class="worker-info"><span class="worker-name">'+escH(x.n)+'</span><span class="worker-pos">'+escH(x.pos)+'</span></div>'
+      +'<div class="worker-meta"><span class="worker-pass">'+escH(x.p)+'</span>'
+      +'<div class="worker-prog"><div class="worker-prog-fill" style="width:'+pct+'%"></div></div>'
+      +'<span class="worker-pct">'+pct+'%</span></div></div>';
+  }).join('');
+}
+function getWorkerDocs(r){
+  return [
+    {name:'Passport',  status:gf(r,'Passport Status') ||'--',date:gf(r,'Passport Expiry') ||'-'},
+    {name:'Medical',   status:gf(r,'Medical Status')  ||'--',date:gf(r,'Medical Date')    ||'-'},
+    {name:'Training',  status:gf(r,'Training Status') ||'--',date:gf(r,'Training Date')   ||'-'},
+    {name:'Police',    status:gf(r,'Police Status')   ||'--',date:gf(r,'Police Date')     ||'-'},
+    {name:'NBI',       status:gf(r,'NBI Status')      ||'--',date:gf(r,'NBI Date')        ||'-'},
+    {name:'Visa',      status:gf(r,'Visa Status')     ||'--',date:gf(r,'Visa Date')       ||'-'},
+    {name:'Contract',  status:gf(r,'Contract Status') ||'--',date:gf(r,'Contract Date')   ||'-'},
+    {name:'Travel',    status:gf(r,'Travel Status')   ||'--',date:gf(r,'Travel Date')     ||'-'},
+    {name:'Insurance', status:gf(r,'Insur Status')    ||'--',date:gf(r,'Insur Date')      ||'-'},
+    {name:'Health Ins',status:gf(r,'Health Insur Status')||'--',date:gf(r,'Health Insur Date')||'-'}
+  ];
+}
+function showWorkerModal(d,idx){
+  _wModalCurrentDiv=d;_wModalCurrentIdx=idx;
+  var w=divWorkers[d][idx];
+  if(!w) return;
+  document.getElementById('wModalName').textContent=(gf(w,'First Name')+' '+gf(w,'Last Name')).trim();
+  document.getElementById('wModalPass').textContent=gf(w,'Passport No','Passport Number','Passport #','E-Reg No','EReg No','EReg','Reg No','Registration No')||'-';
+  document.getElementById('wModalPos').textContent=gf(w,'Position','Position Title','Job Position','Trade','Occupation')||'-';
+  document.getElementById('wModalNotes').textContent=gf(w,'Notes')||'-';
+  var docs=getWorkerDocs(w);
+  var done=docs.filter(function(dc){return dc.status&&dc.status!=='--'&&dc.status.toLowerCase()!=='pending'&&dc.status.toLowerCase()!=='incomplete';}).length;
+  var pct=Math.round(done/docs.length*100);
+  document.getElementById('wModalPct').textContent=pct+'%';
+  document.getElementById('wModalBar').style.width=pct+'%';
+  document.getElementById('wModalDone').textContent=done;
+  document.getElementById('wModalTotal').textContent=docs.length;
+  document.getElementById('wModalDocs').innerHTML=docs.map(function(doc){
+    return '<div class="doc-row"><div class="doc-icon">'+escH(doc.status)+'</div><div class="doc-name">'+escH(doc.name)+'</div><div class="doc-date">'+escH(doc.date)+'</div></div>';
+  }).join('');
+  document.getElementById('wmodalOverlay').classList.add('open');
+}
+function closeWorkerModal(e){if(!e||e.target===document.getElementById('wmodalOverlay')) document.getElementById('wmodalOverlay').classList.remove('open');}
+var _divEncCurrentDiv='',_divEncCurrentPass=null;
+var divSheetIds={me:ME_ID,ap:AP_ID,eu:EU_ID};
+var divSheetNames={me:'Workers',ap:'Workers',eu:'Workers'};
+var divScriptUrls={
+  me:localStorage.getItem('me_script_url')||'',
+  ap:localStorage.getItem('ap_script_url')||'',
+  eu:localStorage.getItem('eu_script_url')||''
+};
+function divSaveUrl(d){
+  var val=(document.getElementById(d+'ScriptUrlInput').value||'').trim();
+  if(!val){alert('I-paste muna ang Apps Script URL.');return;}
+  divScriptUrls[d]=val;
+  localStorage.setItem(d+'_script_url',val);
+  divCheckSetup(d);
+}
+function divCheckSetup(d){
+  var url=divScriptUrls[d];
+  var inp=document.getElementById(d+'ScriptUrlInput');
+  var st=document.getElementById(d+'UrlStatus');
+  var note=document.getElementById(d+'SetupNote');
+  if(inp&&url) inp.value=url;
+  if(st){
+    st.style.display=url?'block':'none';
+    st.style.color=url?'#2e7d32':'#c62828';
+    st.textContent=url?'✅ URL set: '+url.substring(0,55)+'...':'';
+  }
+  if(note) note.style.display=url?'none':'block';
+}
+function divInitSetup(){
+  ['me','ap','eu'].forEach(function(d){divCheckSetup(d);});
+}
+function openDivEnc(d,passNo){
+  _divEncCurrentDiv=d;_divEncCurrentPass=passNo;
+  var divLabel={me:'Middle East',ap:'Asia Pacific',eu:'Europe'}[d];
+  document.getElementById('divencDiv').value=d;
+  document.getElementById('divencRowNum').value='';
+  var msg=document.getElementById('divencMsg');msg.textContent='';msg.className='divenc-msg';
+  if(!passNo){
+    document.getElementById('divencTitle').textContent='📝 Bagong Record — '+divLabel;
+    document.getElementById('divencSaveBtn').textContent='💾 I-save';
+    var ids=['de_ln','de_fn','de_mn','de_pos','de_pass','de_principal','de_country','de_contact','de_notes',
+             'de_passstat','de_passexp','de_medstat','de_meddate','de_trainstat','de_traindate',
+             'de_policestat','de_policedate','de_nbistat','de_nbidate','de_visastat','de_visadate',
+             'de_contrstat','de_contrdate','de_travstat','de_travdate','de_insurstat','de_insurdate',
+             'de_healthstat','de_healthdate'];
+    ids.forEach(function(id){var el=document.getElementById(id);if(el){if(el.tagName==='SELECT'){el.value='--';}else{el.value='';}}});
+  } else {
+    var w=divWorkers[d].find(function(x){return (gf(x,'Passport No','Passport Number','Passport #','E-Reg No','EReg No','EReg','Reg No','Registration No')||'')==passNo;});
+    if(!w){alert('Hindi mahanap ang record.');return;}
+    document.getElementById('divencTitle').textContent='✏️ I-update — '+divLabel;
+    document.getElementById('divencSaveBtn').textContent='🔄 I-update';
+    document.getElementById('de_ln').value=gf(w,'Last Name','Lastname','Surname','Family Name')||'';
+    document.getElementById('de_fn').value=gf(w,'First Name','Firstname','Given Name','GivenName')||'';
+    document.getElementById('de_mn').value=gf(w,'Middle Name','Middlename','Middle Initial','MI')||'';
+    document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Trade','Occupation')||'';
+    document.getElementById('de_pass').value=passNo;
+    document.getElementById('de_principal').value=gf(w,'Principal','Principal Employer','Employer','Company')||'';
+    document.getElementById('de_country').value=gf(w,'Country','Destination','Host Country','Country Destination')||'';
+    document.getElementById('de_contact').value=gf(w,'Contact','Contact Number','Mobile','Phone')||'';
+    document.getElementById('de_notes').value=gf(w,'Notes','Remarks','Remarks / Notes')||'';
+    function setDocField(selId,dateId,statKey,dateKey){
+      var sel=document.getElementById(selId);var dateEl=document.getElementById(dateId);
+      if(sel) sel.value=gf(w,statKey)||'--';
+      if(dateEl){var dv=gf(w,dateKey)||'';var dp=parseDate(dv);if(dp){var y=dp.getFullYear(),m=String(dp.getMonth()+1).padStart(2,'0'),dt=String(dp.getDate()).padStart(2,'0');dateEl.value=y+'-'+m+'-'+dt;}else{dateEl.value='';}}
+    }
+    setDocField('de_passstat','de_passexp','Passport Status','Passport Expiry');
+    setDocField('de_medstat','de_meddate','Medical Status','Medical Date');
+    setDocField('de_trainstat','de_traindate','Training Status','Training Date');
+    setDocField('de_policestat','de_policedate','Police Status','Police Date');
+    setDocField('de_nbistat','de_nbidate','NBI Status','NBI Date');
+    setDocField('de_visastat','de_visadate','Visa Status','Visa Date');
+    setDocField('de_contrstat','de_contrdate','Contract Status','Contract Date');
+    setDocField('de_travstat','de_travdate','Travel Status','Travel Date');
+    setDocField('de_insurstat','de_insurdate','Insur Status','Insur Date');
+    setDocField('de_healthstat','de_healthdate','Health Insur Status','Health Insur Date');
+    var w2=divWorkers[d];var idx=w2.indexOf(w);document.getElementById('divencRowNum').value=idx>=0?idx+2:'';
+  }
+  document.getElementById('divencOverlay').classList.add('open');
+}
+function closeDivEnc(e){if(!e||e.target===document.getElementById('divencOverlay')) document.getElementById('divencOverlay').classList.remove('open');}
+async function submitDivEnc(){
+  var d=document.getElementById('divencDiv').value||_divEncCurrentDiv;
+  var scriptUrl=divScriptUrls[d]||'';
+  if(!scriptUrl){
+    var msg=document.getElementById('divencMsg');
+    msg.textContent='⚠️ Walang Apps Script URL para sa '+({me:'Middle East',ap:'Asia Pacific',eu:'Europe'}[d]||d)+'. I-set muna ang URL sa tab.';
+    msg.className='divenc-msg error';
+    return;
+  }
+  var ln=document.getElementById('de_ln').value.trim();
+  var fn=document.getElementById('de_fn').value.trim();
+  if(!ln&&!fn){var m=document.getElementById('divencMsg');m.textContent='Kailangan ang pangalan (Last Name o First Name).';m.className='divenc-msg error';return;}
+  var d=document.getElementById('divencDiv').value;
+  var rowNum=document.getElementById('divencRowNum').value;
+  function dv(id){return document.getElementById(id)?document.getElementById(id).value:'';}
+  // Build combined Name (sheet uses single "Name" column)
+  var nameVal=ln?(ln.toUpperCase()+(fn?', '+fn.toUpperCase():'')):fn.toUpperCase();
+  // Checkbox status: sheet uses TRUE/FALSE checkboxes
+  function toChk(v){return (v&&v!=='--')?true:false;}
+  var fields={
+    'Name':nameVal,'Last Name':ln.toUpperCase(),'First Name':fn.toUpperCase(),'Middle Name':dv('de_mn').toUpperCase(),
+    'Position':dv('de_pos'),'Passport':dv('de_pass'),'Passport No':dv('de_pass'),
+    'Principal':dv('de_principal'),'Country':dv('de_country'),'Country Destination':dv('de_country'),
+    'Contact Number':dv('de_contact'),'Contact':dv('de_contact'),'Notes':dv('de_notes'),
+    'Passport Status':toChk(dv('de_passstat')),'Passport Date':dv('de_passexp'),'Passport Expiry':dv('de_passexp'),
+    'Medical Status':toChk(dv('de_medstat')),'Medical Date':dv('de_meddate'),
+    'Training Status':toChk(dv('de_trainstat')),'Training Date':dv('de_traindate'),
+    'Police Status':toChk(dv('de_policestat')),'Police Date':dv('de_policedate'),
+    'NBI Status':toChk(dv('de_nbistat')),'NBI Date':dv('de_nbidate'),
+    'Visa Status':toChk(dv('de_visastat')),'Visa Date':dv('de_visadate'),
+    'Contract Status':toChk(dv('de_contrstat')),'Contract Date':dv('de_contrdate'),
+    'Travel Status':toChk(dv('de_travstat')),'Travel Date':dv('de_travdate'),
+    'Insur Status':toChk(dv('de_insurstat')),'Insur Date':dv('de_insurdate'),
+    'Health Insur Status':toChk(dv('de_healthstat')),'Health Insur Date':dv('de_healthdate')
+  };
+  var payload={sheetId:divSheetIds[d],sheetName:divSheetNames[d],action:rowNum?'update':'add',fields:fields,rowNum:rowNum?parseInt(rowNum):null};
+  var msg=document.getElementById('divencMsg');
+  msg.textContent='Nagse-save...';msg.className='divenc-msg';msg.style.display='block';
+  document.getElementById('divencSaveBtn').disabled=true;
+  try{
+    var formBody=new URLSearchParams({payload:JSON.stringify(payload)});
+    var res=await fetch(scriptUrl,{method:'POST',body:formBody,redirect:'follow'});
+    var txt='';try{txt=await res.text();}catch(e){}
+    var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
+    if(json.status==='error'){
+      msg.textContent='❌ Script error: '+json.message;
+      msg.className='divenc-msg error';
+    } else {
+      msg.textContent=(rowNum?'✅ Na-update ang record!':'✅ Na-save ang bagong record!')+' Nag-re-refresh...';
+      msg.className='divenc-msg success';
+      divWorkers[d]=[];
+      setTimeout(function(){loadDivisions();closeDivEnc();},1800);
+    }
+  }catch(err){
+    msg.textContent='❌ Error: '+err.message+' — I-check: URL ay /exec, "Who has access" = Anyone.';
+    msg.className='divenc-msg error';
+  }
+  document.getElementById('divencSaveBtn').disabled=false;
+}
+var _wModalCurrentDiv='',_wModalCurrentIdx=-1;
+function editCurrentWorker(){
+  closeWorkerModal();
+  openDivEncByIdx(_wModalCurrentDiv,_wModalCurrentIdx);
+}
+function openDivEncByIdx(d,idx){
+  if(idx<0||!divWorkers[d]||!divWorkers[d][idx]){alert('Hindi mahanap ang record.');return;}
+  var w=divWorkers[d][idx];
+  var divLabel={me:'Middle East',ap:'Asia Pacific',eu:'Europe'}[d];
+  _divEncCurrentDiv=d;
+  document.getElementById('divencDiv').value=d;
+  document.getElementById('divencRowNum').value=idx+2;
+  var msg=document.getElementById('divencMsg');msg.textContent='';msg.className='divenc-msg';
+  document.getElementById('divencTitle').textContent='✏️ I-update — '+divLabel;
+  document.getElementById('divencSaveBtn').textContent='🔄 I-update';
+  // Name: sheet uses single "Name" column (e.g. "DELA CRUZ, JUAN" or just "jomz")
+  var fullN=gf(w,'Name','Full Name','Worker Name','Employee Name')||'';
+  var ln2=gf(w,'Last Name','Lastname','Surname','Family Name')||'';
+  var fn2=gf(w,'First Name','Firstname','Given Name','GivenName')||'';
+  if(!ln2&&!fn2&&fullN){
+    if(fullN.indexOf(',')>=0){var _pts=fullN.split(',');ln2=(_pts[0]||'').trim();fn2=(_pts[1]||'').trim();}
+    else{fn2=fullN;ln2='';}
+  }
+  document.getElementById('de_ln').value=ln2;
+  document.getElementById('de_fn').value=fn2;
+  document.getElementById('de_mn').value=gf(w,'Middle Name','Middlename','Middle Initial','MI')||'';
+  document.getElementById('de_pos').value=gf(w,'Position','Position Title','Job Position','Trade','Occupation','Job Title')||'';
+  document.getElementById('de_pass').value=gf(w,'Passport','Passport No','Passport Number','Passport #','E-Reg No','EReg No','Reg No')||'';
+  document.getElementById('de_principal').value=gf(w,'Principal','Principal Employer','Employer','Company')||'';
+  document.getElementById('de_country').value=gf(w,'Country','Destination','Host Country','Country Destination','Country of Deployment')||'';
+  document.getElementById('de_contact').value=gf(w,'Contact','Contact Number','Mobile','Phone','Mobile Number')||'';
+  document.getElementById('de_notes').value=gf(w,'Notes','Remarks','Remarks / Notes','Comments')||'';
+  function setDocField(selId,dateId,statKey,dateKey){
+    var sel=document.getElementById(selId);var dateEl=document.getElementById(dateId);
+    if(sel){
+      var rawV=gf(w,statKey);
+      // Handle checkbox TRUE/FALSE from Google Sheets
+      if(rawV===true||rawV==='TRUE'||rawV==='true'){
+        var firstOk=Array.from(sel.options).find(function(o){return o.value&&o.value!='--';});
+        sel.value=firstOk?firstOk.value:'--';
+      } else if(rawV===false||rawV==='FALSE'||rawV==='false'||rawV===null||rawV===undefined||rawV===''){
+        sel.value='--';
+      } else {
+        // Text value — try exact then case-insensitive then add new option
+        var sv=String(rawV);sel.value=sv;
+        if(sel.value!==sv){
+          var lsv=sv.toLowerCase();
+          var mOpt=Array.from(sel.options).find(function(o){return o.value.toLowerCase()===lsv;});
+          if(mOpt){sel.value=mOpt.value;}
+          else{var nOpt=document.createElement('option');nOpt.value=sv;nOpt.text=sv;sel.add(nOpt);sel.value=sv;}
+        }
+      }
+    }
+    if(dateEl){var dv2=gf(w,dateKey)||gf(w,dateKey.replace('Expiry','Date').replace('Exp','Date'))||'';var dp=parseDate(dv2);if(dp){var y=dp.getFullYear(),m=String(dp.getMonth()+1).padStart(2,'0'),dt=String(dp.getDate()).padStart(2,'0');dateEl.value=y+'-'+m+'-'+dt;}else{dateEl.value='';}}
+  }
+  setDocField('de_passstat','de_passexp','Passport Status','Passport Date');
+  setDocField('de_medstat','de_meddate','Medical Status','Medical Date');
+  setDocField('de_trainstat','de_traindate','Training Status','Training Date');
+  setDocField('de_policestat','de_policedate','Police Status','Police Date');
+  setDocField('de_nbistat','de_nbidate','NBI Status','NBI Date');
+  setDocField('de_visastat','de_visadate','Visa Status','Visa Date');
+  setDocField('de_contrstat','de_contrdate','Contract Status','Contract Date');
+  setDocField('de_travstat','de_travdate','Travel Status','Travel Date');
+  setDocField('de_insurstat','de_insurdate','Insur Status','Insur Date');
+  setDocField('de_healthstat','de_healthdate','Health Insur Status','Health Insur Date');
+  document.getElementById('divencOverlay').classList.add('open');
+}
+// ── USER MANAGEMENT ─────────────────────────────────────
+var umScriptUrl=localStorage.getItem('um_script_url')||'';
+var umUsersData=[];
+function umSaveUrl(){
+  var v=(document.getElementById('umScriptUrlInput').value||'').trim();
+  if(!v){alert('I-paste muna ang Apps Script URL.');return;}
+  umScriptUrl=v;localStorage.setItem('um_script_url',v);umCheckSetup();
+}
+function umCheckSetup(){
+  var inp=document.getElementById('umScriptUrlInput');
+  var st=document.getElementById('umUrlStatus');
+  if(inp&&umScriptUrl) inp.value=umScriptUrl;
+  if(st){
+    if(umScriptUrl){st.style.color='green';st.textContent='✅ URL set: '+umScriptUrl.substring(0,70)+'...';}
+    else{st.style.color='#c62828';st.textContent='⚠️ Walang URL — i-set muna para makapag-save.';}
+  }
+  umRenderTable();
+}
+var UM_PAGES=[{n:'1',label:'1.Acc'},{n:'2',label:'2.Workers'},{n:'3',label:'3.ME'},{n:'4',label:'4.AP'},{n:'5',label:'5.EU'},{n:'6',label:'6.Walk-in'},{n:'7',label:'7.Encoder'},{n:'8',label:'8.User Mgmt'}];
+function umGetCheckedAccess(prefix){
+  return UM_PAGES.map(function(p){
+    var cb=document.getElementById(prefix+p.n);
+    return cb&&cb.checked?p.n:null;
+  }).filter(Boolean).join(',');
+}
+function umRenderTable(){
+  var tbody=document.getElementById('umTableBody');
+  if(!tbody) return;
+  if(!umUsersData.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1.5rem;">Walang users na na-load. I-refresh ang page para ma-load ang Credentials sheet.</td></tr>';return;}
+  tbody.innerHTML=umUsersData.map(function(u,i){
+    var isActive=u.status.toLowerCase()==='active';
+    var curAc=(u.access||'').split(',').map(function(n){return n.trim();}).filter(Boolean);
+    var acChecks=UM_PAGES.map(function(p){
+      var chk=curAc.indexOf(p.n)>=0?'checked':'';
+      return '<label style="font-size:0.72rem;white-space:nowrap;"><input type="checkbox" id="um-ac-'+i+'-'+p.n+'" value="'+p.n+'" '+chk+'/> '+p.label+'</label>';
+    }).join(' ');
+    return '<tr>'+
+      '<td style="color:var(--text-muted);">'+(i+1)+'</td>'+
+      '<td style="font-weight:600;">'+u.username+'</td>'+
+      '<td><input type="text" id="um-pass-'+i+'" value="'+u.password+'" style="width:90px;"/></td>'+
+      '<td><input type="text" id="um-role-'+i+'" value="'+u.role+'" style="width:110px;"/></td>'+
+      '<td><select id="um-stat-'+i+'"><option value="Active"'+(isActive?' selected':'')+'>Active</option><option value="Inactive"'+(!isActive?' selected':'')+'>Inactive</option></select></td>'+
+      '<td><div style="display:flex;flex-wrap:wrap;gap:0.25rem 0.6rem;">'+acChecks+'</div></td>'+
+      '<td><button class="btn-um-save" onclick="umSaveRow('+i+')">💾 I-save</button></td>'+
+    '</tr>';
+  }).join('');
+}
+async function umSaveRow(i){
+  var u=umUsersData[i];
+  if(!umScriptUrl){alert('I-set muna ang Apps Script URL.');return;}
+  var newPass=document.getElementById('um-pass-'+i).value.trim();
+  var newRole=document.getElementById('um-role-'+i).value.trim();
+  var newStat=document.getElementById('um-stat-'+i).value;
+  var newAc=UM_PAGES.map(function(p){var cb=document.getElementById('um-ac-'+i+'-'+p.n);return cb&&cb.checked?p.n:null;}).filter(Boolean).join(',');
+  var msg=document.getElementById('umSaveMsg');
+  msg.textContent='Nagse-save...';msg.className='um-msg';msg.style.display='block';
+  try{
+    var payload={action:'update',rowNum:u.rowNum,username:u.username,password:newPass,role:newRole,status:newStat,access:newAc};
+    var res=await fetch(umScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var json={status:'ok'};try{json=JSON.parse(await res.text());}catch(e){}
+    if(json.status==='error'){msg.textContent='❌ '+json.message;msg.className='um-msg error';}
+    else{
+      umUsersData[i].password=newPass;umUsersData[i].role=newRole;umUsersData[i].status=newStat;umUsersData[i].access=newAc;
+      msg.textContent='✅ Na-update si '+u.username+'!';msg.className='um-msg success';
+      setTimeout(function(){msg.style.display='none';},2500);
+    }
+  }catch(err){msg.textContent='❌ Error: '+err.message;msg.className='um-msg error';}
+}
+async function umAddUser(){
+  if(!umScriptUrl){alert('I-set muna ang Apps Script URL.');return;}
+  var u=(document.getElementById('um-new-user').value||'').trim();
+  var p=(document.getElementById('um-new-pass').value||'').trim();
+  var r=(document.getElementById('um-new-role').value||'').trim();
+  var s=document.getElementById('um-new-status').value;
+  var ac=Array.from(document.querySelectorAll('.um-new-ac:checked')).map(function(cb){return cb.value;}).join(',');
+  var msg=document.getElementById('umAddMsg');
+  if(!u||!p){msg.textContent='Kailangan ang Username at Password.';msg.className='um-msg error';return;}
+  msg.textContent='Nagsa-save...';msg.className='um-msg';msg.style.display='block';
+  try{
+    var payload={action:'add',username:u,password:p,role:r,status:s,access:ac};
+    var res=await fetch(umScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var json={status:'ok'};try{json=JSON.parse(await res.text());}catch(e){}
+    if(json.status==='error'){msg.textContent='❌ '+json.message;msg.className='um-msg error';}
+    else{
+      msg.textContent='✅ Naidagdag si '+u+'!';msg.className='um-msg success';
+      document.getElementById('um-new-user').value='';
+      document.getElementById('um-new-pass').value='';
+      document.getElementById('um-new-role').value='';
+      document.querySelectorAll('.um-new-ac').forEach(function(cb){cb.checked=false;});
+      // Add to local data
+      umUsersData.push({username:u,password:p,role:r,status:s,access:ac,rowNum:umUsersData.length+2});
+      umRenderTable();
+      setTimeout(function(){msg.style.display='none';},3000);
+    }
+  }catch(err){msg.textContent='❌ Error: '+err.message;msg.className='um-msg error';}
+}
+// ── END USER MANAGEMENT ──────────────────────────────────
+var encScriptUrl=localStorage.getItem('enc_script_url')||'';
+function encShowSetup(){document.getElementById('encSetupModal').style.display='flex';document.getElementById('encScriptUrl').value=encScriptUrl;}
+function encHideSetup(){document.getElementById('encSetupModal').style.display='none';}
+function encSaveUrl(){encScriptUrl=document.getElementById('encScriptUrl').value.trim();localStorage.setItem('enc_script_url',encScriptUrl);encHideSetup();encCheckSetup();}
+function encCheckSetup(){
+  var n=document.getElementById('encSetupNote');if(n) n.style.display=encScriptUrl?'none':'block';
+  var inp=document.getElementById('encScriptUrlInput');if(inp&&encScriptUrl) inp.value=encScriptUrl;
+  var st=document.getElementById('encUrlStatus');
+  if(st){st.style.display=encScriptUrl?'block':'none';st.textContent=encScriptUrl?'✅ URL set: '+encScriptUrl.substring(0,60)+'...':'';}
+}
+function encSaveUrlInline(){
+  var val=(document.getElementById('encScriptUrlInput').value||'').trim();
+  if(!val){alert('I-paste muna ang Apps Script URL.');return;}
+  encScriptUrl=val;localStorage.setItem('enc_script_url',val);
+  var st=document.getElementById('encUrlStatus');
+  if(st){st.style.display='block';st.style.color='#2e7d32';st.textContent='✅ Na-save ang URL!';}
+  var n=document.getElementById('encSetupNote');if(n) n.style.display='none';
+}
+function encCalcAge(){
+  var dob=document.getElementById('ef_dob').value;
+  if(!dob) return;
+  var today=new Date(),bd=new Date(dob);
+  var age=today.getFullYear()-bd.getFullYear()-(today<new Date(today.getFullYear(),bd.getMonth(),bd.getDate())?1:0);
+  document.getElementById('ef_age').value=age;
+}
+function encSetDate(){
+  var today=new Date();
+  var y=today.getFullYear(),m=String(today.getMonth()+1).padStart(2,'0'),d=String(today.getDate()).padStart(2,'0');
+  document.getElementById('ef_dov').value=y+'-'+m+'-'+d;
+}
+function encClearForm(){
+  var ids=['ef_ln','ef_fn','ef_mn','ef_dov','ef_dob','ef_age','ef_gender','ef_civil','ef_contact','ef_addr','ef_province','ef_pos','ef_country','ef_exp','ef_prev','ef_educ','ef_skills','ef_passport','ef_passexp','ef_nbi','ef_med','ef_tesda','ef_birth','ef_status','ef_assigned','ef_notes'];
+  ids.forEach(function(id){var el=document.getElementById(id);if(el) el.value='';});
+  document.getElementById('encRowNum').value='';
+  document.getElementById('encFormTitle').textContent='📝 Bagong Walk-in Applicant';
+  document.getElementById('encBtnLabel').textContent='💾 I-save ang Record';
+  var msg=document.getElementById('encMsg');msg.textContent='';msg.className='enc-msg';
+  encSetDate();
+}
+function encDoSearch(){
+  var q=(document.getElementById('encSearch').value||'').toLowerCase();
+  var res=document.getElementById('encResults');
+  if(!q||q.length<2){res.innerHTML='<p class="enc-hint">I-type ang pangalan para maghanap</p>';return;}
+  if(!walkinData.length){res.innerHTML='<p class="enc-hint">Nag-lo-load ang data... sandali lang.</p>';loadWalkin();return;}
+  var matches=walkinData.filter(function(r,i){
+    r._rowNum=i+4;
+    var fn=(gf(r,'First Name')||'').toLowerCase();
+    var ln=(gf(r,'Last Name')||'').toLowerCase();
+    return (fn+' '+ln).includes(q)||ln.includes(q)||fn.includes(q);
+  });
+  if(!matches.length){res.innerHTML='<p class="enc-hint">Walang nahanap na record.</p>';return;}
+  res.innerHTML=matches.slice(0,10).map(function(r,i){
+    var fn=gf(r,'First Name'),ln=gf(r,'Last Name');
+    var pos=gf(r,'Position Applied');var stat=gf(r,'Status');
+    return '<div class="enc-result-item" onclick="encLoadRecord(walkinData['+walkinData.indexOf(r)+'],'+walkinData.indexOf(r)+')">'
+      +'<strong>'+escH(ln+', '+fn)+'</strong>'
+      +'<span>'+escH(pos||'-')+' | '+escH(stat||'-')+'</span>'
+      +'</div>';
+  }).join('');
+}
+function encLoadRecord(r,idx){
+  function fmtDate(s){if(!s) return '';var d=parseDate(s);if(!d) return '';var y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),dt=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+dt;}
+  document.getElementById('ef_ln').value=gf(r,'Last Name')||'';
+  document.getElementById('ef_fn').value=gf(r,'First Name')||'';
+  document.getElementById('ef_mn').value=gf(r,'Middle Name')||'';
+  document.getElementById('ef_dov').value=fmtDate(gf(r,'Date of Visit'));
+  document.getElementById('ef_dob').value=fmtDate(gf(r,'Date of Birth'));
+  document.getElementById('ef_age').value=gf(r,'Age')||'';
+  document.getElementById('ef_gender').value=gf(r,'Gender')||'';
+  document.getElementById('ef_civil').value=gf(r,'Civil Status')||'';
+  document.getElementById('ef_contact').value=gf(r,'Contact Number')||'';
+  document.getElementById('ef_addr').value=gf(r,'Address')||'';
+  document.getElementById('ef_province').value=gf(r,'Province / Region')||'';
+  document.getElementById('ef_pos').value=gf(r,'Position Applied')||'';
+  document.getElementById('ef_country').value=gf(r,'Preferred Country')||'';
+  document.getElementById('ef_exp').value=gf(r,'Work Experience (Years)')||'';
+  document.getElementById('ef_prev').value=gf(r,'Previous Employer')||'';
+  document.getElementById('ef_educ').value=gf(r,'Highest Education')||'';
+  document.getElementById('ef_skills').value=gf(r,'Skills / Specialization')||'';
+  document.getElementById('ef_passport').value=gf(r,'Passport (Yes/No)')||'';
+  document.getElementById('ef_passexp').value=fmtDate(gf(r,'Passport Expiry'));
+  document.getElementById('ef_nbi').value=gf(r,'NBI Clearance (Yes/No)')||'';
+  document.getElementById('ef_med').value=gf(r,'Medical Certificate (Yes/No)')||'';
+  document.getElementById('ef_tesda').value=gf(r,'TESDA / Training (Yes/No)')||'';
+  document.getElementById('ef_birth').value=gf(r,'Birth Certificate (Yes/No)')||'';
+  document.getElementById('ef_status').value=gf(r,'Status')||'';
+  document.getElementById('ef_assigned').value=gf(r,'Assigned To (Project Officer)')||'';
+  document.getElementById('ef_notes').value=gf(r,'Remarks / Notes')||'';
+  document.getElementById('encRowNum').value=idx+4;
+  var fn=gf(r,'First Name'),ln=gf(r,'Last Name');
+  document.getElementById('encFormTitle').textContent='✏️ I-update: '+ln+', '+fn;
+  document.getElementById('encBtnLabel').textContent='🔄 I-update ang Record';
+  var msg=document.getElementById('encMsg');msg.textContent='';msg.className='enc-msg';
+}
+function fmtDateVal(id){var v=document.getElementById(id).value;if(!v) return '';var p=v.split('-');return p[1]+'/'+p[2]+'/'+p[0];}
+async function encSubmit(){
+  if(!encScriptUrl){encShowSetup();return;}
+  var ln=document.getElementById('ef_ln').value.trim();
+  var fn=document.getElementById('ef_fn').value.trim();
+  if(!ln||!fn){encShowMsg('error','Kailangan ang Last Name at First Name.');return;}
+  var rowNum=document.getElementById('encRowNum').value;
+  var row=[
+    fmtDateVal('ef_dov'),ln.toUpperCase(),fn.toUpperCase(),
+    document.getElementById('ef_mn').value.trim().toUpperCase(),
+    fmtDateVal('ef_dob'),document.getElementById('ef_age').value,
+    document.getElementById('ef_gender').value,document.getElementById('ef_civil').value,
+    document.getElementById('ef_contact').value.trim(),
+    document.getElementById('ef_addr').value.trim(),
+    document.getElementById('ef_province').value.trim(),
+    document.getElementById('ef_pos').value.trim(),
+    document.getElementById('ef_country').value.trim(),
+    document.getElementById('ef_exp').value,
+    document.getElementById('ef_prev').value.trim(),
+    document.getElementById('ef_educ').value.trim(),
+    document.getElementById('ef_skills').value.trim(),
+    document.getElementById('ef_passport').value,
+    fmtDateVal('ef_passexp'),
+    document.getElementById('ef_nbi').value,
+    document.getElementById('ef_med').value,
+    document.getElementById('ef_tesda').value,
+    document.getElementById('ef_birth').value,
+    document.getElementById('ef_status').value,
+    document.getElementById('ef_assigned').value.trim(),
+    document.getElementById('ef_notes').value.trim()
+  ];
+  var payload={sheetId:WALKIN_ID,sheetName:'Walk-in Applicants',action:rowNum?'update':'add',row:row,rowNum:rowNum?parseInt(rowNum):null};
+  encShowMsg('','Nagse-save...');
+  try{
+    await fetch(encScriptUrl,{method:'POST',body:JSON.stringify(payload),mode:'no-cors',redirect:'follow',headers:{'Content-Type':'text/plain'}});
+    encShowMsg('success',(rowNum?'✅ Na-update ang record!':'✅ Na-save ang bagong record!')+' (Nag-re-refresh...)');
+    walkinData=[];
+    setTimeout(function(){if(!rowNum) encClearForm();},1500);
+  }catch(e){encShowMsg('error','❌ Error: '+e.message+' — I-check: (1) URL ay /exec hindi /dev, (2) "Who has access" = Anyone sa deployment.');}
+}
+function encShowMsg(type,msg){var el=document.getElementById('encMsg');el.textContent=msg;el.className='enc-msg'+(type?' '+type:'');}
+function showWnew(){document.getElementById('wnewOverlay').classList.add('open');}
+function closeWnew(e){if(!e||e.target===document.getElementById('wnewOverlay')) document.getElementById('wnewOverlay').classList.remove('open');}
+const WALKIN_ID='1FfBU4EdJ1g6BzmE0F2ovJ_G9pkCzrYU4aczc59SnscU';
+var walkinData=[];
+async function loadWalkin(){
+  var el=document.getElementById('walkinList');
+  el.innerHTML='<div class="loading">Loading applicants...</div>';
+  try{
+    var url='https://docs.google.com/spreadsheets/d/'+WALKIN_ID+'/gviz/tq?tqx=out:json&sheet=Walk-in+Applicants&headers=3';
+    var res=await fetch(url);
+    var txt=await res.text();
+    var raw=txt.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\)/);
+    if(!raw) throw new Error('Cannot fetch Walk-in Applicants sheet');
+    var json=JSON.parse(raw[1]);
+    if(!json.table||!json.table.cols){walkinData=[];renderWalkin();return;}
+    var cols=json.table.cols.map(function(c){return c.label.trim();});
+    console.log('Walk-in columns:', cols);
+    walkinData=(json.table.rows||[]).filter(function(r){return r&&r.c&&r.c.some(function(c){return c&&(c.v||c.f);});}).map(function(r){
+      var obj={};
+      r.c.forEach(function(cell,i){
+        if(cols[i]){var val='';if(cell){if(cell.f!=null&&cell.f!=='') val=String(cell.f);else if(cell.v!=null&&cell.v!=='') val=String(cell.v);}obj[cols[i]]=val;}
+      });
+      return obj;
+    });
+    renderWalkin();
+  }catch(e){
+    el.innerHTML='<div class="loading">Error: '+escH(e.message)+'</div>';
+  }
+}
+function renderWalkin(){
+  var el=document.getElementById('walkinList');
+  var q=(document.getElementById('searchWalkin').value||'').toLowerCase();
+  var qp=(document.getElementById('searchWalkinPos').value||'').toLowerCase();
+  var qs=(document.getElementById('searchWalkinSkills').value||'').toLowerCase();
+  var filtered=walkinData.filter(function(r){
+    var fn=(gf(r,'First Name')||'').toLowerCase();
+    var ln=(gf(r,'Last Name')||'').toLowerCase();
+    var name=(fn+' '+ln).trim();
+    var pos=(gf(r,'Position Applied')||'').toLowerCase();
+    var skills=(gf(r,'Skills / Specialization')||'').toLowerCase();
+    var contact=(gf(r,'Contact Number')||'').toLowerCase();
+    var matchQ=!q||name.includes(q)||contact.includes(q);
+    var matchP=!qp||pos.includes(qp);
+    var matchS=!qs||skills.includes(qs);
+    return matchQ&&matchP&&matchS;
+  });
+  if(!filtered.length){el.innerHTML='<div class="loading">No applicants found.</div>';return;}
+  el.innerHTML='<div class="deploy-grid">'+filtered.map(function(r){
+    var fn=gf(r,'First Name');var ln=gf(r,'Last Name');var mn=gf(r,'Middle Name');
+    var name=(fn+' '+(mn?mn+' ':'')+ln).trim();
+    var pos=gf(r,'Position Applied');
+    var stat=gf(r,'Status');
+    var contact=gf(r,'Contact Number');
+    var addr=gf(r,'Address');
+    var province=gf(r,'Province / Region');
+    var age=gf(r,'Age');
+    var dob=gf(r,'Date of Birth');
+    var educ=gf(r,'Highest Education');
+    var exp=gf(r,'Work Experience (Years)');
+    var prevEmp=gf(r,'Previous Employer');
+    var skills=gf(r,'Skills / Specialization');
+    var country=gf(r,'Preferred Country');
+    var dateIn=gf(r,'Date of Visit');
+    var passport=gf(r,'Passport (Yes/No)');
+    var passExp=gf(r,'Passport Expiry');
+    var nbi=gf(r,'NBI Clearance (Yes/No)');
+    var med=gf(r,'Medical Certificate (Yes/No)');
+    var tesda=gf(r,'TESDA / Training (Yes/No)');
+    var assigned=gf(r,'Assigned To (Project Officer)');
+    var notes=gf(r,'Remarks / Notes');
+    var statLow=(stat||'').toLowerCase();
+    var statColor=statLow.includes('available')?'badge-active':statLow.includes('deploy')?'badge-active':statLow.includes('cancel')?'badge-expired':'badge-expiring';
+    return '<div class="deploy-card">'
+      +'<div class="deploy-card-name">'+escH(name)+(stat?'&nbsp;<span class="badge '+statColor+'" style="font-size:0.7rem;vertical-align:middle;">'+escH(stat)+'</span>':'')+'</div>'
+      +'<div class="deploy-fields">'
+      +'<div class="deploy-field"><span class="deploy-label">DATE OF VISIT</span><span class="deploy-val">'+escH(dateIn||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">CONTACT</span><span class="deploy-val">'+escH(contact||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">POSITION APPLIED</span><span class="deploy-val">'+escH(pos||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PREFERRED COUNTRY</span><span class="deploy-val">'+escH(country||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">AGE</span><span class="deploy-val">'+escH(age||dob||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">EXPERIENCE (YRS)</span><span class="deploy-val">'+escH(exp||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PREV. EMPLOYER</span><span class="deploy-val">'+escH(prevEmp||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">EDUCATION</span><span class="deploy-val">'+escH(educ||'-')+'</span></div>'
+      +'<div class="deploy-field full"><span class="deploy-label">SKILLS / SPECIALIZATION</span><span class="deploy-val">'+escH(skills||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">PASSPORT</span><span class="deploy-val">'+escH(passport||'-')+(passExp?' (exp: '+escH(passExp)+')':'')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">NBI</span><span class="deploy-val">'+escH(nbi||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">MEDICAL CERT</span><span class="deploy-val">'+escH(med||'-')+'</span></div>'
+      +'<div class="deploy-field"><span class="deploy-label">TESDA / TRAINING</span><span class="deploy-val">'+escH(tesda||'-')+'</span></div>'
+      +(addr||province?'<div class="deploy-field full"><span class="deploy-label">ADDRESS</span><span class="deploy-val">'+escH((addr?(addr+', '):'')+province)+'</span></div>':'')
+      +(assigned?'<div class="deploy-field full"><span class="deploy-label">ASSIGNED TO</span><span class="deploy-val">'+escH(assigned)+'</span></div>':'')
+      +(notes?'<div class="deploy-field full"><span class="deploy-label">REMARKS</span><span class="deploy-val">'+escH(notes)+'</span></div>':'')
+      +'</div></div>';
+  }).join('')+'</div>';
+}
+</script>
+</body>
+</html>
