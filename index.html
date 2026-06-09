@@ -533,7 +533,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input type="text" id="searchME" placeholder="Search workers..." oninput="renderDivision('me')"/>
     </div>
-    <button class="btn-action" onclick="loadDivisions()">
+    <button class="btn-action" onclick="loadDivision('me')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Refresh
     </button>
@@ -543,6 +543,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     </button>
   </div>
   <div class="div-script-setup" id="meScriptSetup">
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+      <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">📊 ME Sheet ID:</span>
+      <input type="text" id="meSheetIdInput" placeholder="Paste Google Sheet ID..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <input type="text" id="meSheetTabInput" placeholder="Tab name (e.g. Workers)" style="width:160px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <button class="btn-action" style="white-space:nowrap;padding:8px 12px;font-size:0.8rem;" onclick="divSaveSheetId('me')">✅ Set</button>
+    </div>
     <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
       <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">⚙️ ME Apps Script URL:</span>
       <input type="text" id="meScriptUrlInput" placeholder="Paste Google Apps Script /exec URL..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
@@ -569,7 +575,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
       <input type="text" id="searchAP" placeholder="Search workers..." oninput="renderDivision('ap')"/>
     </div>
-    <button class="btn-action" onclick="loadDivisions()">
+    <button class="btn-action" onclick="loadDivision('ap')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Refresh
     </button>
@@ -579,6 +585,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     </button>
   </div>
   <div class="div-script-setup" id="apScriptSetup">
+    <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;margin-bottom:0.4rem;">
+      <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">📊 AP Sheet ID:</span>
+      <input type="text" id="apSheetIdInput" placeholder="Paste Google Sheet ID..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <input type="text" id="apSheetTabInput" placeholder="Tab name (e.g. Workers)" style="width:160px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
+      <button class="btn-action" style="white-space:nowrap;padding:8px 12px;font-size:0.8rem;" onclick="divSaveSheetId('ap')">✅ Set</button>
+    </div>
     <div style="display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;">
       <span style="font-size:0.82rem;font-weight:700;color:var(--primary);white-space:nowrap;">⚙️ AP Apps Script URL:</span>
       <input type="text" id="apScriptUrlInput" placeholder="Paste Google Apps Script /exec URL..." style="flex:1;min-width:200px;padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.8rem;font-family:inherit;"/>
@@ -620,6 +632,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <button class="eu-mtab" onclick="louShowTab('preg',this)">🧪 Pregnancy Test</button>
       <button class="eu-mtab" onclick="louShowTab('wdraw',this)">💸 Withdrawals Invoice</button>
       <button class="eu-mtab" onclick="louShowTab('b2',this)">📝 B2 Exam Receipts</button>
+      <button class="eu-mtab" onclick="louShowTab('dep',this)">✈️ Deployed Nurses</button>
     </div>
 
     <!-- 1. PRE APPROVAL — NURSE -->
@@ -752,6 +765,22 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       </table></div>
     </div>
 
+    <!-- 11. DEPLOYED NURSES -->
+    <div class="eu-mon-panel" id="lou-mon-dep">
+      <div class="eu-controls">
+        <input class="eu-search" type="search" id="louDepSearch" placeholder="Search name or employer..." oninput="louFilterTable('louDepTbody','louDepSearch')"/>
+        <select id="louDepYear" onchange="louLoadDeployed()" style="padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-size:0.82rem;background:var(--bg);color:var(--text);">
+          <option value="2026">2026</option>
+          <option value="2025">2025</option>
+        </select>
+        <button class="eu-btn-add" onclick="louLoadDeployed()">🔄 Refresh</button>
+      </div>
+      <div class="eu-tbl-wrap"><table class="eu-tbl">
+        <thead><tr><th>#</th><th>Name</th><th>Deployment Date</th><th>Source</th><th>Employer</th><th>Medical</th><th>OEC</th><th>PDOS</th><th>Remarks</th></tr></thead>
+        <tbody id="louDepTbody"><tr><td colspan="9" class="eu-empty">Click Refresh to load deployed nurses.</td></tr></tbody>
+      </table></div>
+    </div>
+
   </div><!-- end lou content -->
 </div><!-- end page-eu -->
 
@@ -777,7 +806,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   <!-- LIST VIEW -->
   <div id="den-list-view">
     <div class="eu-controls" style="margin-top:1rem;">
-      <input type="text" class="eu-search" id="denSearch" placeholder="🔍 Maghanap ng pangalan..." oninput="denFilter()" />
+      <input type="text" class="eu-search" id="denSearch" placeholder="🔍 Search by name..." oninput="denFilter()" />
       <button class="eu-btn-add" onclick="denOpenForm(null)">＋ Add Record</button>
       <button class="eu-btn-add" onclick="denLoadSheet()">🔄 Refresh</button>
     </div>
@@ -809,7 +838,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 
 <!-- ═══ DENNISE: ADD/EDIT MODAL ═══ -->
 <div id="denModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9000;align-items:center;justify-content:center;">
-  <div style="background:var(--bg);border-radius:14px;width:min(680px,95vw);max-height:90vh;overflow-y:auto;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
+  <div style="background:#ffffff;border-radius:14px;width:min(680px,95vw);max-height:90vh;overflow-y:auto;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18);position:relative;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
       <div id="denModalTitle" style="font-size:1rem;font-weight:700;color:var(--text);">＋ Add Record</div>
       <button onclick="denCloseModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-muted);">✕</button>
@@ -939,8 +968,8 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 </div><!-- end page-jha -->
 
 <!-- ═══ JHAEVIN: ADD/EDIT DOCUMENT MODAL ═══ -->
-<div id="jhaModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9000;align-items:center;justify-content:center;">
-  <div style="background:var(--bg);border-radius:14px;width:min(620px,95vw);max-height:90vh;overflow-y:auto;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+<div id="jhaModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9000;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 0;">
+  <div style="background:#ffffff;border-radius:14px;width:min(620px,95vw);margin:auto;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
       <div id="jhaModalTitle" style="font-size:1rem;font-weight:700;color:var(--text);">＋ Add Document</div>
       <button onclick="jhaCloseModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-muted);">✕</button>
@@ -1112,7 +1141,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <div class="enc-panel-title">🔍 Hanapin ang Record</div>
       <div class="search-box" style="margin-bottom:0.8rem;">
         <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-        <input type="text" id="encSearch" placeholder="Maghanap ng pangalan..." oninput="encDoSearch()"/>
+        <input type="text" id="encSearch" placeholder="Search by name..." oninput="encDoSearch()"/>
       </div>
       <div id="encResults" class="enc-results"><p class="enc-hint">Type a name to search</p></div>
       <button class="btn-action" style="width:100%;margin-top:1rem;justify-content:center;" onclick="encClearForm()">
@@ -1349,8 +1378,10 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
 <script>
 const ACCRED_SHEET_ID='1gl3tTi98E0UkNwKBEq-TyP0Ptg782vxvWQVTFD6c3yo';
 const WORKERS_SHEET_ID='1XyyJTxjvdFSEcuGCf8_ubk-SrG3K_9pM0K9IEqdfEQk';
-const ME_ID='1ucGonDZJhyF36k-plfFrSjQ8Q6MFzcFt513YR6qztQk';
-const AP_ID='1XySHOIPeikZoGkTapmtUuE7rksmvX_gaZK697tqMCk4';
+var ME_ID=localStorage.getItem('me_sheet_id')||'1ucGonDZJhyF36k-plfFrSjQ8Q6MFzcFt513YR6qztQk';
+var AP_ID=localStorage.getItem('ap_sheet_id')||'1XySHOIPeikZoGkTapmtUuE7rksmvX_gaZK697tqMCk4';
+var ME_TAB=localStorage.getItem('me_sheet_tab')||'Workers';
+var AP_TAB=localStorage.getItem('ap_sheet_tab')||'Workers';
 const EU_ID='149jardAs0Khwf1_aIX-5MjQZ15Y1Vl24mG0vfSDXHWg';
 const CREDS_ID='1C_4fGjS6NKct6cUOI4ucrcNbvyjBON14NJt5Qgd25OU';
 let users={
@@ -1572,10 +1603,13 @@ function switchPage(pg){
   if(pageEl) pageEl.classList.add('active');
   var navEl=document.getElementById('nav-'+pg);
   if(navEl) navEl.classList.add('active');
+  if(pg==='me') loadDivision('me');
+  if(pg==='ap') loadDivision('ap');
   if(pg==='wrk') loadWorkers();
   if(pg==='walkin') loadWalkin();
   if(pg==='enc'){encCheckSetup();encClearForm();if(!walkinData.length)loadWalkin();}
   if(pg==='users'){umCheckSetup();}
+  if(pg==='eu'){louLoadTasks();}
   if(pg==='jha'){jhaInit();if(jhaCurrentLetter) jhaLoadLetter(jhaCurrentLetter);}
   if(pg==='overall'){overallLoad();}
 }
@@ -1784,15 +1818,41 @@ async function loadWorkers(){
       +'</div>';
   }).join('')+'</div>';
 }
-async function loadDivisions(){
-  ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Loading...</div>';});
+async function loadDivision(d){
+  var listId={me:'meList',ap:'apList',eu:'euList'}[d];
+  var sheetId={me:ME_ID,ap:AP_ID,eu:EU_ID}[d];
+  var tabName={me:ME_TAB,ap:AP_TAB,eu:'Workers'}[d];
+  var el=document.getElementById(listId);
+  el.innerHTML='<div class="loading">Loading...</div>';
   try{
-    var results=await Promise.all([fetchSheet(ME_ID,'Workers'),fetchSheet(AP_ID,'Workers'),fetchSheet(EU_ID,'Workers')]);
-    divWorkers.me=results[0];divWorkers.ap=results[1];divWorkers.eu=results[2];
-    renderDivision('me');renderDivision('ap');renderDivision('eu');
+    var rows=await fetchSheet(sheetId,tabName);
+    divWorkers[d]=rows;
+    if(rows.length===0){
+      var cols=[];
+      // Try fetching without tab param to get default sheet column names
+      try{
+        var r2=await fetchSheet(sheetId,'');
+        if(r2.length>0) cols=Object.keys(r2[0]);
+      }catch(e2){}
+      var colMsg=cols.length?'<br><small>Columns found: <em>'+cols.slice(0,6).join(', ')+(cols.length>6?'…':'')+'</em></small>':'';
+      el.innerHTML='<div style="padding:1.5rem;text-align:center;color:#c62828;font-size:0.88rem;">'
+        +'⚠️ <strong>No data found.</strong> Please check:<br><br>'
+        +'1. Tab name is exactly <strong>"'+tabName+'"</strong> (case-sensitive)<br>'
+        +'2. Sheet is shared as <strong>"Anyone with link can view"</strong><br>'
+        +'3. The Sheet ID is correct'
+        +colMsg+'</div>';
+    } else {
+      renderDivision(d);
+    }
   }catch(e){
-    ['meList','apList','euList'].forEach(function(id){document.getElementById(id).innerHTML='<div class="loading">Error loading data.</div>';});
+    el.innerHTML='<div style="padding:1.5rem;text-align:center;color:#c62828;font-size:0.88rem;">'
+      +'❌ <strong>Error loading sheet.</strong><br><br>'
+      +'Message: '+e.message+'<br><br>'
+      +'Check that the Sheet ID is correct and the sheet is public.</div>';
   }
+}
+async function loadDivisions(){
+  await Promise.all([loadDivision('me'),loadDivision('ap')]);
 }
 var divFilters={me:'',ap:'',eu:''};
 function setDivFilter(d,f){
@@ -1894,6 +1954,24 @@ function divSaveUrl(d){
   localStorage.setItem(d+'_script_url',val);
   divCheckSetup(d);
 }
+function divSaveSheetId(d){
+  var idInp=document.getElementById(d+'SheetIdInput');
+  var tabInp=document.getElementById(d+'SheetTabInput');
+  var newId=(idInp?idInp.value:'').trim();
+  var newTab=(tabInp?tabInp.value:'').trim();
+  if(!newId){alert('Please paste the Sheet ID first.');return;}
+  if(d==='me'){
+    ME_ID=newId; ME_TAB=newTab||'Workers';
+    localStorage.setItem('me_sheet_id',ME_ID);
+    localStorage.setItem('me_sheet_tab',ME_TAB);
+  } else if(d==='ap'){
+    AP_ID=newId; AP_TAB=newTab||'Workers';
+    localStorage.setItem('ap_sheet_id',AP_ID);
+    localStorage.setItem('ap_sheet_tab',AP_TAB);
+  }
+  alert('✅ Sheet ID saved! Tab: '+(newTab||'Workers')+'. Reloading data...');
+  loadDivision(d);
+}
 function divCheckSetup(d){
   var url=divScriptUrls[d];
   var inp=document.getElementById(d+'ScriptUrlInput');
@@ -1906,6 +1984,18 @@ function divCheckSetup(d){
     st.textContent=url?'✅ URL set: '+url.substring(0,55)+'...':'';
   }
   if(note) note.style.display=url?'none':'block';
+  // Populate sheet ID inputs for me/ap
+  if(d==='me'){
+    var si=document.getElementById('meSheetIdInput');
+    var st2=document.getElementById('meSheetTabInput');
+    if(si) si.value=ME_ID;
+    if(st2) st2.value=ME_TAB;
+  } else if(d==='ap'){
+    var si2=document.getElementById('apSheetIdInput');
+    var st3=document.getElementById('apSheetTabInput');
+    if(si2) si2.value=AP_ID;
+    if(st3) st3.value=AP_TAB;
+  }
 }
 function divInitSetup(){
   ['me','ap','eu'].forEach(function(d){divCheckSetup(d);});
@@ -2187,11 +2277,94 @@ function louExtractSection(lines, leftTitle, colStart, numCols){
   return rows;
 }
 
+// ── LOU: AUTO-LOAD ALL SECTIONS ON TAB OPEN ──
+function louLoadTasks(){
+  if(!louSheetId) return;
+  // Single fetch for all Tasks-sheet sections
+  fetch(louGvizUrl('Tasks')).then(function(r){return r.text();}).then(function(txt){
+    var lines=txt.trim().split(/\r?\n/);
+    louTasksCache=lines;
+    var panels=[
+      ['PRE APPROVAL_NURSE','louPanTbody'],
+      ['VISA MONITORING_NURSES','louVmnTbody'],
+      ['PRE APPROVAL_PHYSIOTHERAPIST','louPapTbody'],
+      ['VISA MONITORING_PHYSIOTHERAPIST','louVmpTbody'],
+      ['MEDICAL MONITORING','louMedTbody'],
+      ['PDOS MONITORING','louPdosTbody'],
+      ['OVERSEAS EMPLOYMENT CERTIFICATE MONITORING','louOecTbody'],
+      ['PREGNANCY TEST','louPregTbody'],
+      ['WITHDRAWALS INVOICE MONITORING','louWdrawTbody'],
+      ['B2 EXAM RECEIPTS FOR BILLING','louB2Tbody']
+    ];
+    panels.forEach(function(p){
+      var sName=p[0],tbId=p[1];
+      var body=document.getElementById(tbId);
+      if(!body) return;
+      var cfg=LOU_SECTION_MAP[sName];
+      if(!cfg) return;
+      var rows=louExtractSection(lines,cfg.leftTitle,cfg.col,cfg.n);
+      if(!rows.length){
+        body.innerHTML='<tr><td colspan="'+(cfg.n+1)+'" class="eu-empty">No data in this section.</td></tr>';
+        return;
+      }
+      body.innerHTML=rows.map(function(cells,idx){
+        var tds=cells.map(function(v){return '<td>'+escH(v)+'</td>';}).join('');
+        tds+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sName.replace(/'/g,"\\'")+'\',' +idx+')">✏️ Edit</button></td>';
+        return '<tr>'+tds+'</tr>';
+      }).join('');
+    });
+  }).catch(function(e){
+    console.error('Lou Tasks error:',e);
+  });
+  louLoadDeployed();
+}
+
+// ── LOU: DEPLOYED NURSES SHEET LOADER ──
+function louLoadDeployed(){
+  if(!louSheetId) return;
+  var body=document.getElementById('louDepTbody');
+  if(!body) return;
+  body.innerHTML='<tr><td colspan="9" class="eu-empty">Loading...</td></tr>';
+  var year=(document.getElementById('louDepYear').value||'2026');
+  fetch(louGvizUrl('Deployed nurses')).then(function(r){return r.text();}).then(function(txt){
+    var lines=txt.trim().split(/\r?\n/);
+    var rows=[];
+    var currentYear='';
+    var rowNum=0;
+    for(var i=0;i<lines.length;i++){
+      var c=parseCSVLine(lines[i]);
+      if(!c) continue;
+      // Detect year header rows like "JANUARY (2026)" in col 0 or col 13
+      var c0=(c[0]||'').trim();
+      var yMatch=c0.match(/\((\d{4})\)/);
+      if(yMatch){ currentYear=yMatch[1]; continue; }
+      // Data row: col 0 = row number, col 1 = name, col 2 = deployment date
+      var no=(c[0]||'').trim();
+      var name=(c[1]||'').trim();
+      if(!no||isNaN(parseFloat(no))||!name) continue;
+      if(currentYear!==year) continue;
+      rowNum++;
+      rows.push('<tr>'
+        +'<td>'+rowNum+'</td>'
+        +'<td style="font-weight:600;">'+escH(name)+'</td>'
+        +'<td>'+escH((c[2]||'').trim()||'—')+'</td>'
+        +'<td>'+escH((c[3]||'').trim()||'—')+'</td>'
+        +'<td style="max-width:220px;white-space:normal;">'+escH((c[4]||'').trim()||'—')+'</td>'
+        +'<td style="text-align:center;">'+((c[5]||'').trim()==='✔'?'✅':'—')+'</td>'
+        +'<td style="text-align:center;">'+((c[6]||'').trim()==='✔'?'✅':'—')+'</td>'
+        +'<td style="text-align:center;">'+((c[7]||'').trim()==='✔'?'✅':'—')+'</td>'
+        +'<td>'+escH((c[8]||'').trim()||'—')+'</td>'
+      +'</tr>');
+    }
+    body.innerHTML=rows.length?rows.join('')
+      :'<tr><td colspan="9" class="eu-empty">No deployment data found for '+year+'.</td></tr>';
+  }).catch(function(){
+    body.innerHTML='<tr><td colspan="9" style="text-align:center;color:#c62828;padding:1.5rem;">Error loading Deployed nurses sheet.</td></tr>';
+  });
+}
+
 // ── LOU: GENERIC SHEET LOADER ──
-// sheetName = section name (mapped to Tasks sheet) o exact tab name
-// tbodyId   = tbody element ID to populate
-// colNames  = hindi na ginagamit (narito para hindi masira ang existing button calls)
-// colCount  = hindi na ginagamit (kinukuha na sa LOU_SECTION_MAP)
+// sheetName = section name (mapped to Tasks sheet) or exact tab name
 function louLoadSheet(sheetName, tbodyId, colNames, colCount){
   if(!louSheetId){alert('Please set the Google Sheet ID above.');return;}
   var body=document.getElementById(tbodyId);
@@ -2284,13 +2457,13 @@ function denSaveSheetId(){
   var v=(document.getElementById('denSheetIdInput').value||'').trim();
   if(!v){alert('Please paste the Sheet ID.');return;}
   denSheetId=v; localStorage.setItem('den_sheet_id',v);
-  alert('✅ Sheet ID na-save!');
+  alert('✅ Sheet ID saved!');
 }
 function denSaveScriptUrl(){
   var v=(document.getElementById('denScriptUrlInput').value||'').trim();
   if(!v){alert('Please paste the Apps Script URL first.');return;}
   denScriptUrl=v; localStorage.setItem('den_script_url',v);
-  alert('✅ Script URL na-save!');
+  alert('✅ Script URL saved!');
 }
 function denFmtDate(v){
   if(!v||v==='—') return v||'—';
@@ -2403,7 +2576,7 @@ function denOpenForm(mode){
   var msg=document.getElementById('denFormMsg');
   msg.textContent='';
   if(mode==='edit' && denCurrentIdx>=0){
-    title.textContent='✏️ Edit ang Record';
+    title.textContent='✏️ Edit Record';
     var cells=denAllRows[denCurrentIdx];
     DEN_FIELDS.forEach(function(f,i){
       var el=document.getElementById('df-'+f);
@@ -2963,6 +3136,17 @@ function jhaShowList(){
   document.getElementById('jha-list-view').style.display='block';
   jhaCurrentPersonIdx=-1;
 }
+function jhaSetSelect(id,value){
+  var el=document.getElementById(id);
+  if(!el||value===undefined||value===null) return;
+  var v=(value+'').trim().toLowerCase();
+  for(var i=0;i<el.options.length;i++){
+    if(el.options[i].value.trim().toLowerCase()===v||el.options[i].text.trim().toLowerCase()===v){
+      el.selectedIndex=i;return;
+    }
+  }
+  el.selectedIndex=0; // keep blank if no match
+}
 function jhaOpenPersonForm(){
   jhaIsNewPerson=true;
   jhaEditDocIdx=-1;
@@ -3002,8 +3186,8 @@ function jhaOpenDocForm(docIdx){
     var d=p.documents[docIdx];
     document.getElementById('jhaModalTitle').textContent='✏️ Edit Document';
     document.getElementById('jf-document').value=d.document||'';
-    document.getElementById('jf-type').value=d.type||'';
-    document.getElementById('jf-status').value=d.status||'';
+    jhaSetSelect('jf-type',d.type||'');
+    jhaSetSelect('jf-status',d.status||'');
     document.getElementById('jf-dateReceived').value=d.dateReceived||'';
     document.getElementById('jf-submittedBy').value=d.submittedBy||'';
     document.getElementById('jf-receivedBy').value=d.receivedBy||'';
@@ -3122,16 +3306,18 @@ function overallRender(){
       return '<tr><td>'+(i+1)+'</td><td>'+escH(r.name)+'</td><td>'+escH(r.matchingStatus||'—')+'</td><td>'+escH(r.creationDate||'—')+'</td><td>'+escH(r.note||'—')+'</td><td><button onclick="switchPage(\'den\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
     }).join('');
   } else {
-    denTb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">No data loaded.</td></tr>';
+    denTb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">No Dennise data loaded.</td></tr>';
   }
   // Jhaevin table
   var jhaTb=document.getElementById('overallJhaTbody');
   if(overallData.jhaevin.length){
-    jhaTb.innerHTML=overallData.jhaevin.map(function(r,i){
-      return '<tr><td>'+(i+1)+'</td><td>'+escH(r.name)+'</td><td>'+escH(r.letter)+'</td><td>'+escH(r.deployStatus||'—')+'</td><td>'+r.docCount+'</td><td><button onclick="jhaCurrentLetter=\''+escH(r.letter)+'\';switchPage(\'jha\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
+    jhaTb.innerHTML=overallData.jhaevin.map(function(p,i){
+      var docs=p.documents||[];
+      var pending=docs.filter(function(d){return !d.status||d.status.toLowerCase()==='';}).length;
+      return '<tr><td>'+(i+1)+'</td><td>'+escH(p.name)+'</td><td>'+escH(p.letter||'—')+'</td><td>'+escH(p.deployStatus||'—')+'</td><td>'+docs.length+'</td><td><button onclick="switchPage(\'jha\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
     }).join('');
   } else {
-    jhaTb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">No data loaded.</td></tr>';
+    jhaTb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">No Jhaevin data loaded.</td></tr>';
   }
 }
 </script>
