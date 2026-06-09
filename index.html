@@ -436,17 +436,17 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
       Asia Pacific
     </div>
-    <div class="sidebar-item" id="nav-eu" onclick="switchPage('eu')">
+    <div class="sidebar-item" id="nav-jha" onclick="switchPage('jha')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
-      Lou Argosino
+      Jhaevin
     </div>
     <div class="sidebar-item" id="nav-den" onclick="switchPage('den')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
       Dennise Garote
     </div>
-    <div class="sidebar-item" id="nav-jha" onclick="switchPage('jha')">
+    <div class="sidebar-item" id="nav-eu" onclick="switchPage('eu')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064"/></svg>
-      Jhaevin
+      Lou Argosino
     </div>
     <div class="sidebar-item" id="nav-overall" onclick="switchPage('overall')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -615,174 +615,123 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   <div>
     <div class="eu-sheet-setup">
       <span>📊 Lou — Google Sheet ID:</span>
-      <input type="text" id="louSheetIdInput" placeholder="Paste the Google Sheet ID for Monitoring_Lou..."/>
+      <input type="text" id="louSheetIdInput" placeholder="Paste the Google Sheet ID..."/>
       <button class="btn-action" style="padding:6px 12px;font-size:0.8rem;" onclick="louSaveSheetId()">✅ Set</button>
       <span id="louSheetStatus" style="font-size:0.78rem;color:var(--text-muted);"></span>
     </div>
-
-    <!-- 10 monitoring sub-tabs -->
-    <div class="eu-mon-tabs">
-      <button class="eu-mtab active" onclick="louShowTab('pan',this)">📋 Pre-Approval — Nurse</button>
-      <button class="eu-mtab" onclick="louShowTab('vmn',this)">🛂 Visa Monitoring — Nurses</button>
-      <button class="eu-mtab" onclick="louShowTab('pap',this)">📋 Pre-Approval — Physio</button>
-      <button class="eu-mtab" onclick="louShowTab('vmp',this)">🛂 Visa Monitoring — Physio</button>
-      <button class="eu-mtab" onclick="louShowTab('med',this)">🏥 Medical Monitoring</button>
-      <button class="eu-mtab" onclick="louShowTab('pdos',this)">📑 PDOS Monitoring</button>
-      <button class="eu-mtab" onclick="louShowTab('oec',this)">📜 OEC Monitoring</button>
-      <button class="eu-mtab" onclick="louShowTab('preg',this)">🧪 Pregnancy Test</button>
-      <button class="eu-mtab" onclick="louShowTab('wdraw',this)">💸 Withdrawals Invoice</button>
-      <button class="eu-mtab" onclick="louShowTab('b2',this)">📝 B2 Exam Receipts</button>
-      <button class="eu-mtab" onclick="louShowTab('dep',this)">✈️ Deployed Nurses</button>
+    <div class="eu-sheet-setup" style="margin-top:0.4rem;">
+      <span>⚙️ Lou — Apps Script URL:</span>
+      <input type="text" id="louScriptUrlInput" placeholder="Paste /exec URL from lou-manager.gs..."/>
+      <button class="btn-action" style="padding:6px 12px;font-size:0.8rem;" onclick="louSaveScriptUrl()">✅ Set</button>
+      <span id="louScriptStatus" style="font-size:0.78rem;color:var(--text-muted);"></span>
     </div>
 
-    <!-- 1. PRE APPROVAL — NURSE -->
+    <!-- 6 monitoring sub-tabs matching actual sheet tabs -->
+    <div class="eu-mon-tabs">
+      <button class="eu-mtab active" onclick="louShowTab('pan',this)">📋 Pre-Approval — Nurse</button>
+      <button class="eu-mtab" onclick="louShowTab('vmn',this)">🛂 Visa Monitoring</button>
+      <button class="eu-mtab" onclick="louShowTab('pap',this)">📋 Pre-Approval — Physio</button>
+      <button class="eu-mtab" onclick="louShowTab('oec',this)">📜 OEC</button>
+      <button class="eu-mtab" onclick="louShowTab('preg',this)">🧪 Pregnancy Test</button>
+      <button class="eu-mtab" onclick="louShowTab('wdraw',this)">💸 Withdrawals</button>
+    </div>
+
+    <!-- 1. PRE APPROVAL — NURSE (tab: "Pre Approval_Nurse") -->
     <div class="eu-mon-panel active" id="lou-mon-pan">
       <div class="eu-controls">
         <input class="eu-search" type="search" id="louPanSearch" placeholder="Search name..." oninput="louFilterTable('louPanTbody','louPanSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('PRE APPROVAL_NURSE',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('PRE APPROVAL_NURSE','louPanTbody',['#','Name','Pre-approval status','Request date','Released date','Sent to applicant','Remarks'],8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louLoadSheet('Pre Approval_Nurse','louPanTbody',8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('Pre Approval_Nurse',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Pre-approval status</th><th>Request date</th><th>Released date</th><th>Sent to applicant</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louPanTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Request Date</th><th>Released Date</th><th>Sent to Applicant</th><th>Remarks</th><th></th></tr></thead>
+        <tbody id="louPanTbody"><tr><td colspan="8" class="eu-empty">Loading...</td></tr></tbody>
       </table></div>
     </div>
 
-    <!-- 2. VISA MONITORING — NURSES -->
+    <!-- 2. VISA MONITORING NURSES (tab: "Visa") -->
     <div class="eu-mon-panel" id="lou-mon-vmn">
       <div class="eu-controls">
         <input class="eu-search" type="search" id="louVmnSearch" placeholder="Search name..." oninput="louFilterTable('louVmnTbody','louVmnSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('VISA MONITORING_NURSES',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('VISA MONITORING_NURSES','louVmnTbody',['#','Name','Visa appt. date','Briefing date','Embassy status','Visa released','Remarks'],8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louLoadSheet('Visa','louVmnTbody',10)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('Visa',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Visa appt. date</th><th>Briefing date</th><th>Embassy status</th><th>Visa released</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louVmnTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>Coversheet</th><th>Visumantrag</th><th>Appt. Date</th><th>Briefing Date</th><th>Embassy Status</th><th>Visa Released</th><th>Remarks</th><th></th></tr></thead>
+        <tbody id="louVmnTbody"><tr><td colspan="10" class="eu-empty">Click tab to load.</td></tr></tbody>
       </table></div>
     </div>
 
-    <!-- 3. PRE APPROVAL — PHYSIOTHERAPIST -->
+    <!-- 3. PRE APPROVAL — PHYSIOTHERAPIST (tab: "Pre Approval_Physiotherapist") -->
     <div class="eu-mon-panel" id="lou-mon-pap">
       <div class="eu-controls">
         <input class="eu-search" type="search" id="louPapSearch" placeholder="Search name..." oninput="louFilterTable('louPapTbody','louPapSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('PRE APPROVAL_PHYSIOTHERAPIST',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('PRE APPROVAL_PHYSIOTHERAPIST','louPapTbody',['#','Name','Pre-approval status','Request date','Released date','Sent to applicant','Remarks'],8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louLoadSheet('Pre Approval_Physiotherapist','louPapTbody',8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('Pre Approval_Physiotherapist',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Pre-approval status</th><th>Request date</th><th>Released date</th><th>Sent to applicant</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louPapTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>Status</th><th>Request Date</th><th>Released Date</th><th>Sent to Applicant</th><th>Remarks</th><th></th></tr></thead>
+        <tbody id="louPapTbody"><tr><td colspan="8" class="eu-empty">Click tab to load.</td></tr></tbody>
       </table></div>
     </div>
 
-    <!-- 4. VISA MONITORING — PHYSIOTHERAPIST -->
-    <div class="eu-mon-panel" id="lou-mon-vmp">
-      <div class="eu-controls">
-        <input class="eu-search" type="search" id="louVmpSearch" placeholder="Search name..." oninput="louFilterTable('louVmpTbody','louVmpSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('VISA MONITORING_PHYSIOTHERAPIST',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('VISA MONITORING_PHYSIOTHERAPIST','louVmpTbody',['#','Name','Visa appt. date','Briefing date','Embassy status','Visa released','Remarks'],8)">🔄 Refresh</button>
-      </div>
-      <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Visa appt. date</th><th>Briefing date</th><th>Embassy status</th><th>Visa released</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louVmpTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
-      </table></div>
-    </div>
-
-    <!-- 5. MEDICAL MONITORING -->
-    <div class="eu-mon-panel" id="lou-mon-med">
-      <div class="eu-controls">
-        <input class="eu-search" type="search" id="louMedSearch" placeholder="Search name..." oninput="louFilterTable('louMedTbody','louMedSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('MEDICAL MONITORING',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('MEDICAL MONITORING','louMedTbody',['#','Name','Medical date','Clinic/Hospital','Result/Status','Expiry date','Remarks'],8)">🔄 Refresh</button>
-      </div>
-      <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Medical date</th><th>Clinic/Hospital</th><th>Result/Status</th><th>Expiry date</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louMedTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
-      </table></div>
-    </div>
-
-    <!-- 6. PDOS MONITORING -->
-    <div class="eu-mon-panel" id="lou-mon-pdos">
-      <div class="eu-controls">
-        <input class="eu-search" type="search" id="louPdosSearch" placeholder="Search name..." oninput="louFilterTable('louPdosTbody','louPdosSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('PDOS MONITORING',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('PDOS MONITORING','louPdosTbody',['#','Name','PDOS date','Schedule date','Status','Remarks'],7)">🔄 Refresh</button>
-      </div>
-      <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>PDOS date</th><th>Schedule date</th><th>Status</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louPdosTbody"><tr><td colspan="7" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
-      </table></div>
-    </div>
-
-    <!-- 7. OEC MONITORING -->
+    <!-- 4. OEC (tab: "OEC") -->
     <div class="eu-mon-panel" id="lou-mon-oec">
       <div class="eu-controls">
         <input class="eu-search" type="search" id="louOecSearch" placeholder="Search name..." oninput="louFilterTable('louOecTbody','louOecSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('OVERSEAS EMPLOYMENT CERTIFICATE MONITORING',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('OVERSEAS EMPLOYMENT CERTIFICATE MONITORING','louOecTbody',['#','Name','OEC date','OEC no.','Status','Expiry date','Remarks'],8)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louLoadSheet('OEC','louOecTbody',10)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('OEC',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>OEC date</th><th>OEC no.</th><th>Status</th><th>Expiry date</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louOecTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>Workers Data</th><th>EREG</th><th>Passport</th><th>PEOS</th><th>Insurance</th><th>OEC Requested</th><th>OEC Uploaded</th><th></th></tr></thead>
+        <tbody id="louOecTbody"><tr><td colspan="10" class="eu-empty">Click tab to load.</td></tr></tbody>
       </table></div>
     </div>
 
-    <!-- 8. PREGNANCY TEST -->
+    <!-- 5. PREGNANCY TEST (tab: "Pregnancy test") -->
     <div class="eu-mon-panel" id="lou-mon-preg">
       <div class="eu-controls">
         <input class="eu-search" type="search" id="louPregSearch" placeholder="Search name..." oninput="louFilterTable('louPregTbody','louPregSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('PREGNANCY TEST',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('PREGNANCY TEST','louPregTbody',['#','Name','Test date','Result','Remarks'],6)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louLoadSheet('Pregnancy test','louPregTbody',9)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('Pregnancy test',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Test date</th><th>Result</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louPregTbody"><tr><td colspan="6" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>1st Test Date</th><th>1st Result</th><th>Clinic</th><th>2nd Test Date</th><th>2nd Result</th><th>Clinic</th><th></th></tr></thead>
+        <tbody id="louPregTbody"><tr><td colspan="9" class="eu-empty">Click tab to load.</td></tr></tbody>
       </table></div>
     </div>
 
-    <!-- 9. WITHDRAWALS INVOICE MONITORING -->
+    <!-- 6. WITHDRAWALS (tab: "Withdrawals") -->
     <div class="eu-mon-panel" id="lou-mon-wdraw">
       <div class="eu-controls">
-        <input class="eu-search" type="search" id="louWdrawSearch" placeholder="Search name or invoice..." oninput="louFilterTable('louWdrawTbody','louWdrawSearch')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('WITHDRAWALS INVOICE MONITORING',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('WITHDRAWALS INVOICE MONITORING','louWdrawTbody',['#','Name','Invoice no.','Date','Amount','Specifics','Remarks'],8)">🔄 Refresh</button>
+        <input class="eu-search" type="search" id="louWdrawSearch" placeholder="Search name..." oninput="louFilterTable('louWdrawTbody','louWdrawSearch')"/>
+        <button class="eu-btn-add" onclick="louLoadSheet('Withdrawals','louWdrawTbody',7)">🔄 Refresh</button>
+        <button class="eu-btn-add" onclick="louOpenForm('Withdrawals',null)">＋ Add</button>
       </div>
       <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Invoice no.</th><th>Date</th><th>Amount</th><th>Specifics</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louWdrawTbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
-      </table></div>
-    </div>
-
-    <!-- 10. B2 EXAM RECEIPTS FOR BILLING -->
-    <div class="eu-mon-panel" id="lou-mon-b2">
-      <div class="eu-controls">
-        <input class="eu-search" type="search" id="louB2Search" placeholder="Search name..." oninput="louFilterTable('louB2Tbody','louB2Search')"/>
-        <button class="eu-btn-add" onclick="louOpenForm('B2 EXAM RECEIPTS FOR BILLING',null)">＋ Add record</button>
-        <button class="eu-btn-add" onclick="louLoadSheet('B2 EXAM RECEIPTS FOR BILLING','louB2Tbody',['#','Name','Exam date','Receipt no.','Amount','Status','Remarks'],8)">🔄 Refresh</button>
-      </div>
-      <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Exam date</th><th>Receipt no.</th><th>Amount</th><th>Status</th><th>Remarks</th><th></th></tr></thead>
-        <tbody id="louB2Tbody"><tr><td colspan="8" class="eu-empty">Set the Sheet ID to load data.</td></tr></tbody>
-      </table></div>
-    </div>
-
-    <!-- 11. DEPLOYED NURSES -->
-    <div class="eu-mon-panel" id="lou-mon-dep">
-      <div class="eu-controls">
-        <input class="eu-search" type="search" id="louDepSearch" placeholder="Search name or employer..." oninput="louFilterTable('louDepTbody','louDepSearch')"/>
-        <select id="louDepYear" onchange="louLoadDeployed()" style="padding:0.4rem 0.7rem;border:1.5px solid var(--border);border-radius:8px;font-size:0.82rem;background:var(--bg);color:var(--text);">
-          <option value="2026">2026</option>
-          <option value="2025">2025</option>
-        </select>
-        <button class="eu-btn-add" onclick="louLoadDeployed()">🔄 Refresh</button>
-      </div>
-      <div class="eu-tbl-wrap"><table class="eu-tbl">
-        <thead><tr><th>#</th><th>Name</th><th>Deployment Date</th><th>Source</th><th>Employer</th><th>Medical</th><th>OEC</th><th>PDOS</th><th>Remarks</th></tr></thead>
-        <tbody id="louDepTbody"><tr><td colspan="9" class="eu-empty">Click Refresh to load deployed nurses.</td></tr></tbody>
+        <thead><tr><th>#</th><th>Name</th><th>Invoice Date (ADMO)</th><th>Date Sent</th><th>Deadline</th><th>Status / Promissory Note</th><th></th></tr></thead>
+        <tbody id="louWdrawTbody"><tr><td colspan="7" class="eu-empty">Click tab to load.</td></tr></tbody>
       </table></div>
     </div>
 
   </div><!-- end lou content -->
 </div><!-- end page-eu -->
+
+<!-- ═══ LOU: ADD/EDIT MODAL ═══ -->
+<div id="louModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9000;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px 0;">
+  <div style="background:#ffffff;border-radius:14px;width:min(600px,95vw);margin:auto;padding:1.5rem;box-shadow:0 8px 32px rgba(0,0,0,0.18);">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.2rem;">
+      <div id="louModalTitle" style="font-size:1rem;font-weight:700;color:var(--text);">＋ Add Record</div>
+      <button onclick="louCloseModal()" style="background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--text-muted);">✕</button>
+    </div>
+    <div id="louModalFields" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem 1rem;"></div>
+    <div id="louFormMsg" style="margin-top:0.75rem;font-size:0.82rem;min-height:1.2em;"></div>
+    <div style="display:flex;justify-content:flex-end;gap:0.6rem;margin-top:1rem;">
+      <button onclick="louCloseModal()" style="padding:0.45rem 1.2rem;border:1.5px solid var(--border);border-radius:8px;background:#fff;cursor:pointer;font-size:0.85rem;">Cancel</button>
+      <button id="louSaveBtn" onclick="louSubmitForm()" style="padding:0.45rem 1.4rem;background:var(--primary);color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:600;">💾 Save</button>
+    </div>
+  </div>
+</div>
 
 <!-- ═══════════════ PAGE: DENNISE GAROTE ═══════════════ -->
 <div class="page" id="page-den">
@@ -1041,12 +990,16 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     <!-- Summary stats -->
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:1.25rem;">
       <div style="background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
+        <div style="font-size:1.5rem;font-weight:700;color:var(--primary);" id="overallJhaCount">—</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;">Jhaevin Persons</div>
+      </div>
+      <div style="background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
         <div style="font-size:1.5rem;font-weight:700;color:var(--primary);" id="overallDenCount">—</div>
         <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;">Dennise Records</div>
       </div>
       <div style="background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
-        <div style="font-size:1.5rem;font-weight:700;color:var(--primary);" id="overallJhaCount">—</div>
-        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;">Jhaevin Persons</div>
+        <div style="font-size:1.5rem;font-weight:700;color:var(--primary);" id="overallLouCount">—</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);margin-top:3px;">Lou Records</div>
       </div>
       <div style="background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:10px;padding:1rem;text-align:center;">
         <div style="font-size:1.5rem;font-weight:700;color:var(--primary);" id="overallTotal">—</div>
@@ -1095,6 +1048,30 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
           </tr></thead>
           <tbody id="overallJhaTbody">
             <tr><td colspan="6" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Click the refresh button to load data.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Lou Section -->
+    <div style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem;">
+        <div style="font-size:0.85rem;font-weight:700;color:var(--text);">🌍 Lou Argosino — EU Division (Pre-Approval Nurses)</div>
+        <button onclick="switchPage('eu')" style="font-size:0.75rem;padding:4px 12px;background:var(--primary);color:#fff;border:none;border-radius:7px;cursor:pointer;">Open Full Page →</button>
+      </div>
+      <div style="overflow-x:auto;border-radius:10px;border:1.5px solid var(--border);">
+        <table style="width:100%;border-collapse:collapse;font-size:0.82rem;">
+          <thead><tr style="background:var(--primary);color:#fff;">
+            <th style="padding:8px 10px;text-align:left;">#</th>
+            <th style="padding:8px 10px;text-align:left;">Name</th>
+            <th style="padding:8px 10px;text-align:left;">Status</th>
+            <th style="padding:8px 10px;text-align:left;">Request Date</th>
+            <th style="padding:8px 10px;text-align:left;">Released Date</th>
+            <th style="padding:8px 10px;text-align:left;">Remarks</th>
+            <th style="padding:8px 10px;text-align:left;">Action</th>
+          </tr></thead>
+          <tbody id="overallLouTbody">
+            <tr><td colspan="7" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Click Refresh to load data.</td></tr>
           </tbody>
         </table>
       </div>
@@ -2176,11 +2153,12 @@ function openDivEncByIdx(d,idx){
   document.getElementById('divencOverlay').classList.add('open');
 }
 // ── EUROPE DEPARTMENT ────────────────────────────────────
-var louSheetId=localStorage.getItem('lou_sheet_id')||'1BZhDlI6ADcrA5YusK773Slsxi1NcL2_gyEIS7XzcWB4';
+var louSheetId=localStorage.getItem('lou_sheet_id')||'1gRJKsyhIDZJp5B59zU8U2VAPmPpW1goxMREXeGnuDNA';
 (function(){
   var inp=document.getElementById('louSheetIdInput');
   if(inp&&louSheetId) inp.value=louSheetId;
 })();
+var louScriptUrl=localStorage.getItem('lou_script_url')||'';
 function louSaveSheetId(){
   var v=(document.getElementById('louSheetIdInput').value||'').trim();
   if(!v){alert('Please paste the Google Sheet ID.');return;}
@@ -2189,17 +2167,35 @@ function louSaveSheetId(){
   if(st){st.textContent='✅ Saved!';setTimeout(function(){st.textContent='';},2000);}
   louLoadTasks();
 }
+function louSaveScriptUrl(){
+  var v=(document.getElementById('louScriptUrlInput').value||'').trim();
+  if(!v){alert('Please paste the Apps Script URL.');return;}
+  louScriptUrl=v;localStorage.setItem('lou_script_url',v);
+  var st=document.getElementById('louScriptStatus');
+  if(st){st.textContent='✅ URL set: '+v.substring(0,50)+'...';setTimeout(function(){st.textContent='';},3000);}
+}
 function euShowPerson(id,btn){
   document.querySelectorAll('.eu-person-panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.eu-ptab').forEach(function(b){b.classList.remove('active');});
   document.getElementById('eu-panel-'+id).classList.add('active');
   btn.classList.add('active');
 }
+var LOU_TAB_MAP={
+  pan:  {sheet:'Pre Approval_Nurse',      tbody:'louPanTbody',  cols:8},
+  vmn:  {sheet:'Visa',                    tbody:'louVmnTbody',  cols:10},
+  pap:  {sheet:'Pre Approval_Physiotherapist', tbody:'louPapTbody', cols:8},
+  oec:  {sheet:'OEC',                     tbody:'louOecTbody',  cols:10},
+  preg: {sheet:'Pregnancy test',          tbody:'louPregTbody', cols:9},
+  wdraw:{sheet:'Withdrawals',             tbody:'louWdrawTbody',cols:7}
+};
 function louShowTab(id,btn){
-  document.querySelectorAll('#eu-panel-lou .eu-mon-panel').forEach(function(p){p.classList.remove('active');});
+  document.querySelectorAll('#page-eu .eu-mon-panel').forEach(function(p){p.classList.remove('active');});
   document.querySelectorAll('.eu-mtab').forEach(function(b){b.classList.remove('active');});
   document.getElementById('lou-mon-'+id).classList.add('active');
   btn.classList.add('active');
+  // Auto-load when tab is clicked
+  var cfg=LOU_TAB_MAP[id];
+  if(cfg) louLoadSheet(cfg.sheet, cfg.tbody, cfg.cols);
 }
 function louFilterTable(tbodyId,searchId){
   var q=(document.getElementById(searchId).value||'').toLowerCase();
@@ -2211,112 +2207,11 @@ function louGvizUrl(sheetName){
 }
 function louFmtDate(v){if(!v)return'—';var d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});}
 function louMkEditBtn(type,idx){return '<button class="eu-btn-edit" onclick="louOpenForm(\''+type+'\','+idx+')">✏️ Edit</button>';}
-// ── LOU: TASKS SHEET SECTION MAP ──
-// Lahat ng 10 sections ay nasa iisang "Tasks" sheet tab.
-// Para sa bawat section: leftTitle = title na hinahanap sa column 1 ng Tasks sheet
-//                        col       = 0-based column index kung saan nagsisimula ang data
-//                        n         = bilang ng data columns (hindi kasama ang edit button)
-var LOU_SECTION_MAP = {
-  'PRE APPROVAL_NURSE':                          {leftTitle:'PRE APPROVAL_NURSE',                          col:1,  n:7},
-  'VISA MONITORING_NURSES':                      {leftTitle:'PRE APPROVAL_NURSE',                          col:11, n:7},
-  'PRE APPROVAL_PHYSIOTHERAPIST':                {leftTitle:'PRE APPROVAL_PHYSIOTHERAPIST',                col:1,  n:7},
-  'VISA MONITORING_PHYSIOTHERAPIST':             {leftTitle:'PRE APPROVAL_PHYSIOTHERAPIST',                col:11, n:7},
-  'MEDICAL MONITORING':                          {leftTitle:'MEDICAL MONITORING',                          col:1,  n:9},
-  'PDOS MONITORING':                             {leftTitle:'MEDICAL MONITORING',                          col:11, n:6},
-  'OVERSEAS EMPLOYMENT CERTIFICATE MONITORING':  {leftTitle:'OVERSEASE EMPLOYMENT CERTIFICATE MONITORING', col:1,  n:9},
-  'OVERSEAS EMPLOYMENT CERTIFICATE':             {leftTitle:'OVERSEASE EMPLOYMENT CERTIFICATE MONITORING', col:1,  n:9},
-  'PREGNANCY TEST':                              {leftTitle:'OVERSEASE EMPLOYMENT CERTIFICATE MONITORING', col:11, n:8},
-  'WITHDRAWALS INVOICE MONITORING':              {leftTitle:'WITHDRAWALS INVOICE MONITORING',              col:1,  n:6},
-  'B2 EXAM RECEIPTS FOR BILLING':                {leftTitle:'WITHDRAWALS INVOICE MONITORING',              col:11, n:8}
-};
-// Left-side section titles — ginagamit para malaman kung kailan nagtatapos ang isang section
-var LOU_LEFT_TITLES = [
-  'PRE APPROVAL_NURSE','PRE APPROVAL_PHYSIOTHERAPIST','MEDICAL MONITORING',
-  'OVERSEASE EMPLOYMENT CERTIFICATE MONITORING','WITHDRAWALS INVOICE MONITORING'
-];
-// Cache ng Tasks sheet (para hindi paulit-ulit na mag-fetch sa parehong session)
-var louTasksCache = null;
-
-// I-extract ang rows ng isang section mula sa parsed lines ng Tasks sheet
-function louExtractSection(lines, leftTitle, colStart, numCols){
-  var rows=[], inSection=false, pastHeader=false;
-  var lt=leftTitle.trim().toUpperCase().replace(/\s+/g,' ');
-  for(var i=0;i<lines.length;i++){
-    var c=parseCSVLine(lines[i]);
-    if(!c) continue;
-    var c1=(c[1]||'').trim().toUpperCase().replace(/\s+/g,' ');
-    // Detect start of our section
-    if(!inSection){
-      if(c1.indexOf(lt)>=0){ inSection=true; pastHeader=false; }
-      continue;
-    }
-    // Detect end: another left section title
-    var isEnd=false;
-    for(var t=0;t<LOU_LEFT_TITLES.length;t++){
-      var tt=LOU_LEFT_TITLES[t].toUpperCase().replace(/\s+/g,' ');
-      if(c1.indexOf(tt)>=0 && c1.indexOf(lt)<0){ isEnd=true; break; }
-    }
-    if(isEnd) break;
-    // Skip until header row (cell at colStart = "NO")
-    if(!pastHeader){
-      var maybe=(c[colStart]||'').toString().trim().toUpperCase().replace(/\.$/,'');
-      if(maybe==='NO'){ pastHeader=true; }
-      continue;
-    }
-    // Data row: cell at colStart must be a number
-    var no=(c[colStart]||'').toString().trim();
-    if(!no||isNaN(parseFloat(no))) continue;
-    var cells=[];
-    for(var j=colStart;j<colStart+numCols;j++){
-      var val=(c[j]||'').toString().trim();
-      if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)) val=louFmtDate(val);
-      cells.push(val||'—');
-    }
-    rows.push(cells);
-  }
-  return rows;
-}
-
-// ── LOU: AUTO-LOAD ALL SECTIONS ON TAB OPEN ──
+// ── LOU: LOAD A SINGLE SHEET TAB DIRECTLY ──
+// sheetName = exact Google Sheet tab name, tbodyId = tbody element id, colCount = number of data cols (incl. No col)
 function louLoadTasks(){
-  if(!louSheetId) return;
-  // Single fetch for all Tasks-sheet sections
-  fetch(louGvizUrl('Tasks')).then(function(r){return r.text();}).then(function(txt){
-    var lines=txt.trim().split(/\r?\n/);
-    louTasksCache=lines;
-    var panels=[
-      ['PRE APPROVAL_NURSE','louPanTbody'],
-      ['VISA MONITORING_NURSES','louVmnTbody'],
-      ['PRE APPROVAL_PHYSIOTHERAPIST','louPapTbody'],
-      ['VISA MONITORING_PHYSIOTHERAPIST','louVmpTbody'],
-      ['MEDICAL MONITORING','louMedTbody'],
-      ['PDOS MONITORING','louPdosTbody'],
-      ['OVERSEAS EMPLOYMENT CERTIFICATE MONITORING','louOecTbody'],
-      ['PREGNANCY TEST','louPregTbody'],
-      ['WITHDRAWALS INVOICE MONITORING','louWdrawTbody'],
-      ['B2 EXAM RECEIPTS FOR BILLING','louB2Tbody']
-    ];
-    panels.forEach(function(p){
-      var sName=p[0],tbId=p[1];
-      var body=document.getElementById(tbId);
-      if(!body) return;
-      var cfg=LOU_SECTION_MAP[sName];
-      if(!cfg) return;
-      var rows=louExtractSection(lines,cfg.leftTitle,cfg.col,cfg.n);
-      if(!rows.length){
-        body.innerHTML='<tr><td colspan="'+(cfg.n+1)+'" class="eu-empty">No data in this section.</td></tr>';
-        return;
-      }
-      body.innerHTML=rows.map(function(cells,idx){
-        var tds=cells.map(function(v){return '<td>'+escH(v)+'</td>';}).join('');
-        tds+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sName.replace(/'/g,"\\'")+'\',' +idx+')">✏️ Edit</button></td>';
-        return '<tr>'+tds+'</tr>';
-      }).join('');
-    });
-  }).catch(function(e){
-    console.error('Lou Tasks error:',e);
-  });
-  louLoadDeployed();
+  // On page open, load the first (active) tab — Pre Approval_Nurse
+  louLoadSheet('Pre Approval_Nurse','louPanTbody',8);
 }
 
 // ── LOU: DEPLOYED NURSES SHEET LOADER ──
@@ -2365,67 +2260,175 @@ function louLoadDeployed(){
 
 // ── LOU: GENERIC SHEET LOADER ──
 // sheetName = section name (mapped to Tasks sheet) or exact tab name
-function louLoadSheet(sheetName, tbodyId, colNames, colCount){
+function louLoadSheet(sheetName, tbodyId, colCount){
   if(!louSheetId){alert('Please set the Google Sheet ID above.');return;}
   var body=document.getElementById(tbodyId);
   if(!body) return;
-
-  var cfg=LOU_SECTION_MAP[sheetName];
-  if(!cfg){
-    // Hindi nasa section map — i-try i-fetch directly bilang sheet tab name
-    body.innerHTML='<tr><td colspan="'+(colCount||5)+'" class="eu-empty">Loading...</td></tr>';
-    fetch(louGvizUrl(sheetName)).then(function(r){return r.text();}).then(function(txt){
-      var lines=txt.trim().split(/\r?\n/),rows=[],dataStart=0;
-      for(var i=0;i<Math.min(lines.length,10);i++){
-        var c=parseCSVLine(lines[i]);
-        if(c&&c[0]&&!isNaN(parseFloat(c[0]))){ dataStart=i; break; }
-      }
-      for(var i=dataStart;i<lines.length;i++){
-        var c=parseCSVLine(lines[i]);
-        if(!c||!c[0]||isNaN(parseFloat(c[0]))) continue;
-        var cells='';
-        for(var j=0;j<(colCount||5)-1;j++){
-          var val=(c[j]||'').toString().trim();
-          if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)) val=louFmtDate(val);
-          cells+='<td>'+(val||'—')+'</td>';
-        }
-        cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sheetName.replace(/'/g,"\\'")+'\',' +i+')">✏️ Edit</button></td>';
-        rows.push('<tr>'+cells+'</tr>');
-      }
-      body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="'+(colCount||5)+'" class="eu-empty">No data.</td></tr>';
-    }).catch(function(){
-      body.innerHTML='<tr><td colspan="'+(colCount||5)+'" style="text-align:center;color:#c62828;padding:1.5rem;">Error. Make sure the Sheet is public and the ID is correct.</td></tr>';
-    });
-    return;
-  }
-
-  // ── TASKS SHEET SECTION (lahat ng 10 Lou sections) ──
-  var totalCols=cfg.n+1; // data cols + edit button
-  body.innerHTML='<tr><td colspan="'+totalCols+'" class="eu-empty">Loading...</td></tr>';
-  louTasksCache=null; // palaging mag-refetch para fresh data
-
-  fetch(louGvizUrl('Tasks')).then(function(r){
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.text();
-  }).then(function(txt){
+  var cc=colCount||5;
+  body.innerHTML='<tr><td colspan="'+cc+'" class="eu-empty">Loading...</td></tr>';
+  fetch(louGvizUrl(sheetName)).then(function(r){return r.text();}).then(function(txt){
     var lines=txt.trim().split(/\r?\n/);
-    var rows=louExtractSection(lines, cfg.leftTitle, cfg.col, cfg.n);
-    if(!rows.length){
-      body.innerHTML='<tr><td colspan="'+totalCols+'" class="eu-empty">No data in this section.</td></tr>';
-      return;
+    var rows=[];
+    // Skip header rows — find first row where col[0] is a number
+    var dataStart=1;
+    for(var i=0;i<Math.min(lines.length,5);i++){
+      var c=parseCSVLine(lines[i]);
+      if(c&&c[0]&&!isNaN(parseFloat(c[0]))){ dataStart=i; break; }
     }
-    body.innerHTML=rows.map(function(cells,idx){
-      var tds=cells.map(function(v){return '<td>'+v+'</td>';}).join('');
-      tds+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sheetName.replace(/'/g,"\\'")+'\',' +idx+')">✏️ Edit</button></td>';
-      return '<tr>'+tds+'</tr>';
-    }).join('');
-  }).catch(function(){
-    body.innerHTML='<tr><td colspan="'+totalCols+'" style="text-align:center;color:#c62828;padding:1.5rem;">Error. Make sure the Google Sheet is shared as "Anyone with the link can view".</td></tr>';
+    for(var i=dataStart;i<lines.length;i++){
+      var c=parseCSVLine(lines[i]);
+      if(!c) continue;
+      var no=(c[0]||'').toString().trim();
+      if(!no||isNaN(parseFloat(no))) continue;
+      var cells='';
+      for(var j=0;j<cc-1;j++){
+        var val=(c[j]||'').toString().trim();
+        if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)) val=louFmtDate(val);
+        cells+='<td>'+escH(val||'—')+'</td>';
+      }
+      cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sheetName.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\',' +i+')">✏️ Edit</button></td>';
+      rows.push('<tr>'+cells+'</tr>');
+    }
+    body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="'+cc+'" class="eu-empty">No data found in this tab.</td></tr>';
+  }).catch(function(e){
+    body.innerHTML='<tr><td colspan="'+cc+'" style="text-align:center;color:#c62828;padding:1.5rem;">❌ Error loading "'+escH(sheetName)+'". Check Sheet ID and sharing settings.</td></tr>';
   });
 }
-// ── LOU: FORM (placeholder — maiaayos sa susunod na update) ──
+// ── LOU: MODAL FIELD DEFINITIONS PER TAB ──
+var LOU_MODAL_FIELDS={
+  'Pre Approval_Nurse':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'status',label:'Pre-Approval Status',type:'select',opts:['','Released','Requested','Ready to Request']},
+    {key:'requestDate',label:'Request Date',type:'text',ph:'e.g. January 15, 2026'},
+    {key:'releasedDate',label:'Released Date',type:'text',ph:'e.g. April 22, 2026'},
+    {key:'sentDate',label:'Date Sent to Applicant',type:'text',ph:'e.g. April 23, 2026'},
+    {key:'remarks',label:'Remarks',type:'text',full:true}
+  ],
+  'Pre Approval_Physiotherapist':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'status',label:'Pre-Approval Status',type:'select',opts:['','Released','Requested','Ready to Request']},
+    {key:'requestDate',label:'Request Date',type:'text',ph:'e.g. January 8, 2026'},
+    {key:'releasedDate',label:'Released Date',type:'text',ph:'e.g. January 29, 2026'},
+    {key:'sentDate',label:'Date Sent to Applicant',type:'text',ph:''},
+    {key:'remarks',label:'Remarks',type:'text',full:true}
+  ],
+  'Visa':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'coversheet',label:'Visa Coversheet',type:'select',opts:['','Done','Pending']},
+    {key:'visumantrag',label:'Visumantrag (German Embassy)',type:'select',opts:['','Encoded','Pending']},
+    {key:'apptDate',label:'Visa Appointment Date',type:'text',ph:'e.g. May 8, 2026'},
+    {key:'briefingDate',label:'Visa Briefing Date',type:'text',ph:'e.g. May 7, 2026'},
+    {key:'embassyStatus',label:'Embassy Status',type:'text',ph:'e.g. No requested document'},
+    {key:'visaReleased',label:'Visa Released Date',type:'text',ph:'e.g. March 12, 2026'},
+    {key:'remarks',label:'Remarks',type:'text',full:true}
+  ],
+  'OEC':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'workersData',label:'Workers Data',type:'select',opts:['','Done','Pending']},
+    {key:'ereg',label:'EREG',type:'text',ph:'e.g. Done, Missing Pagibig Number'},
+    {key:'passport',label:'Passport (Copy)',type:'select',opts:['','Done','Pending']},
+    {key:'peos',label:'PEOS',type:'text',ph:'e.g. Done by Agency'},
+    {key:'insurance',label:'Insurance',type:'select',opts:['','Done','Pending']},
+    {key:'oecRequested',label:'Date OEC Requested',type:'text',ph:'e.g. January 20, 2026'},
+    {key:'oecUploaded',label:'Date OEC Uploaded',type:'text',ph:'e.g. January 21, 2026'}
+  ],
+  'Pregnancy test':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'test1Date',label:'1st Test Date',type:'text',ph:'e.g. January 16, 2026'},
+    {key:'result1',label:'1st Result',type:'select',opts:['','Negative','Positive']},
+    {key:'clinic1',label:'Clinic (1st)',type:'text',ph:'Clinic name'},
+    {key:'test2Date',label:'2nd Test Date',type:'text',ph:'e.g. January 26, 2026'},
+    {key:'result2',label:'2nd Result',type:'select',opts:['','Negative','Positive']},
+    {key:'clinic2',label:'Clinic (2nd)',type:'text',ph:'Clinic name'}
+  ],
+  'Withdrawals':[
+    {key:'name',label:'Name *',type:'text',full:true},
+    {key:'invoiceDate',label:'Date of Invoice (ADMO Law)',type:'text',ph:'e.g. March 1, 2026'},
+    {key:'dateSent',label:'Date of Invoice Sent',type:'text',ph:''},
+    {key:'deadline',label:'Deadline',type:'text',ph:''},
+    {key:'status',label:'Status / Promissory Note',type:'text',ph:'e.g. Promissory Note'}
+  ]
+};
+var _louCurrentTab='';var _louCurrentRowIdx=null;var _louCurrentRowData=null;
 function louOpenForm(sheetName,rowIdx){
-  alert('Encode/Edit form para sa "'+sheetName+'" — coming soon.');
+  if(!louScriptUrl){alert('Please set the Lou Apps Script URL first (⚙️ Lou — Apps Script URL).');return;}
+  _louCurrentTab=sheetName;
+  _louCurrentRowIdx=rowIdx;
+  var fields=LOU_MODAL_FIELDS[sheetName];
+  if(!fields){alert('No form defined for tab: '+sheetName);return;}
+  var isEdit=(rowIdx!==null&&rowIdx!==undefined);
+  document.getElementById('louModalTitle').textContent=isEdit?'✏️ Edit Record — '+sheetName:'＋ Add Record — '+sheetName;
+  // Build fields HTML
+  var html='';
+  // Get existing row data if editing
+  var rowData={};
+  if(isEdit){
+    var tbodyId=Object.values(LOU_TAB_MAP).find(function(t){return t.sheet===sheetName;})||{};
+    var tbody=document.getElementById(tbodyId.tbody||'');
+    if(tbody){
+      var rows=tbody.querySelectorAll('tr');
+      var targetRow=null;
+      // rowIdx is the CSV line index; find the row by index in table
+      if(rows&&rows[rowIdx-1]) targetRow=rows[rowIdx-1];
+      if(targetRow){
+        var cells=targetRow.querySelectorAll('td');
+        fields.forEach(function(f,fi){if(cells[fi+1]) rowData[f.key]=(cells[fi+1].textContent||'').trim();});
+      }
+    }
+  }
+  fields.forEach(function(f){
+    var val=rowData[f.key]||'';
+    var span=f.full?'grid-column:1/-1':'';
+    if(f.type==='select'){
+      var opts=f.opts.map(function(o){return '<option value="'+escH(o)+'"'+(o===val?' selected':'')+'>'+escH(o||'— Select —')+'</option>';}).join('');
+      html+='<div style="'+span+'"><label style="font-size:0.78rem;font-weight:600;color:var(--text-dark);display:block;margin-bottom:3px;">'+escH(f.label)+'</label>'
+        +'<select id="louF_'+f.key+'" style="width:100%;padding:0.4rem 0.6rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.83rem;">'+opts+'</select></div>';
+    } else {
+      html+='<div style="'+span+'"><label style="font-size:0.78rem;font-weight:600;color:var(--text-dark);display:block;margin-bottom:3px;">'+escH(f.label)+'</label>'
+        +'<input type="text" id="louF_'+f.key+'" value="'+escH(val)+'" placeholder="'+(f.ph||'')+'" style="width:100%;padding:0.4rem 0.6rem;border:1.5px solid var(--border);border-radius:7px;font-size:0.83rem;box-sizing:border-box;"></div>';
+    }
+  });
+  document.getElementById('louModalFields').innerHTML=html;
+  document.getElementById('louFormMsg').textContent='';
+  if(isEdit){
+    // Store sheetRow — approximate from rowIdx (CSV line number)
+    document.getElementById('louModal').dataset.sheetRow=rowIdx;
+  } else {
+    delete document.getElementById('louModal').dataset.sheetRow;
+  }
+  document.getElementById('louModal').style.display='flex';
+}
+function louCloseModal(){document.getElementById('louModal').style.display='none';}
+async function louSubmitForm(){
+  var fields=LOU_MODAL_FIELDS[_louCurrentTab];
+  if(!fields) return;
+  var payload={tab:_louCurrentTab};
+  fields.forEach(function(f){
+    var el=document.getElementById('louF_'+f.key);
+    payload[f.key]=el?(el.value||'').trim():'';
+  });
+  var sheetRow=document.getElementById('louModal').dataset.sheetRow;
+  payload.action=sheetRow?'update-row':'add-row';
+  if(sheetRow) payload.sheetRow=parseInt(sheetRow);
+  var msg=document.getElementById('louFormMsg');
+  var btn=document.getElementById('louSaveBtn');
+  btn.disabled=true;msg.textContent='⏳ Saving...';
+  try{
+    var r=await fetch(louScriptUrl,{method:'POST',body:JSON.stringify(payload)});
+    var txt=await r.text();
+    var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
+    if(json.status==='error'){msg.style.color='#c62828';msg.textContent='❌ '+json.message;}
+    else{
+      msg.style.color='#2e7d32';msg.textContent='✅ Saved!';
+      setTimeout(function(){
+        louCloseModal();
+        // Refresh the active tab
+        var cfg=LOU_TAB_MAP[Object.keys(LOU_TAB_MAP).find(function(k){return LOU_TAB_MAP[k].sheet===_louCurrentTab;})||'pan'];
+        if(cfg) louLoadSheet(cfg.sheet,cfg.tbody,cfg.cols);
+      },1000);
+    }
+  }catch(e){msg.style.color='#c62828';msg.textContent='❌ Error: '+e.message;}
+  btn.disabled=false;
 }
 // ── DENNISE GAROTE ───────────────────────────────────────
 var denSheetId    = localStorage.getItem('den_sheet_id')    || '1BLPEFKzfJVFte_xBBwYvzGktT7eVEa9k-2Vw1be1T70';
@@ -3096,46 +3099,101 @@ function jhaRenderList(persons){
   }).join('');
 }
 function jhaFilter(){
-  var q=(document.getElementById('jhaSearch').value||'').toLowerCase();
-  if(!q){jhaRenderList(jhaAllPersons);return;}
-  var filtered=jhaAllPersons.filter(function(p){return (p.name||'').toLowerCase().indexOf(q)>=0;});
+  varq=(document.getElementById('jhaSearch').value||'').toLowerCase();
+  var filtered=jhaAllPersons.filter(function(p){return p.name.toLowerCase().indexOf(q)>=0;});
   jhaRenderList(filtered);
 }
 function jhaShowDetail(idx){
   var p=jhaAllPersons[idx];
   if(!p) return;
-  jhaCurrentPersonIdx=idx;
-  document.getElementById('jhaDetailAvatar').textContent=(p.name[0]||'?').toUpperCase();
-  document.getElementById('jhaDetailName').textContent=p.name;
-  document.getElementById('jhaDetailBadge').innerHTML=jhaDeployBadge(p.deployStatus);
-  document.getElementById('jhaDetailDocCount').textContent=p.documents.length+' document'+(p.documents.length!==1?'s':'');
+  document.getElementById('jha-list-view').style.display='none';
+  document.getElementById('jha-detail-view').style.display='block';
+  document.getElementById('jhaPersonName').textContent=p.name;
+  document.getElementById('jhaPersonDeploy').innerHTML=jhaDeployBadge(p.deployStatus);
+  document.getElementById('jhaPersonDocCount').textContent=p.documents.length+' document'+(p.documents.length!==1?'s':'');
   var tbody=document.getElementById('jhaDocTbody');
   if(!p.documents.length){
-    tbody.innerHTML='<tr><td colspan="10" style="text-align:center;padding:2rem;color:var(--text-muted);">No documents recorded.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="8" class="eu-empty">No documents found.</td></tr>';
   } else {
     tbody.innerHTML=p.documents.map(function(d,di){
       return '<tr>'
-        +'<td style="color:var(--text-muted);">'+(di+1)+'</td>'
-        +'<td>'+escH(d.document)+'</td>'
+        +'<td>'+escH(d.docName||'—')+'</td>'
         +'<td>'+jhaTypeBadge(d.type)+'</td>'
         +'<td>'+jhaStatusPill(d.status)+'</td>'
         +'<td>'+escH(d.dateReceived||'—')+'</td>'
         +'<td>'+escH(d.submittedBy||'—')+'</td>'
         +'<td>'+escH(d.receivedBy||'—')+'</td>'
         +'<td>'+escH(d.forwardingDate||'—')+'</td>'
-        +'<td>'+escH(d.returnDate||'—')+'</td>'
-        +'<td><button onclick="jhaOpenDocForm('+di+')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">Edit</button></td>'
+        +'<td><button class="eu-btn-edit" onclick="jhaOpenDocForm('+di+')">✏️ Edit</button></td>'
       +'</tr>';
     }).join('');
   }
-  document.getElementById('jha-list-view').style.display='none';
-  document.getElementById('jha-detail-view').style.display='block';
+  document.getElementById('jhaCurrentPersonIdx').value=idx;
 }
 function jhaShowList(){
   document.getElementById('jha-detail-view').style.display='none';
   document.getElementById('jha-list-view').style.display='block';
-  jhaCurrentPersonIdx=-1;
 }
+function jhaDeployBadge(status){
+  var s=(status||'').trim().toLowerCase();
+  var map={deployed:'jha-badge deployed',withdrawal:'jha-badge withdrawal',visa:'jha-badge visa',qm:'jha-badge qm'};
+  var cls=map[s]||'jha-badge none';
+  return '<span class="'+cls+'">'+escH(status||'—')+'</span>';
+}
+function jhaTypeBadge(type){
+  var t=(type||'').trim().toLowerCase();
+  var map={priority:'jha-type-badge priority',additional:'jha-type-badge additional',deployment:'jha-type-badge deployment'};
+  var cls=map[t]||'jha-type-badge';
+  return '<span class="'+cls+'">'+escH(type||'—')+'</span>';
+}
+function jhaStatusPill(status){
+  var s=(status||'').trim().toLowerCase();
+  var map={returned:'jha-status-pill returned',complete:'jha-status-pill complete'};
+  var cls=map[s]||'jha-status-pill empty';
+  return '<span class="'+cls+'">'+escH(status||'—')+'</span>';
+}
+function jhaOpenPersonForm(){
+  document.getElementById('jhaModalTitle').textContent='＋ Add New Person & Document';
+  document.getElementById('jhaF_lastName').value='';
+  document.getElementById('jhaF_firstName').value='';
+  document.getElementById('jhaF_deployStatus').value='';
+  document.getElementById('jhaF_document').value='';
+  jhaSetSelect('jhaF_type','');
+  jhaSetSelect('jhaF_status','');
+  document.getElementById('jhaF_dateReceived').value='';
+  document.getElementById('jhaF_submittedBy').value='';
+  document.getElementById('jhaF_receivedBy').value='';
+  document.getElementById('jhaF_forwardingDate').value='';
+  document.getElementById('jhaF_returnDate').value='';
+  document.getElementById('jhaFormMsg').textContent='';
+  document.getElementById('jhaModal').dataset.mode='person';
+  delete document.getElementById('jhaModal').dataset.docIdx;
+  document.getElementById('jhaModal').style.display='flex';
+}
+function jhaOpenDocForm(docIdx){
+  var idx=parseInt(document.getElementById('jhaCurrentPersonIdx').value);
+  var p=jhaAllPersons[idx];
+  if(!p) return;
+  var d=p.documents[docIdx];
+  var isEdit=(d!==undefined);
+  document.getElementById('jhaModalTitle').textContent=isEdit?'✏️ Edit Document':'＋ Add Document';
+  document.getElementById('jhaF_lastName').value='';
+  document.getElementById('jhaF_firstName').value='';
+  document.getElementById('jhaF_deployStatus').value='';
+  document.getElementById('jhaF_document').value=isEdit?(d.docName||''):'';
+  jhaSetSelect('jhaF_type',isEdit?d.type:'');
+  jhaSetSelect('jhaF_status',isEdit?d.status:'');
+  document.getElementById('jhaF_dateReceived').value=isEdit?(d.dateReceived||''):'';
+  document.getElementById('jhaF_submittedBy').value=isEdit?(d.submittedBy||''):'';
+  document.getElementById('jhaF_receivedBy').value=isEdit?(d.receivedBy||''):'';
+  document.getElementById('jhaF_forwardingDate').value=isEdit?(d.forwardingDate||''):'';
+  document.getElementById('jhaF_returnDate').value=isEdit?(d.returnDate||''):'';
+  document.getElementById('jhaFormMsg').textContent='';
+  document.getElementById('jhaModal').dataset.mode=isEdit?'update-doc':'add-doc';
+  document.getElementById('jhaModal').dataset.docIdx=docIdx;
+  document.getElementById('jhaModal').style.display='flex';
+}
+function jhaCloseModal(){document.getElementById('jhaModal').style.display='none';}
 function jhaSetSelect(id,value){
   var el=document.getElementById(id);
   if(!el||value===undefined||value===null) return;
@@ -3145,95 +3203,44 @@ function jhaSetSelect(id,value){
       el.selectedIndex=i;return;
     }
   }
-  el.selectedIndex=0; // keep blank if no match
+  el.selectedIndex=0;
 }
-function jhaOpenPersonForm(){
-  jhaIsNewPerson=true;
-  jhaEditDocIdx=-1;
-  document.getElementById('jhaModalTitle').textContent='＋ Add New Person & Document';
-  document.getElementById('jhaPersonFields').style.display='block';
-  document.getElementById('jf-lastName').value='';
-  document.getElementById('jf-firstName').value='';
-  document.getElementById('jf-deployStatus').value='';
-  document.getElementById('jf-document').value='';
-  document.getElementById('jf-type').value='';
-  document.getElementById('jf-status').value='';
-  document.getElementById('jf-dateReceived').value='';
-  document.getElementById('jf-submittedBy').value='';
-  document.getElementById('jf-receivedBy').value='';
-  document.getElementById('jf-forwardingDate').value='';
-  document.getElementById('jf-returnDate').value='';
-  document.getElementById('jhaFormMsg').textContent='';
-  document.getElementById('jhaModal').style.display='flex';
-}
-function jhaOpenDocForm(docIdx){
-  jhaIsNewPerson=false;
-  jhaEditDocIdx=docIdx;
-  var p=jhaAllPersons[jhaCurrentPersonIdx];
-  document.getElementById('jhaPersonFields').style.display='none';
-  document.getElementById('jhaFormMsg').textContent='';
-  if(docIdx===null){
-    document.getElementById('jhaModalTitle').textContent='＋ Add Document';
-    document.getElementById('jf-document').value='';
-    document.getElementById('jf-type').value='';
-    document.getElementById('jf-status').value='';
-    document.getElementById('jf-dateReceived').value='';
-    document.getElementById('jf-submittedBy').value='';
-    document.getElementById('jf-receivedBy').value='';
-    document.getElementById('jf-forwardingDate').value='';
-    document.getElementById('jf-returnDate').value='';
-  } else {
-    var d=p.documents[docIdx];
-    document.getElementById('jhaModalTitle').textContent='✏️ Edit Document';
-    document.getElementById('jf-document').value=d.document||'';
-    jhaSetSelect('jf-type',d.type||'');
-    jhaSetSelect('jf-status',d.status||'');
-    document.getElementById('jf-dateReceived').value=d.dateReceived||'';
-    document.getElementById('jf-submittedBy').value=d.submittedBy||'';
-    document.getElementById('jf-receivedBy').value=d.receivedBy||'';
-    document.getElementById('jf-forwardingDate').value=d.forwardingDate||'';
-    document.getElementById('jf-returnDate').value=d.returnDate||'';
-  }
-  document.getElementById('jhaModal').style.display='flex';
-}
-function jhaCloseModal(){document.getElementById('jhaModal').style.display='none';}
 async function jhaSubmitForm(){
-  if(!jhaScriptUrl){alert('Please set the Apps Script URL first.');return;}
-  var docName=(document.getElementById('jf-document').value||'').trim();
-  if(!docName){document.getElementById('jhaFormMsg').textContent='Document name is required.';return;}
-  var btn=document.getElementById('jhaSaveBtn');
-  btn.disabled=true;
-  document.getElementById('jhaFormMsg').textContent='Saving...';
+  var scriptUrl=localStorage.getItem('jha_script_url')||'';
+  if(!scriptUrl){alert('Please set the Jhaevin Apps Script URL in the setup bar.');return;}
+  var mode=document.getElementById('jhaModal').dataset.mode||'add-doc';
+  var personIdx=parseInt(document.getElementById('jhaCurrentPersonIdx').value||'0');
+  var p=jhaAllPersons[personIdx];
   var payload={
     sheetId:jhaSheetId,
     sheetTab:jhaCurrentLetter,
-    action:jhaEditDocIdx!==null&&jhaEditDocIdx>=0?'update-doc':'add-doc',
-    document:docName,
-    type:document.getElementById('jf-type').value||'',
-    status:document.getElementById('jf-status').value||'',
-    dateReceived:document.getElementById('jf-dateReceived').value||'',
-    submittedBy:document.getElementById('jf-submittedBy').value||'',
-    receivedBy:document.getElementById('jf-receivedBy').value||'',
-    forwardingDate:document.getElementById('jf-forwardingDate').value||'',
-    returnDate:document.getElementById('jf-returnDate').value||''
+    document:document.getElementById('jhaF_document').value.trim(),
+    type:document.getElementById('jhaF_type').value,
+    status:document.getElementById('jhaF_status').value,
+    dateReceived:document.getElementById('jhaF_dateReceived').value.trim(),
+    submittedBy:document.getElementById('jhaF_submittedBy').value.trim(),
+    receivedBy:document.getElementById('jhaF_receivedBy').value.trim(),
+    forwardingDate:document.getElementById('jhaF_forwardingDate').value.trim(),
+    returnDate:document.getElementById('jhaF_returnDate').value.trim()
   };
-  if(jhaIsNewPerson){
+  if(mode==='person'){
     payload.action='add-person';
-    payload.lastName=(document.getElementById('jf-lastName').value||'').trim();
-    payload.firstName=(document.getElementById('jf-firstName').value||'').trim();
-    payload.deployStatus=document.getElementById('jf-deployStatus').value||'';
-    if(!payload.lastName&&!payload.firstName){document.getElementById('jhaFormMsg').textContent='Last Name or First Name is required.';btn.disabled=false;return;}
-  } else if(jhaEditDocIdx!==null&&jhaEditDocIdx>=0){
-    var p=jhaAllPersons[jhaCurrentPersonIdx];
-    payload.sheetRow=p.documents[jhaEditDocIdx].sheetRow;
-    payload.personName=p.name;
+    payload.lastName=document.getElementById('jhaF_lastName').value.trim();
+    payload.firstName=document.getElementById('jhaF_firstName').value.trim();
+    payload.deployStatus=document.getElementById('jhaF_deployStatus').value.trim();
+  } else if(mode==='add-doc'){
+    payload.action='add-doc';
+    if(p){payload.personName=p.name;payload.personSheetRow=p.sheetRow||'';}
   } else {
-    var p=jhaAllPersons[jhaCurrentPersonIdx];
-    payload.personName=p.name;
-    payload.personSheetRow=p.sheetRow;
+    payload.action='update-doc';
+    var docIdx=parseInt(document.getElementById('jhaModal').dataset.docIdx||'0');
+    if(p&&p.documents[docIdx]) payload.sheetRow=p.documents[docIdx].sheetRow||'';
   }
+  var btn=document.getElementById('jhaSubmitBtn');
+  var msg=document.getElementById('jhaFormMsg');
+  btn.disabled=true;msg.textContent='⏳ Saving...';
   try{
-    var res=await fetch(jhaScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var res=await fetch(scriptUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     var txt=await res.text();
     var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
     if(json.status==='error'){document.getElementById('jhaFormMsg').textContent='❌ '+json.message;}
@@ -3252,53 +3259,81 @@ var overallData={lou:[],dennise:[],jhaevin:[]};
 function overallLoad(){
   document.getElementById('overallLoading').style.display='block';
   document.getElementById('overallBody').style.display='none';
-  var pending=3;
-  function done(){pending--;if(pending===0){overallRender();document.getElementById('overallLoading').style.display='none';document.getElementById('overallBody').style.display='block';}}
-  // Load Dennise data
+
   var denId=localStorage.getItem('den_sheet_id')||'1BLPEFKzfJVFte_xBBwYvzGktT7eVEa9k-2Vw1be1T70';
-  fetch('https://docs.google.com/spreadsheets/d/'+denId+'/gviz/tq?tqx=out:csv&sheet=Sheet1')
-    .then(function(r){return r.text();}).then(function(txt){
-      var lines=txt.trim().split(/\r?\n/);
-      overallData.dennise=[];
+  var louId=louSheetId||'1gRJKsyhIDZJp5B59zU8U2VAPmPpW1goxMREXeGnuDNA';
+  var jhaId=jhaSheetId;
+
+  // Build all fetch promises at once — Dennise + Lou + all 26 Jhaevin letters in parallel
+  var denPromise=fetch('https://docs.google.com/spreadsheets/d/'+denId+'/gviz/tq?tqx=out:csv&sheet=Sheet1')
+    .then(function(r){return r.text();}).catch(function(){return '';});
+
+  var louPromise=fetch('https://docs.google.com/spreadsheets/d/'+louId+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent('Pre Approval_Nurse'))
+    .then(function(r){return r.text();}).catch(function(){return '';});
+
+  var jhaPromises=JHA_LETTERS.map(function(letter){
+    return fetch('https://docs.google.com/spreadsheets/d/'+jhaId+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(letter))
+      .then(function(r){return r.text();}).catch(function(){return '';});
+  });
+
+  Promise.all([denPromise, louPromise].concat(jhaPromises)).then(function(results){
+    // Parse Dennise
+    var denTxt=results[0];
+    overallData.dennise=[];
+    if(denTxt){
+      var lines=denTxt.trim().split(/\r?\n/);
       for(var i=1;i<lines.length;i++){
         var c=parseCSVLine(lines[i]);
         if(!c) continue;
         var hasData=false;for(var k=0;k<4;k++){if((c[k]||'').trim()){hasData=true;break;}}
         if(!hasData) continue;
         var row=[];for(var j=0;j<19;j++) row.push((c[j]||'').trim());
-        overallData.dennise.push({
-          source:'Dennise',name:(row[0]?row[0]+', ':'')+row[1],matchingStatus:row[16],creationDate:row[2],note:row[18]
-        });
+        overallData.dennise.push({name:(row[0]?row[0]+', ':'')+row[1],matchingStatus:row[16],creationDate:row[2],note:row[18]});
       }
-      done();
-    }).catch(function(){done();});
-  // Load Jhaevin data (only letter A as sample — uses jha sheet)
-  var jhaId=jhaSheetId;
-  var jhaLetterLoaded=0;
-  var allJha=[];
-  function loadJhaLetter(li){
-    if(li>=JHA_LETTERS.length){
-      overallData.jhaevin=allJha;done();return;
     }
-    fetch('https://docs.google.com/spreadsheets/d/'+jhaId+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(JHA_LETTERS[li]))
-      .then(function(r){return r.text();}).then(function(txt){
-        jhaParseCSV(txt).forEach(function(p){
-          allJha.push({source:'Jhaevin',name:p.name,deployStatus:p.deployStatus,docCount:p.documents.length,letter:JHA_LETTERS[li]});
-        });
-        loadJhaLetter(li+1);
-      }).catch(function(){loadJhaLetter(li+1);});
-  }
-  loadJhaLetter(0);
-  // Lou data — placeholder (complex multi-section sheet)
-  overallData.lou=[];
-  done(); // Lou counted as done immediately; can add later
+    // Parse Lou
+    var louTxt=results[1];
+    overallData.lou=[];
+    if(louTxt){
+      var louLines=louTxt.trim().split(/\r?\n/);
+      for(var i=0;i<louLines.length;i++){
+        var c=parseCSVLine(louLines[i]);
+        if(!c||!c[0]||isNaN(parseFloat(c[0]))) continue;
+        overallData.lou.push({no:(c[0]||'').trim(),name:(c[1]||'').trim(),status:(c[2]||'').trim(),requestDate:(c[3]||'').trim(),releasedDate:(c[4]||'').trim(),remarks:(c[6]||'').trim()});
+      }
+    }
+    // Parse all Jhaevin letters
+    overallData.jhaevin=[];
+    for(var li=0;li<JHA_LETTERS.length;li++){
+      var txt=results[2+li];
+      if(txt) jhaParseCSV(txt).forEach(function(p){
+        overallData.jhaevin.push({name:p.name,deployStatus:p.deployStatus,docCount:p.documents.length,letter:JHA_LETTERS[li]});
+      });
+    }
+    overallRender();
+    document.getElementById('overallLoading').style.display='none';
+    document.getElementById('overallBody').style.display='block';
+  });
 }
 function overallRender(){
   var denCount=overallData.dennise.length;
   var jhaCount=overallData.jhaevin.length;
+  var louCount=overallData.lou.length;
   document.getElementById('overallDenCount').textContent=denCount;
   document.getElementById('overallJhaCount').textContent=jhaCount;
-  document.getElementById('overallTotal').textContent=denCount+jhaCount;
+  document.getElementById('overallLouCount').textContent=louCount;
+  document.getElementById('overallTotal').textContent=denCount+jhaCount+louCount;
+  // Lou table
+  var louTb=document.getElementById('overallLouTbody');
+  if(louTb){
+    if(overallData.lou.length){
+      louTb.innerHTML=overallData.lou.map(function(r,i){
+        return '<tr><td>'+(i+1)+'</td><td>'+escH(r.name)+'</td><td>'+escH(r.status||'—')+'</td><td>'+escH(r.requestDate||'—')+'</td><td>'+escH(r.releasedDate||'—')+'</td><td>'+escH(r.remarks||'—')+'</td><td><button onclick="switchPage(\'eu\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
+      }).join('');
+    } else {
+      louTb.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-muted);padding:1rem;">No Lou data loaded.</td></tr>';
+    }
+  }
   // Dennise table
   var denTb=document.getElementById('overallDenTbody');
   if(overallData.dennise.length){
@@ -3312,13 +3347,12 @@ function overallRender(){
   var jhaTb=document.getElementById('overallJhaTbody');
   if(overallData.jhaevin.length){
     jhaTb.innerHTML=overallData.jhaevin.map(function(p,i){
-      var docs=p.documents||[];
-      var pending=docs.filter(function(d){return !d.status||d.status.toLowerCase()==='';}).length;
-      return '<tr><td>'+(i+1)+'</td><td>'+escH(p.name)+'</td><td>'+escH(p.letter||'—')+'</td><td>'+escH(p.deployStatus||'—')+'</td><td>'+docs.length+'</td><td><button onclick="switchPage(\'jha\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
+      return '<tr><td>'+(i+1)+'</td><td>'+escH(p.name)+'</td><td>'+escH(p.letter||'—')+'</td><td>'+escH(p.deployStatus||'—')+'</td><td>'+p.docCount+'</td><td><button onclick="switchPage(\'jha\')" style="font-size:0.72rem;padding:3px 8px;border:1px solid var(--border);border-radius:5px;background:none;cursor:pointer;">View</button></td></tr>';
     }).join('');
   } else {
     jhaTb.innerHTML='<tr><td colspan="6" style="text-align:center;color:var(--text-muted);padding:1rem;">No Jhaevin data loaded.</td></tr>';
   }
 }
 </script>
+</body>
 </html>
