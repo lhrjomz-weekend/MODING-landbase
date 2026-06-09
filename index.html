@@ -889,18 +889,19 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
   <div id="jha-detail-view" style="display:none;">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
       <button onclick="jhaShowList()" style="display:inline-flex;align-items:center;gap:6px;font-size:0.85rem;color:var(--text-muted);cursor:pointer;background:none;border:none;padding:0;">← Back to list</button>
-      <button onclick="jhaOpenDocForm(null)" style="padding:0.4rem 1rem;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:0.82rem;font-weight:600;cursor:pointer;">＋ Add Document</button>
     </div>
     <div style="background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:12px;padding:1.25rem;margin-bottom:1rem;">
       <div style="display:flex;align-items:center;gap:14px;">
         <div id="jhaDetailAvatar" style="width:48px;height:48px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;flex-shrink:0;"></div>
-        <div>
+        <div style="flex:1;">
           <div id="jhaDetailName" style="font-size:1.05rem;font-weight:700;color:var(--text);"></div>
           <div style="display:flex;align-items:center;gap:8px;margin-top:4px;">
             <span id="jhaDetailBadge"></span>
             <span id="jhaDetailDocCount" style="font-size:0.78rem;color:var(--text-muted);"></span>
           </div>
         </div>
+        <button onclick="jhaOpenDocForm()" style="padding:0.35rem 0.9rem;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:0.8rem;cursor:pointer;font-weight:600;">＋ Add Document</button>
+        <button onclick="jhaOpenEditPersonForm(jhaCurrentPersonIdx)" style="padding:0.35rem 0.9rem;background:none;border:1.5px solid var(--border);border-radius:8px;font-size:0.8rem;cursor:pointer;color:var(--text);">✏️ Edit Person</button>
       </div>
     </div>
     <div style="overflow-x:auto;">
@@ -927,10 +928,10 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
     <div id="jhaPersonFields" style="display:none;border-bottom:1px solid var(--border);padding-bottom:1rem;margin-bottom:1rem;">
       <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.7rem;">Person Info</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
-        <div><label class="den-lbl">Last Name *</label><input class="den-inp" id="jf-lastName" type="text" /></div>
-        <div><label class="den-lbl">First Name *</label><input class="den-inp" id="jf-firstName" type="text" /></div>
+        <div><label class="den-lbl">Last Name *</label><input class="den-inp" id="jhaF_lastName" type="text" /></div>
+        <div><label class="den-lbl">First Name *</label><input class="den-inp" id="jhaF_firstName" type="text" /></div>
         <div><label class="den-lbl">Deployment Status</label>
-          <select class="den-inp" id="jf-deployStatus">
+          <select class="den-inp" id="jhaF_deployStatus">
             <option value="">— None —</option>
             <option value="DEPLOYED">DEPLOYED</option>
             <option value="WITHDRAWAL">WITHDRAWAL</option>
@@ -941,11 +942,12 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
       </div>
     </div>
     <!-- Document fields -->
+    <div id="jhaDocFields">
     <div style="font-size:0.75rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.7rem;">Document Details</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;">
-      <div style="grid-column:1/-1;"><label class="den-lbl">Document Name *</label><input class="den-inp" id="jf-document" type="text" /></div>
+      <div style="grid-column:1/-1;"><label class="den-lbl">Document Name *</label><input class="den-inp" id="jhaF_document" type="text" /></div>
       <div><label class="den-lbl">Type</label>
-        <select class="den-inp" id="jf-type">
+        <select class="den-inp" id="jhaF_type">
           <option value="">— Select —</option>
           <option value="Priority Documents">Priority Documents</option>
           <option value="Additional Documents">Additional Documents</option>
@@ -953,7 +955,7 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
         </select>
       </div>
       <div><label class="den-lbl">Status</label>
-        <select class="den-inp" id="jf-status">
+        <select class="den-inp" id="jhaF_status">
           <option value="">— Select —</option>
           <option value="Returned to Owner">Returned to Owner</option>
           <option value="Complete Prio">Complete Prio</option>
@@ -961,16 +963,17 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
           <option value="Missing">Missing</option>
         </select>
       </div>
-      <div><label class="den-lbl">Date Received</label><input class="den-inp" id="jf-dateReceived" type="text" placeholder="e.g. January 22, 2025" /></div>
-      <div><label class="den-lbl">Submitted By</label><input class="den-inp" id="jf-submittedBy" type="text" /></div>
-      <div><label class="den-lbl">Received By</label><input class="den-inp" id="jf-receivedBy" type="text" /></div>
-      <div><label class="den-lbl">Forwarding Date</label><input class="den-inp" id="jf-forwardingDate" type="text" placeholder="e.g. March 17, 2025" /></div>
-      <div><label class="den-lbl">Return to Owner</label><input class="den-inp" id="jf-returnDate" type="text" placeholder="e.g. March 17, 2025" /></div>
+      <div><label class="den-lbl">Date Received</label><input class="den-inp" id="jhaF_dateReceived" type="text" placeholder="e.g. January 22, 2025" /></div>
+      <div><label class="den-lbl">Submitted By</label><input class="den-inp" id="jhaF_submittedBy" type="text" /></div>
+      <div><label class="den-lbl">Received By</label><input class="den-inp" id="jhaF_receivedBy" type="text" /></div>
+      <div><label class="den-lbl">Forwarding Date</label><input class="den-inp" id="jhaF_forwardingDate" type="text" placeholder="e.g. March 17, 2025" /></div>
+      <div><label class="den-lbl">Return to Owner</label><input class="den-inp" id="jhaF_returnDate" type="text" placeholder="e.g. March 17, 2025" /></div>
     </div>
+    </div><!-- end jhaDocFields -->
     <div id="jhaFormMsg" style="font-size:0.82rem;margin-top:0.8rem;min-height:1.2rem;"></div>
     <div style="display:flex;gap:0.8rem;justify-content:flex-end;margin-top:1rem;">
       <button onclick="jhaCloseModal()" style="padding:0.5rem 1.2rem;border:1.5px solid var(--border);border-radius:8px;background:none;color:var(--text);font-size:0.85rem;cursor:pointer;">Cancel</button>
-      <button onclick="jhaSubmitForm()" id="jhaSaveBtn" style="padding:0.5rem 1.4rem;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;">💾 Save</button>
+      <button onclick="jhaSubmitForm()" id="jhaSubmitBtn" style="padding:0.5rem 1.4rem;background:var(--primary);color:#fff;border:none;border-radius:8px;font-size:0.85rem;font-weight:600;cursor:pointer;">💾 Save</button>
     </div>
   </div>
 </div>
@@ -2152,8 +2155,19 @@ function openDivEncByIdx(d,idx){
   setDocField('de_healthstat','de_healthdate','Health Insur Status','Health Insur Date');
   document.getElementById('divencOverlay').classList.add('open');
 }
+// ── AUTO-MIGRATE OLD SHEET IDs TO NEW ONES ──
+(function(){
+  var m={
+    'lou_sheet_id': ['1gRJKsyhIDZJp5B59zU8U2VAPmPpW1goxMREXeGnuDNA','1oihGJRyMUy-U_tJF15cS0jt7NLL3bHvyFs1iABjEwI4'],
+    'den_sheet_id': ['1BLPEFKzfJVFte_xBBwYvzGktT7eVEa9k-2Vw1be1T70','1ntfDO5WHO77lRWSkshj-VPVnMVeJL7GAAIXaDUCnRY0'],
+    'jha_sheet_id': ['13DLHbldHwy5JQje7fpBgLA-R9o6MfnkOHPfE0vyByeA','1Cvgb7br3g7dliv48vPbru8giVfaNXNLYkJYU7xUKY9U']
+  };
+  Object.keys(m).forEach(function(k){
+    if(localStorage.getItem(k)===m[k][0]) localStorage.setItem(k,m[k][1]);
+  });
+})();
 // ── EUROPE DEPARTMENT ────────────────────────────────────
-var louSheetId=localStorage.getItem('lou_sheet_id')||'1gRJKsyhIDZJp5B59zU8U2VAPmPpW1goxMREXeGnuDNA';
+var louSheetId=localStorage.getItem('lou_sheet_id')||'1oihGJRyMUy-U_tJF15cS0jt7NLL3bHvyFs1iABjEwI4';
 (function(){
   var inp=document.getElementById('louSheetIdInput');
   if(inp&&louSheetId) inp.value=louSheetId;
@@ -2269,26 +2283,35 @@ function louLoadSheet(sheetName, tbodyId, colCount){
   fetch(louGvizUrl(sheetName)).then(function(r){return r.text();}).then(function(txt){
     var lines=txt.trim().split(/\r?\n/);
     var rows=[];
+    var louRowCache={}; // tableIdx → raw col values for pre-fill
     // Skip header rows — find first row where col[0] is a number
     var dataStart=1;
     for(var i=0;i<Math.min(lines.length,5);i++){
       var c=parseCSVLine(lines[i]);
       if(c&&c[0]&&!isNaN(parseFloat(c[0]))){ dataStart=i; break; }
     }
+    var tableIdx=0;
     for(var i=dataStart;i<lines.length;i++){
       var c=parseCSVLine(lines[i]);
       if(!c) continue;
       var no=(c[0]||'').toString().trim();
       if(!no||isNaN(parseFloat(no))) continue;
       var cells='';
+      var rawVals=[];
       for(var j=0;j<cc-1;j++){
         var val=(c[j]||'').toString().trim();
+        rawVals.push(val);
         if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)) val=louFmtDate(val);
         cells+='<td>'+escH(val||'—')+'</td>';
       }
-      cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+sheetName.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\',' +i+')">✏️ Edit</button></td>';
+      louRowCache[tableIdx]=rawVals;
+      var _sn=sheetName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+      cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+_sn+'\','+tableIdx+','+(i+1)+')">✏️ Edit</button></td>';
       rows.push('<tr>'+cells+'</tr>');
+      tableIdx++;
     }
+    // Store cache on tbody element for louOpenForm to use
+    if(body) body._louRowCache=louRowCache;
     body.innerHTML=rows.length?rows.join(''):'<tr><td colspan="'+cc+'" class="eu-empty">No data found in this tab.</td></tr>';
   }).catch(function(e){
     body.innerHTML='<tr><td colspan="'+cc+'" style="text-align:center;color:#c62828;padding:1.5rem;">❌ Error loading "'+escH(sheetName)+'". Check Sheet ID and sharing settings.</td></tr>';
@@ -2350,32 +2373,28 @@ var LOU_MODAL_FIELDS={
   ]
 };
 var _louCurrentTab='';var _louCurrentRowIdx=null;var _louCurrentRowData=null;
-function louOpenForm(sheetName,rowIdx){
+function louOpenForm(sheetName,tableIdx,sheetRow){
   if(!louScriptUrl){alert('Please set the Lou Apps Script URL first (⚙️ Lou — Apps Script URL).');return;}
   _louCurrentTab=sheetName;
-  _louCurrentRowIdx=rowIdx;
   var fields=LOU_MODAL_FIELDS[sheetName];
   if(!fields){alert('No form defined for tab: '+sheetName);return;}
-  var isEdit=(rowIdx!==null&&rowIdx!==undefined);
+  var isEdit=(sheetRow!==undefined&&sheetRow!==null);
   document.getElementById('louModalTitle').textContent=isEdit?'✏️ Edit Record — '+sheetName:'＋ Add Record — '+sheetName;
-  // Build fields HTML
-  var html='';
-  // Get existing row data if editing
+
+  // Pre-fill from cached raw values
+  // rawVals[0]=no (skip), rawVals[1..n] map to LOU_MODAL_FIELDS in order
   var rowData={};
   if(isEdit){
-    var tbodyId=Object.values(LOU_TAB_MAP).find(function(t){return t.sheet===sheetName;})||{};
-    var tbody=document.getElementById(tbodyId.tbody||'');
-    if(tbody){
-      var rows=tbody.querySelectorAll('tr');
-      var targetRow=null;
-      // rowIdx is the CSV line index; find the row by index in table
-      if(rows&&rows[rowIdx-1]) targetRow=rows[rowIdx-1];
-      if(targetRow){
-        var cells=targetRow.querySelectorAll('td');
-        fields.forEach(function(f,fi){if(cells[fi+1]) rowData[f.key]=(cells[fi+1].textContent||'').trim();});
-      }
-    }
+    var cfg=Object.values(LOU_TAB_MAP).find(function(t){return t.sheet===sheetName;});
+    var tbody=cfg?document.getElementById(cfg.tbody):null;
+    var cache=tbody&&tbody._louRowCache?tbody._louRowCache:{};
+    var rawVals=cache[tableIdx]||[];
+    fields.forEach(function(f,fi){
+      rowData[f.key]=rawVals[fi+1]||''; // fi+1 to skip rawVals[0] which is the row number
+    });
   }
+
+  var html='';
   fields.forEach(function(f){
     var val=rowData[f.key]||'';
     var span=f.full?'grid-column:1/-1':'';
@@ -2391,8 +2410,7 @@ function louOpenForm(sheetName,rowIdx){
   document.getElementById('louModalFields').innerHTML=html;
   document.getElementById('louFormMsg').textContent='';
   if(isEdit){
-    // Store sheetRow — approximate from rowIdx (CSV line number)
-    document.getElementById('louModal').dataset.sheetRow=rowIdx;
+    document.getElementById('louModal').dataset.sheetRow=sheetRow;
   } else {
     delete document.getElementById('louModal').dataset.sheetRow;
   }
@@ -2414,8 +2432,8 @@ async function louSubmitForm(){
   var btn=document.getElementById('louSaveBtn');
   btn.disabled=true;msg.textContent='⏳ Saving...';
   try{
-    var r=await fetch(louScriptUrl,{method:'POST',body:JSON.stringify(payload)});
-    var txt=await r.text();
+    var r=await fetch(louScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var txt='';try{txt=await r.text();}catch(e){}
     var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
     if(json.status==='error'){msg.style.color='#c62828';msg.textContent='❌ '+json.message;}
     else{
@@ -2431,7 +2449,7 @@ async function louSubmitForm(){
   btn.disabled=false;
 }
 // ── DENNISE GAROTE ───────────────────────────────────────
-var denSheetId    = localStorage.getItem('den_sheet_id')    || '1BLPEFKzfJVFte_xBBwYvzGktT7eVEa9k-2Vw1be1T70';
+var denSheetId    = localStorage.getItem('den_sheet_id')    || '1ntfDO5WHO77lRWSkshj-VPVnMVeJL7GAAIXaDUCnRY0';
 var denScriptUrl  = localStorage.getItem('den_script_url')  || '';
 var denAllRows    = []; // cache ng lahat ng rows para sa filter
 var denCurrentIdx = -1; // index ng row na naka-open sa detail view
@@ -2539,6 +2557,7 @@ function denLoadSheet(){
       if(!hasData) continue;
       var row=[];
       for(var j=0;j<18;j++) row.push((c[j]||'').toString().trim());
+      row.push(i+1); // index 18 = actual sheet row number (CSV line i → sheet row i+1)
       denAllRows.push(row);
     }
     denRenderList(denAllRows);
@@ -2641,7 +2660,7 @@ function denSaveRecord(){
   };
   if(isEdit){
     // rowNum = header row (1) + actual data row index + 1 (1-based) + 1 (skip header)
-    payload.rowNum = denCurrentIdx + 2; // row 1 = header, row 2+ = data
+    payload.rowNum = denAllRows[denCurrentIdx][18]; // actual sheet row stored during load
   }
   var btn=document.getElementById('denSaveBtn');
   var msg=document.getElementById('denFormMsg');
@@ -2970,7 +2989,7 @@ function renderWalkin(){
 }
 
 // ── JHAEVIN DOCUMENTS MONITORING ─────────────────────────────────────
-var jhaSheetId=localStorage.getItem('jha_sheet_id')||'13DLHbldHwy5JQje7fpBgLA-R9o6MfnkOHPfE0vyByeA';
+var jhaSheetId=localStorage.getItem('jha_sheet_id')||'1Cvgb7br3g7dliv48vPbru8giVfaNXNLYkJYU7xUKY9U';
 var jhaScriptUrl=localStorage.getItem('jha_script_url')||'';
 var jhaCurrentLetter='A';
 var jhaAllPersons=[];
@@ -3099,61 +3118,48 @@ function jhaRenderList(persons){
   }).join('');
 }
 function jhaFilter(){
-  varq=(document.getElementById('jhaSearch').value||'').toLowerCase();
+  var q=(document.getElementById('jhaSearch').value||'').toLowerCase();
   var filtered=jhaAllPersons.filter(function(p){return p.name.toLowerCase().indexOf(q)>=0;});
   jhaRenderList(filtered);
 }
 function jhaShowDetail(idx){
   var p=jhaAllPersons[idx];
   if(!p) return;
+  jhaCurrentPersonIdx=idx;
   document.getElementById('jha-list-view').style.display='none';
   document.getElementById('jha-detail-view').style.display='block';
-  document.getElementById('jhaPersonName').textContent=p.name;
-  document.getElementById('jhaPersonDeploy').innerHTML=jhaDeployBadge(p.deployStatus);
-  document.getElementById('jhaPersonDocCount').textContent=p.documents.length+' document'+(p.documents.length!==1?'s':'');
+  document.getElementById('jhaDetailAvatar').textContent=(p.name[0]||'?').toUpperCase();
+  document.getElementById('jhaDetailName').textContent=p.name;
+  document.getElementById('jhaDetailBadge').innerHTML=jhaDeployBadge(p.deployStatus);
+  document.getElementById('jhaDetailDocCount').textContent=p.documents.length+' document'+(p.documents.length!==1?'s':'');
   var tbody=document.getElementById('jhaDocTbody');
   if(!p.documents.length){
-    tbody.innerHTML='<tr><td colspan="8" class="eu-empty">No documents found.</td></tr>';
+    tbody.innerHTML='<tr><td colspan="10" class="eu-empty">No documents found.</td></tr>';
   } else {
     tbody.innerHTML=p.documents.map(function(d,di){
       return '<tr>'
-        +'<td>'+escH(d.docName||'—')+'</td>'
+        +'<td>'+(di+1)+'</td>'
+        +'<td>'+escH(d.document||'—')+'</td>'
         +'<td>'+jhaTypeBadge(d.type)+'</td>'
         +'<td>'+jhaStatusPill(d.status)+'</td>'
         +'<td>'+escH(d.dateReceived||'—')+'</td>'
         +'<td>'+escH(d.submittedBy||'—')+'</td>'
         +'<td>'+escH(d.receivedBy||'—')+'</td>'
         +'<td>'+escH(d.forwardingDate||'—')+'</td>'
+        +'<td>'+escH(d.returnDate||'—')+'</td>'
         +'<td><button class="eu-btn-edit" onclick="jhaOpenDocForm('+di+')">✏️ Edit</button></td>'
       +'</tr>';
     }).join('');
   }
-  document.getElementById('jhaCurrentPersonIdx').value=idx;
 }
 function jhaShowList(){
   document.getElementById('jha-detail-view').style.display='none';
   document.getElementById('jha-list-view').style.display='block';
 }
-function jhaDeployBadge(status){
-  var s=(status||'').trim().toLowerCase();
-  var map={deployed:'jha-badge deployed',withdrawal:'jha-badge withdrawal',visa:'jha-badge visa',qm:'jha-badge qm'};
-  var cls=map[s]||'jha-badge none';
-  return '<span class="'+cls+'">'+escH(status||'—')+'</span>';
-}
-function jhaTypeBadge(type){
-  var t=(type||'').trim().toLowerCase();
-  var map={priority:'jha-type-badge priority',additional:'jha-type-badge additional',deployment:'jha-type-badge deployment'};
-  var cls=map[t]||'jha-type-badge';
-  return '<span class="'+cls+'">'+escH(type||'—')+'</span>';
-}
-function jhaStatusPill(status){
-  var s=(status||'').trim().toLowerCase();
-  var map={returned:'jha-status-pill returned',complete:'jha-status-pill complete'};
-  var cls=map[s]||'jha-status-pill empty';
-  return '<span class="'+cls+'">'+escH(status||'—')+'</span>';
-}
 function jhaOpenPersonForm(){
   document.getElementById('jhaModalTitle').textContent='＋ Add New Person & Document';
+  document.getElementById('jhaPersonFields').style.display='block';
+  document.getElementById('jhaDocFields').style.display='block';
   document.getElementById('jhaF_lastName').value='';
   document.getElementById('jhaF_firstName').value='';
   document.getElementById('jhaF_deployStatus').value='';
@@ -3171,16 +3177,18 @@ function jhaOpenPersonForm(){
   document.getElementById('jhaModal').style.display='flex';
 }
 function jhaOpenDocForm(docIdx){
-  var idx=parseInt(document.getElementById('jhaCurrentPersonIdx').value);
+  var idx=jhaCurrentPersonIdx;
   var p=jhaAllPersons[idx];
   if(!p) return;
   var d=p.documents[docIdx];
   var isEdit=(d!==undefined);
   document.getElementById('jhaModalTitle').textContent=isEdit?'✏️ Edit Document':'＋ Add Document';
+  document.getElementById('jhaPersonFields').style.display='none';
+  document.getElementById('jhaDocFields').style.display='block';
   document.getElementById('jhaF_lastName').value='';
   document.getElementById('jhaF_firstName').value='';
   document.getElementById('jhaF_deployStatus').value='';
-  document.getElementById('jhaF_document').value=isEdit?(d.docName||''):'';
+  document.getElementById('jhaF_document').value=isEdit?(d.document||''):'';
   jhaSetSelect('jhaF_type',isEdit?d.type:'');
   jhaSetSelect('jhaF_status',isEdit?d.status:'');
   document.getElementById('jhaF_dateReceived').value=isEdit?(d.dateReceived||''):'';
@@ -3191,6 +3199,23 @@ function jhaOpenDocForm(docIdx){
   document.getElementById('jhaFormMsg').textContent='';
   document.getElementById('jhaModal').dataset.mode=isEdit?'update-doc':'add-doc';
   document.getElementById('jhaModal').dataset.docIdx=docIdx;
+  document.getElementById('jhaModal').style.display='flex';
+}
+function jhaOpenEditPersonForm(idx){
+  var p=jhaAllPersons[idx];
+  if(!p) return;
+  var nameParts=p.name.split(',');
+  var ln=(nameParts[0]||'').trim();
+  var fn=(nameParts[1]||'').trim();
+  document.getElementById('jhaModalTitle').textContent='✏️ Edit Person';
+  document.getElementById('jhaPersonFields').style.display='block';
+  document.getElementById('jhaDocFields').style.display='none';
+  document.getElementById('jhaF_lastName').value=ln;
+  document.getElementById('jhaF_firstName').value=fn;
+  document.getElementById('jhaF_deployStatus').value=p.deployStatus||'';
+  document.getElementById('jhaFormMsg').textContent='';
+  document.getElementById('jhaModal').dataset.mode='edit-person';
+  delete document.getElementById('jhaModal').dataset.docIdx;
   document.getElementById('jhaModal').style.display='flex';
 }
 function jhaCloseModal(){document.getElementById('jhaModal').style.display='none';}
@@ -3209,7 +3234,7 @@ async function jhaSubmitForm(){
   var scriptUrl=localStorage.getItem('jha_script_url')||'';
   if(!scriptUrl){alert('Please set the Jhaevin Apps Script URL in the setup bar.');return;}
   var mode=document.getElementById('jhaModal').dataset.mode||'add-doc';
-  var personIdx=parseInt(document.getElementById('jhaCurrentPersonIdx').value||'0');
+  var personIdx=jhaCurrentPersonIdx>=0?jhaCurrentPersonIdx:0;
   var p=jhaAllPersons[personIdx];
   var payload={
     sheetId:jhaSheetId,
@@ -3228,6 +3253,13 @@ async function jhaSubmitForm(){
     payload.lastName=document.getElementById('jhaF_lastName').value.trim();
     payload.firstName=document.getElementById('jhaF_firstName').value.trim();
     payload.deployStatus=document.getElementById('jhaF_deployStatus').value.trim();
+    payload.sheetTab=payload.lastName.charAt(0).toUpperCase()||'A';
+  } else if(mode==='edit-person'){
+    payload.action='update-person';
+    payload.lastName=document.getElementById('jhaF_lastName').value.trim();
+    payload.firstName=document.getElementById('jhaF_firstName').value.trim();
+    payload.deployStatus=document.getElementById('jhaF_deployStatus').value.trim();
+    if(p) payload.personSheetRow=p.sheetRow;
   } else if(mode==='add-doc'){
     payload.action='add-doc';
     if(p){payload.personName=p.name;payload.personSheetRow=p.sheetRow||'';}
@@ -3240,13 +3272,26 @@ async function jhaSubmitForm(){
   var msg=document.getElementById('jhaFormMsg');
   btn.disabled=true;msg.textContent='⏳ Saving...';
   try{
-    var res=await fetch(scriptUrl,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    var txt=await res.text();
+    var res=await fetch(scriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var txt='';try{txt=await res.text();}catch(e){}
     var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
     if(json.status==='error'){document.getElementById('jhaFormMsg').textContent='❌ '+json.message;}
     else{
       document.getElementById('jhaFormMsg').textContent='✅ Saved! Refreshing...';
-      setTimeout(function(){jhaCloseModal();jhaLoadLetter(jhaCurrentLetter);},1200);
+      var _savedMode=mode;
+      var _savedIdx=jhaCurrentPersonIdx;
+      setTimeout(function(){
+        jhaCloseModal();
+        var _letter=jhaCurrentLetter;
+        var _url='https://docs.google.com/spreadsheets/d/'+jhaSheetId+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(_letter);
+        fetch(_url).then(function(r){return r.text();}).then(function(txt){
+          jhaAllPersons=jhaParseCSV(txt);
+          jhaRenderList(jhaAllPersons);
+          if(_savedMode==='edit-person'&&_savedIdx>=0&&_savedIdx<jhaAllPersons.length){
+            jhaShowDetail(_savedIdx);
+          }
+        }).catch(function(){});
+      },1200);
     }
   }catch(e){
     document.getElementById('jhaFormMsg').textContent='❌ Error: '+e.message;
@@ -3260,8 +3305,8 @@ function overallLoad(){
   document.getElementById('overallLoading').style.display='block';
   document.getElementById('overallBody').style.display='none';
 
-  var denId=localStorage.getItem('den_sheet_id')||'1BLPEFKzfJVFte_xBBwYvzGktT7eVEa9k-2Vw1be1T70';
-  var louId=louSheetId||'1gRJKsyhIDZJp5B59zU8U2VAPmPpW1goxMREXeGnuDNA';
+  var denId=localStorage.getItem('den_sheet_id')||'1ntfDO5WHO77lRWSkshj-VPVnMVeJL7GAAIXaDUCnRY0';
+  var louId=louSheetId||'1oihGJRyMUy-U_tJF15cS0jt7NLL3bHvyFs1iABjEwI4';
   var jhaId=jhaSheetId;
 
   // Build all fetch promises at once — Dennise + Lou + all 26 Jhaevin letters in parallel
