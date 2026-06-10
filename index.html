@@ -1260,10 +1260,13 @@ select.dropdown:focus{outline:none;border-color:var(--primary);}
         <label><input type="checkbox" class="um-new-ac" value="2"/> 2. Workers</label>
         <label><input type="checkbox" class="um-new-ac" value="3"/> 3. Middle East</label>
         <label><input type="checkbox" class="um-new-ac" value="4"/> 4. Asia Pacific</label>
-        <label><input type="checkbox" class="um-new-ac" value="5"/> 5. Europe</label>
-        <label><input type="checkbox" class="um-new-ac" value="6"/> 6. Walk-in Applicants</label>
-        <label><input type="checkbox" class="um-new-ac" value="7"/> 7. Encoder / Update</label>
-        <label><input type="checkbox" class="um-new-ac" value="8"/> 8. User Management</label>
+        <label><input type="checkbox" class="um-new-ac" value="5"/> 5. Lou Argosino</label>
+        <label><input type="checkbox" class="um-new-ac" value="6"/> 6. Dennise Garote</label>
+        <label><input type="checkbox" class="um-new-ac" value="7"/> 7. Jhaevin Fermin</label>
+        <label><input type="checkbox" class="um-new-ac" value="8"/> 8. Overall Report</label>
+        <label><input type="checkbox" class="um-new-ac" value="9"/> 9. Walk-in Applicants</label>
+        <label><input type="checkbox" class="um-new-ac" value="10"/> 10. Encoder / Update</label>
+        <label><input type="checkbox" class="um-new-ac" value="11"/> 11. User Management</label>
       </div>
     </div>
     <div id="umAddMsg" class="um-msg"></div>
@@ -2041,7 +2044,6 @@ async function submitDivEnc(){
   var ln=document.getElementById('de_ln').value.trim();
   var fn=document.getElementById('de_fn').value.trim();
   if(!ln&&!fn){var m=document.getElementById('divencMsg');m.textContent='Last Name or First Name is required.';m.className='divenc-msg error';return;}
-  var d=document.getElementById('divencDiv').value;
   var rowNum=document.getElementById('divencRowNum').value;
   function dv(id){return document.getElementById(id)?document.getElementById(id).value:'';}
   // Build combined Name (sheet uses single "Name" column)
@@ -2219,7 +2221,7 @@ function louFilterTable(tbodyId,searchId){
 function louGvizUrl(sheetName){
   return 'https://docs.google.com/spreadsheets/d/'+louSheetId+'/gviz/tq?tqx=out:csv&sheet='+encodeURIComponent(sheetName);
 }
-function louFmtDate(v){if(!v)return'—';var d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});}
+function louFmtDate(v){if(!v)return'—';var m=v.match(/^Date\((\d+),(\d+),(\d+)\)/);if(m){var d=new Date(+m[1],+m[2],+m[3]);return isNaN(d)?v:d.toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});}var d=new Date(v);return isNaN(d)?v:d.toLocaleDateString('en-PH',{year:'numeric',month:'short',day:'numeric'});}
 function louMkEditBtn(type,idx){return '<button class="eu-btn-edit" onclick="louOpenForm(\''+type+'\','+idx+')">✏️ Edit</button>';}
 // ── LOU: LOAD A SINGLE SHEET TAB DIRECTLY ──
 // sheetName = exact Google Sheet tab name, tbodyId = tbody element id, colCount = number of data cols (incl. No col)
@@ -2300,13 +2302,17 @@ function louLoadSheet(sheetName, tbodyId, colCount){
       var rawVals=[];
       for(var j=0;j<cc-1;j++){
         var val=(c[j]||'').toString().trim();
+        if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)){
+          var fmtd=louFmtDate(val);
+          if(fmtd&&fmtd!=='—') val=fmtd; // store human-readable date for edit pre-fill
+        }
         rawVals.push(val);
-        if(val&&(/^\d{4}-\d{2}-\d{2}/.test(val)||val.indexOf('Date(')>=0)) val=louFmtDate(val);
         cells+='<td>'+escH(val||'—')+'</td>';
       }
       louRowCache[tableIdx]=rawVals;
       var _sn=sheetName.replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-      cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+_sn+'\','+tableIdx+','+(i+1)+')">✏️ Edit</button></td>';
+      var _rn=parseInt(rawVals[0])||(i+1); // use # from col A as row identifier for Apps Script
+      cells+='<td><button class="eu-btn-edit" onclick="louOpenForm(\''+_sn+'\','+tableIdx+','+_rn+')">✏️ Edit</button></td>';
       rows.push('<tr>'+cells+'</tr>');
       tableIdx++;
     }
@@ -2420,6 +2426,12 @@ function louCloseModal(){document.getElementById('louModal').style.display='none
 async function louSubmitForm(){
   var fields=LOU_MODAL_FIELDS[_louCurrentTab];
   if(!fields) return;
+  if(!louScriptUrl){
+    var _m=document.getElementById('louFormMsg');
+    _m.style.color='#c62828';
+    _m.textContent='⚠️ Please set the Lou Apps Script URL first (⚙️ Lou — Apps Script URL).';
+    return;
+  }
   var payload={tab:_louCurrentTab};
   fields.forEach(function(f){
     var el=document.getElementById('louF_'+f.key);
@@ -2427,16 +2439,15 @@ async function louSubmitForm(){
   });
   var sheetRow=document.getElementById('louModal').dataset.sheetRow;
   payload.action=sheetRow?'update-row':'add-row';
-  if(sheetRow) payload.sheetRow=parseInt(sheetRow);
+  if(sheetRow) payload.rowNo=parseInt(sheetRow); // Apps Script searches col A by rowNo
   var msg=document.getElementById('louFormMsg');
   var btn=document.getElementById('louSaveBtn');
   btn.disabled=true;msg.textContent='⏳ Saving...';
   try{
     var r=await fetch(louScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
     var txt='';try{txt=await r.text();}catch(e){}
-    var json={status:'ok'};try{json=JSON.parse(txt);}catch(e){}
-    if(json.status==='error'){msg.style.color='#c62828';msg.textContent='❌ '+json.message;}
-    else{
+    var json=null;try{json=JSON.parse(txt);}catch(e){}
+    if(json&&json.status==='ok'){
       msg.style.color='#2e7d32';msg.textContent='✅ Saved!';
       setTimeout(function(){
         louCloseModal();
@@ -2444,6 +2455,10 @@ async function louSubmitForm(){
         var cfg=LOU_TAB_MAP[Object.keys(LOU_TAB_MAP).find(function(k){return LOU_TAB_MAP[k].sheet===_louCurrentTab;})||'pan'];
         if(cfg) louLoadSheet(cfg.sheet,cfg.tbody,cfg.cols);
       },1000);
+    }else if(json&&json.status==='error'){
+      msg.style.color='#c62828';msg.textContent='❌ '+(json.message||'Server returned an error.');
+    }else{
+      msg.style.color='#c62828';msg.textContent='❌ Apps Script response: '+(txt?txt.substring(0,100):'(empty — check script URL or update-row handler)');
     }
   }catch(e){msg.style.color='#c62828';msg.textContent='❌ Error: '+e.message;}
   btn.disabled=false;
@@ -2508,6 +2523,7 @@ function denRenderList(rows){
     return;
   }
   list.innerHTML=rows.map(function(cells,idx){
+    var realIdx=denAllRows.indexOf(cells); // fix: use actual index in denAllRows, not filtered idx
     var last=(cells[0]||'').trim();
     var first=(cells[1]||'').trim();
     var fullName=last+(first?', '+first:'');
@@ -2517,7 +2533,7 @@ function denRenderList(rows){
     var statusBg=status==='—'?'var(--accent)':'var(--primary)';
     var statusColor=status==='—'?'var(--text-muted)':'#fff';
     return '<div style="display:flex;align-items:center;gap:12px;padding:12px 16px;background:var(--card-bg,var(--bg));border:1.5px solid var(--border);border-radius:10px;transition:border-color 0.15s;" onmouseover="this.style.borderColor=\'var(--primary)\'" onmouseout="this.style.borderColor=\'var(--border)\'">'
-      +'<div onclick="denShowDetail('+idx+')" style="display:flex;align-items:center;gap:12px;flex:1;cursor:pointer;min-width:0;">'
+      +'<div onclick="denShowDetail('+realIdx+')" style="display:flex;align-items:center;gap:12px;flex:1;cursor:pointer;min-width:0;">'
         +'<div style="width:38px;height:38px;border-radius:50%;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;">'+init+'</div>'
         +'<div style="flex:1;min-width:0;">'
           +'<div style="font-size:0.9rem;font-weight:600;color:var(--text);">'+fullName+'</div>'
@@ -2526,7 +2542,7 @@ function denRenderList(rows){
         +'<span style="font-size:0.75rem;padding:3px 10px;border-radius:20px;font-weight:600;background:'+statusBg+';color:'+statusColor+';white-space:nowrap;">'+status+'</span>'
         +'<span style="color:var(--text-muted);font-size:1rem;">›</span>'
       +'</div>'
-      +'<button onclick="denCurrentIdx='+idx+';denOpenForm(\'edit\')" style="padding:4px 10px;font-size:0.75rem;border:1.5px solid var(--border);border-radius:6px;background:none;color:var(--text);cursor:pointer;white-space:nowrap;flex-shrink:0;">✏️ Edit</button>'
+      +'<button onclick="denCurrentIdx='+realIdx+';denOpenForm(\'edit\')" style="padding:4px 10px;font-size:0.75rem;border:1.5px solid var(--border);border-radius:6px;background:none;color:var(--text);cursor:pointer;white-space:nowrap;flex-shrink:0;">✏️ Edit</button>'
     +'</div>';
   }).join('');
 }
@@ -2668,7 +2684,8 @@ function denSaveRecord(){
   msg.innerHTML='';
   fetch(denScriptUrl,{
     method:'POST',
-    body:new URLSearchParams({payload:JSON.stringify(payload)})
+    body:new URLSearchParams({payload:JSON.stringify(payload)}),
+    redirect:'follow'
   }).then(function(r){return r.json();}).then(function(res){
     btn.disabled=false; btn.textContent='💾 Save';
     if(res.status==='ok'){
@@ -2960,12 +2977,14 @@ function renderWalkin(){
   var el=document.getElementById('walkinList');
   var q=(document.getElementById('searchWalkin').value||'').toLowerCase();
   var qp=(document.getElementById('searchWalkinPos').value||'').toLowerCase();
+  var qs=(document.getElementById('searchWalkinSkills').value||'').toLowerCase();
   var filtered=walkinData.filter(function(r){
     var fn=(gf(r,'First Name')||'').toLowerCase();
     var ln=(gf(r,'Last Name')||'').toLowerCase();
     var name=(fn+' '+ln).trim();
     var pos=(gf(r,'Position Applied')||'').toLowerCase();
-    return (!q||(name.includes(q)||pos.includes(q))) && (!qp||pos.includes(qp));
+    var skills=(gf(r,'Skills / Specialization')||'').toLowerCase();
+    return (!q||(name.includes(q)||pos.includes(q))) && (!qp||pos.includes(qp)) && (!qs||skills.includes(qs));
   });
   if(!filtered.length){el.innerHTML='<div class="loading">No applicants found.</div>';return;}
   el.innerHTML=filtered.map(function(r){
