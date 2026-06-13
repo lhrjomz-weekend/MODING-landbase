@@ -714,9 +714,36 @@ body.monitor-full .monitor-back{display:inline-flex;}
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
       Refresh
     </button>
+    <button class="btn-outline" onclick="accOpenReportModal()">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+      Generate Report
+    </button>
   </div>
   <div id="empList"><div class="loading">Loading employer data...</div></div>
 </div>
+<!-- ═══════════════════ ACCREDITATION REPORT MODAL (HTML) — START ═══════════════════ -->
+<div class="faith-modal-overlay" id="accReportModalOverlay" onclick="if(event.target===this)accCloseReportModal()">
+  <div class="faith-modal" style="max-width:420px;">
+    <div class="faith-modal-header">
+      <span class="faith-modal-title">Generate Report</span>
+      <button class="faith-modal-close" onclick="accCloseReportModal()">&#10005;</button>
+    </div>
+    <div class="faith-modal-body" style="display:block;padding:1.2rem 1.4rem;">
+      <div style="font-size:0.83rem;color:var(--text-muted);margin-bottom:0.5rem;">Select employer to generate report:</div>
+      <select id="accReportEmpSelect" style="width:100%;border:1.5px solid var(--border);border-radius:8px;padding:0.5rem 0.7rem;font-size:0.85rem;font-family:inherit;margin-bottom:0.2rem;">
+        <option value="">— All Employers —</option>
+      </select>
+    </div>
+    <div class="faith-modal-footer">
+      <button class="btn-cancel" onclick="accCloseReportModal()">Cancel</button>
+      <button class="btn-action" onclick="accGenerateReport()">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" style="width:15px;height:15px;display:inline;margin-right:4px;vertical-align:middle;"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+        Print
+      </button>
+    </div>
+  </div>
+</div>
+<!-- ═══════════════════ ACCREDITATION REPORT MODAL (HTML) — END ═══════════════════ -->
 <!-- ═══════════════════ ACCREDITATION (HTML) — END ═══════════════════ -->
 <!-- ═══════════════════ WORKERS (HTML) — START ═══════════════════ -->
 <div class="page" id="page-wrk">
@@ -1743,6 +1770,149 @@ function showPositions(e,joNum){
   document.getElementById('modalOverlay').classList.add('open');
 }
 function closeModal(e){if(!e||e.target===document.getElementById('modalOverlay')) document.getElementById('modalOverlay').classList.remove('open');}
+// ═══════════════════ ACCREDITATION PRINT REPORT (JS) — START ═══════════════════
+function accOpenReportModal(){
+  if(!employers||!employers.length){alert('No data loaded. Click Refresh first.');return;}
+  var sel=document.getElementById('accReportEmpSelect');
+  sel.innerHTML='<option value="">— All Employers —</option>'
+    +employers.map(function(e){
+      var name=gf(e,'Employer Name')||'';
+      var id=gf(e,'Accreditation ID')||'';
+      return '<option value="'+escH(id)+'">'+escH(name)+'</option>';
+    }).join('');
+  document.getElementById('accReportModalOverlay').style.display='flex';
+}
+function accCloseReportModal(){
+  document.getElementById('accReportModalOverlay').style.display='none';
+}
+function accGenerateReport(){
+  var selVal=document.getElementById('accReportEmpSelect').value;
+  var filtered=selVal
+    ? employers.filter(function(e){return (gf(e,'Accreditation ID')||'')=== selVal;})
+    : employers;
+  accBuildReport(filtered);
+  accCloseReportModal();
+}
+function accBuildReport(empList){
+  if(!empList||!empList.length){alert('No data to generate report.');return;}
+  var now=new Date();
+  var months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  var dateStr=now.getDate()+' '+months[now.getMonth()]+' '+now.getFullYear();
+  var h=now.getHours(),m=now.getMinutes(),s=now.getSeconds();
+  var ampm=h>=12?'PM':'AM';
+  var hh=h%12||12;
+  var timeStr=hh+':'+(m<10?'0':'')+m+':'+(s<10?'0':'')+s+' '+ampm;
+  var generatedBy=(sessionUser||'Unknown').toUpperCase();
+
+  var posMap={};
+  positions.forEach(function(p){
+    var jid=(gf(p,'Job Order ID')||'').toString().trim().toLowerCase();
+    if(!posMap[jid]) posMap[jid]=[];
+    posMap[jid].push(p);
+  });
+
+  var body=empList.map(function(e){
+    var empName=(gf(e,'Employer Name')||'').toUpperCase();
+    var jobSite=(gf(e,'Job Site')||'').toUpperCase();
+    var dateIssued=(gf(e,'Date Issued')||'').toUpperCase();
+    var expDate=(gf(e,'Expiration Date')||'').toUpperCase();
+    var accId=(gf(e,'Accreditation ID')||'').toString().trim().toLowerCase();
+    var jos=jobOrders.filter(function(j){return (gf(j,'Accreditation ID')||'').toString().trim().toLowerCase()===accId;});
+    if(!jos.length) return '';
+    var rows=jos.map(function(j){
+      var joId=(gf(j,'Job Order ID')||'').toString().trim().toLowerCase();
+      var dateApproved=(gf(j,'Date Approved')||'').toUpperCase();
+      var validUntil=(gf(j,'Valid Until')||'').toUpperCase();
+      var ps=posMap[joId]||[];
+      if(!ps.length) return '';
+      return ps.map(function(p){
+        return '<tr>'
+          +'<td style="font-weight:700;padding:7px 10px;border:1px solid #ccc;">'+(gf(p,'Position Name')||'').toUpperCase()+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+(gf(p,'Needed')||'')+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+(gf(p,'Processed')||'')+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;font-weight:700;color:#1a5c1a;">'+(gf(p,'Balance')||'')+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+(gf(p,'Salary')||'')+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+(gf(p,'Currency')||'')+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+escH(dateApproved)+'</td>'
+          +'<td style="text-align:center;padding:7px 10px;border:1px solid #ccc;">'+escH(validUntil)+'</td>'
+          +'</tr>';
+      }).join('');
+    }).join('');
+    if(!rows.trim()) return '';
+    return '<div class="emp-rpt-block" style="margin-bottom:28px;">'
+      +'<div style="border:1px solid #ccc;">'
+      +'<div style="background:#f5f5f5;padding:5px 10px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em;border-bottom:1px solid #ccc;">Employer Details</div>'
+      +'<table style="width:100%;border-collapse:collapse;">'
+      +'<tr>'
+      +'<td style="width:40%;padding:10px 14px;vertical-align:top;">'
+      +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:3px;">Principal</div>'
+      +'<div style="font-size:15px;font-weight:700;color:#1a4fa0;">'+escH(empName)+'</div>'
+      +'</td>'
+      +'<td style="padding:10px 14px;vertical-align:top;border-left:1px solid #ccc;">'
+      +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:3px;">Date Accre</div>'
+      +'<div style="font-size:13px;font-weight:700;">'+escH(dateIssued)+'</div>'
+      +'</td>'
+      +'<td style="padding:10px 14px;vertical-align:top;border-left:1px solid #ccc;">'
+      +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:3px;">Expiration</div>'
+      +'<div style="font-size:13px;font-weight:700;">'+escH(expDate)+'</div>'
+      +'</td>'
+      +'<td style="padding:10px 14px;vertical-align:top;border-left:1px solid #ccc;">'
+      +'<div style="font-size:10px;text-transform:uppercase;letter-spacing:0.05em;color:#555;margin-bottom:3px;">Job Site</div>'
+      +'<div style="font-size:13px;font-weight:700;">'+escH(jobSite)+'</div>'
+      +'</td>'
+      +'</tr>'
+      +'</table>'
+      +'</div>'
+      +'<div style="text-align:center;padding:6px;font-size:11px;font-weight:700;background:#f0f0f0;border:1px solid #ccc;border-top:none;">List of Available Job Order and Expiration Date</div>'
+      +'<table style="width:100%;border-collapse:collapse;font-size:12px;">'
+      +'<thead><tr style="background:#f0f0f0;">'
+      +'<th style="padding:7px 10px;text-align:left;border:1px solid #ccc;font-size:11px;">POSITION</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">NEEDED</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">PROCESSED</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">BALANCE</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">SALARY</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">CURRENCY</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">APPROVE DATE</th>'
+      +'<th style="padding:7px 10px;text-align:center;border:1px solid #ccc;font-size:11px;">EXPIRATION DATE</th>'
+      +'</tr></thead>'
+      +'<tbody>'+rows+'</tbody>'
+      +'</table>'
+      +'</div>';
+  }).join('');
+
+  var html='<!DOCTYPE html><html><head><meta charset="UTF-8"/>'
+    +'<title>Job Order Report — '+dateStr+'</title>'
+    +'<style>'
+    +'*{box-sizing:border-box;margin:0;padding:0;}'
+    +'body{font-family:Arial,sans-serif;padding:30px 40px;color:#111;font-size:13px;}'
+    +'.report-title{text-align:center;font-size:16px;font-weight:700;letter-spacing:0.05em;margin-bottom:8px;text-transform:uppercase;}'
+    +'.report-meta{text-align:center;font-size:11px;color:#555;margin-bottom:24px;}'
+    +'@media print{body{padding:15px 20px;}.no-print{display:none!important;}}'
+    +'</style>'
+    +'</head><body>'
+    +'<div class="no-print" style="margin-bottom:20px;">'
+    +'<button onclick="window.print()" style="padding:8px 20px;background:#1a5c1a;color:#fff;border:none;border-radius:6px;font-size:14px;cursor:pointer;font-weight:700;">🖨️ Print / Save as PDF</button>'
+    +'<span style="margin-left:12px;font-size:12px;color:#555;">Or press Ctrl+P (Windows) / Cmd+P (Mac)</span>'
+    +'</div>'
+    +'<div class="report-title">LIST OF UPDATED JOB ORDER AS OF '+dateStr+'</div>'
+    +'<div class="report-meta">'
+    +'Generated by: <strong>'+escH(generatedBy)+'</strong>'
+    +' &nbsp;|&nbsp; Date: <strong>'+dateStr+'</strong>'
+    +' &nbsp;|&nbsp; Time: <strong>'+timeStr+'</strong>'
+    +'</div>'
+    +body
+    +'<div style="margin-top:30px;padding-top:10px;border-top:1px solid #ccc;font-size:10px;color:#555;display:flex;justify-content:space-between;">'
+    +'<span>Landbase Human Resources — Confidential</span>'
+    +'<span>Generated by '+escH(generatedBy)+' on '+dateStr+' at '+timeStr+'</span>'
+    +'</div>'
+    +'</body></html>';
+
+  var w=window.open('','_blank');
+  if(!w){alert('Pop-up blocked. Please allow pop-ups for this page and try again.');return;}
+  w.document.write(html);
+  w.document.close();
+}
+// ═══════════════════ ACCREDITATION PRINT REPORT (JS) — END ═══════════════════
 // ═══════════════════ ACCREDITATION (JS) — END ═══════════════════
 // ═══════════════════ WORKERS (JS) — START ═══════════════════
 async function loadWorkers(){
