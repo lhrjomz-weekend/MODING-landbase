@@ -417,6 +417,121 @@ body.monitor-full .monitor-back{display:inline-flex;}
 .maal-badge-add{background:#e8f5e9;color:#2e7d32;}
 .maal-badge-edit{background:#fff8e1;color:#f57c00;}
 /* ═══════════════════ MARYANN MONITORING + ACTLOG (CSS) — END ═══════════════════ */
+/* ═══════════════════ FAITH MONITORING (CSS) — START ═══════════════════ */
+/* ═══ SETUP BOX ═══ */
+.faith-setup{background:var(--accent);border:1.5px solid var(--border);border-radius:10px;padding:0.7rem 1rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:0.6rem;flex-wrap:wrap;}
+.faith-setup span{font-size:0.8rem;font-weight:700;color:var(--primary);white-space:nowrap;}
+.faith-setup input{flex:1;min-width:220px;border:1.5px solid var(--border);border-radius:7px;padding:0.4rem 0.7rem;font-size:0.82rem;font-family:inherit;}
+.faith-setup input:focus{outline:none;border-color:var(--primary);}
+.faith-url-status{font-size:0.78rem;margin-top:0.3rem;width:100%;}
+/* ═══ SUMMARY COUNTER BAR ═══ */
+.faith-counter-bar{display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:1rem;}
+.faith-counter{background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:0.65rem 1rem;display:flex;align-items:center;gap:0.75rem;}
+.faith-counter-num{font-family:'Poppins',sans-serif;font-size:1.6rem;font-weight:800;line-height:1;}
+.faith-counter-num.green{color:#2e7d32;}
+.faith-counter-num.orange{color:#e65100;}
+.faith-counter-num.red{color:#c62828;}
+.faith-counter-num.amber{color:#b45309;}
+.faith-counter-num.muted{color:var(--text-muted);}
+.faith-counter-label{font-size:0.72rem;color:var(--text-muted);line-height:1.5;font-weight:600;}
+/* ═══ PANEL & CONTROLS ═══ */
+.faith-panel{background:var(--white);border:2px solid var(--border);border-radius:12px;padding:1.4rem;margin-bottom:1rem;}
+.faith-controls{display:flex;gap:0.6rem;align-items:center;flex-wrap:wrap;margin-bottom:0.9rem;}
+.faith-search{padding:0.45rem 0.8rem;border:1.5px solid var(--border);border-radius:8px;font-size:0.85rem;font-family:inherit;background:var(--white);width:240px;}
+.faith-search:focus{outline:none;border-color:var(--primary);}
+/* ═══ TABLE ═══ */
+.faith-tbl-wrap{overflow-x:auto;}
+.faith-tbl{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.faith-tbl th{text-align:left;padding:0.55rem 0.7rem;background:var(--accent);border-bottom:2px solid var(--border);color:var(--primary);font-weight:700;white-space:nowrap;font-size:0.73rem;text-transform:uppercase;letter-spacing:0.04em;}
+.faith-tbl td{padding:0.55rem 0.7rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+.faith-tbl tr.faith-main-row:hover td{background:var(--accent);cursor:pointer;}
+.faith-tbl tr:last-child td{border-bottom:none;}
+.faith-row-name{color:var(--primary);font-weight:700;cursor:pointer;text-decoration:underline;text-decoration-style:dotted;}
+.faith-row-name:hover{text-decoration-style:solid;}
+/* ═══ ROW TINTING ═══ */
+.faith-row-expired td{background:#fff5f5!important;}
+.faith-row-expiring td{background:#fffde7!important;}
+.faith-row-expired:hover td{background:#ffe8e8!important;}
+.faith-row-expiring:hover td{background:#fff9e0!important;}
+/* ═══ BADGES ═══ */
+.faith-badge{display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-badge-pro{background:#E6F1FB;color:#185FA5;}
+.faith-badge-ssw{background:#e8f5e9;color:#2e7d32;}
+.faith-badge-titp{background:#fff8e1;color:#f57c00;}
+.faith-badge-de{background:#f3e5f5;color:#6a1b9a;}
+.faith-badge-ok{background:#e8f5e9;color:#2e7d32;}
+.faith-badge-warn{background:#fff8e1;color:#f57c00;}
+.faith-badge-bad{background:#ffebee;color:#c62828;}
+.faith-badge-ready{background:#e8f5e9;color:#2e7d32;display:inline-block;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-badge-incomplete{background:#fff3e0;color:#e65100;display:inline-block;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-badge-expired-doc{background:#ffebee;color:#c62828;display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-badge-expiring-doc{background:#fff8e1;color:#b45309;display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-badge-safe-doc{background:#e8f5e9;color:#2e7d32;display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;white-space:nowrap;}
+.faith-empty{text-align:center;color:var(--text-muted);padding:2.5rem;font-size:0.9rem;}
+/* ═══ CLICKABLE COUNTERS ═══ */
+.faith-counter.clickable{cursor:pointer;transition:border-color 0.2s,background 0.2s;}
+.faith-counter.clickable:hover{border-color:var(--primary);background:var(--accent);}
+.faith-counter.counter-active{border-color:var(--primary)!important;background:var(--accent)!important;box-shadow:0 0 0 2px var(--primary);}
+/* ═══ EXPIRY FILTER BUTTON ═══ */
+.btn-expiry-filter{padding:0.45rem 1rem;border:1.5px solid #c62828;border-radius:8px;background:#fff5f5;color:#c62828;font-size:0.83rem;font-weight:700;cursor:pointer;transition:all 0.2s;}
+.btn-expiry-filter:hover{background:#ffebee;}
+/* ═══ ACTIVITY LOG PANEL ═══ */
+.faith-actlog-panel{background:var(--white);border:2px solid var(--primary);border-radius:12px;padding:1.4rem;display:none;}
+.faith-actlog-panel.open{display:block;}
+.faith-actlog-title{font-family:'Poppins',sans-serif;font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem;}
+.faith-actlog-tbl{width:100%;border-collapse:collapse;font-size:0.82rem;}
+.faith-actlog-tbl th{text-align:left;padding:0.55rem 0.7rem;background:var(--accent);border-bottom:2px solid var(--border);color:var(--primary);font-weight:700;font-size:0.73rem;text-transform:uppercase;letter-spacing:0.04em;}
+.faith-actlog-tbl td{padding:0.55rem 0.7rem;border-bottom:1px solid var(--border);vertical-align:middle;}
+.faith-actlog-tbl tr:last-child td{border-bottom:none;}
+.actlog-badge-add{background:#e8f5e9;color:#2e7d32;display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;}
+.actlog-badge-edit{background:#fff8e1;color:#f57c00;display:inline-block;padding:2px 9px;border-radius:10px;font-size:0.72rem;font-weight:700;}
+/* ═══ EDIT MODAL ═══ */
+.faith-modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1001;align-items:center;justify-content:center;}
+.faith-modal-overlay.open{display:flex;}
+.faith-modal{background:var(--white);border-radius:16px;width:95%;max-width:860px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.faith-modal-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:1.1rem 1.4rem;color:var(--white);display:flex;justify-content:space-between;align-items:center;}
+.faith-modal-title{font-family:'Poppins',sans-serif;font-size:1.05rem;font-weight:700;}
+.faith-modal-close{background:none;border:none;color:#fff;font-size:1.3rem;cursor:pointer;line-height:1;}
+.faith-modal-body{overflow-y:auto;padding:1.3rem 1.4rem;display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;}
+.faith-field{display:flex;flex-direction:column;gap:0.25rem;font-size:0.82rem;}
+.faith-field.full{grid-column:1/-1;}
+.faith-field label{font-weight:600;color:var(--text-dark);}
+.faith-field input,.faith-field select,.faith-field textarea{border:1.5px solid var(--border);border-radius:7px;padding:0.45rem 0.65rem;font-size:0.84rem;font-family:inherit;width:100%;}
+.faith-field input:focus,.faith-field select:focus,.faith-field textarea:focus{outline:none;border-color:var(--primary);}
+.faith-modal-footer{padding:0.9rem 1.4rem;border-top:2px solid var(--border);display:flex;gap:0.7rem;justify-content:flex-end;align-items:center;flex-wrap:wrap;}
+.faith-msg{font-size:0.83rem;font-weight:600;padding:0.45rem 0.8rem;border-radius:8px;display:none;flex:1;}
+.faith-msg.success{display:block;background:#e8f5e9;color:#2e7d32;}
+.faith-msg.error{display:block;background:#ffebee;color:#c62828;}
+.faith-msg.info{display:block;background:var(--accent);color:var(--primary);}
+/* ═══ VIEW MODAL ═══ */
+.faith-view-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:1000;align-items:center;justify-content:center;}
+.faith-view-overlay.open{display:flex;}
+.faith-view-modal{background:var(--white);border-radius:16px;width:95%;max-width:940px;max-height:90vh;overflow:hidden;display:flex;flex-direction:column;border:2px solid var(--border);}
+.faith-view-header{background:linear-gradient(135deg,var(--primary),var(--primary-light));padding:1.2rem 1.4rem;color:var(--white);display:flex;align-items:center;gap:1rem;}
+.faith-avatar{width:48px;height:48px;border-radius:50%;background:rgba(255,255,255,0.25);display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-size:1.15rem;font-weight:800;color:#fff;flex-shrink:0;letter-spacing:0.02em;}
+.faith-view-name{font-family:'Poppins',sans-serif;font-size:1.15rem;font-weight:700;line-height:1.2;}
+.faith-view-sub{font-size:0.82rem;opacity:0.85;margin-top:3px;}
+.faith-view-badges{display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:6px;}
+.faith-view-body{overflow-y:auto;padding:1.2rem 1.4rem;flex:1;}
+.faith-view-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:0.65rem;}
+.faith-view-footer{padding:0.9rem 1.4rem;border-top:2px solid var(--border);display:flex;gap:0.7rem;justify-content:flex-end;}
+/* View detail cards */
+.fv-card{background:var(--white);border:1.5px solid var(--border);border-radius:8px;padding:0.6rem 0.8rem;}
+.fv-card.card-expired{border-color:#f5c6cb;background:#fff5f5;}
+.fv-card.card-expiring{border-color:#ffe0a0;background:#fffde7;}
+.fv-label{font-size:0.68rem;color:var(--text-muted);font-weight:600;text-transform:uppercase;letter-spacing:0.04em;margin-bottom:4px;}
+.fv-val{font-size:0.82rem;font-weight:700;color:var(--text-dark);}
+.fv-val.val-expired{color:#c62828;}
+.fv-val.val-expiring{color:#b45309;}
+.fv-val.val-ok{color:#2e7d32;}
+.fv-days{font-size:0.68rem;margin-top:3px;font-weight:600;}
+/* View header badges */
+.vbadge-ready{background:rgba(255,255,255,0.25);color:#fff;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;border:1px solid rgba(255,255,255,0.5);}
+.vbadge-incomplete{background:rgba(255,200,100,0.3);color:#fff;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;border:1px solid rgba(255,200,100,0.5);}
+.vbadge-expired{background:rgba(255,100,100,0.3);color:#fff;padding:3px 10px;border-radius:10px;font-size:0.72rem;font-weight:700;border:1px solid rgba(255,100,100,0.5);}
+/* View section divider */
+.fv-section{grid-column:1/-1;font-size:0.7rem;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:0.06em;padding:0.5rem 0 0.2rem;border-bottom:1.5px solid var(--border);margin-top:0.3rem;}
+/* ═══════════════════ FAITH MONITORING (CSS) — END ═══════════════════ */
 </style>
 </head>
 <body>
@@ -531,6 +646,12 @@ body.monitor-full .monitor-back{display:inline-flex;}
       MA Activity Log
     </div>
     <!-- ═══════════════════ MARYANN ACTLOG NAV (HTML) — END ═══════════════════ -->
+    <!-- ═══════════════════ FAITH MONITORING NAV (HTML) — START ═══════════════════ -->
+    <div class="sidebar-item" id="nav-faith" onclick="switchPage('faith')">
+      <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Faith
+    </div>
+    <!-- ═══════════════════ FAITH MONITORING NAV (HTML) — END ═══════════════════ -->
     <!-- ═══════════════════ LOG NAV (HTML) — START ═══════════════════ -->
     <div class="sidebar-item" id="nav-actlog" onclick="switchPage('actlog')">
       <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
@@ -1037,6 +1158,109 @@ body.monitor-full .monitor-back{display:inline-flex;}
   </div>
 </div>
 <!-- ═══════════════════ MARYANN ACTLOG PAGE (HTML) — END ═══════════════════ -->
+<!-- ═══════════════════ FAITH MONITORING PAGE (HTML) — START ═══════════════════ -->
+<div class="page" id="page-faith">
+  <button class="monitor-back" onclick="switchPage('acc')">&#9664; Menu</button>
+  <div class="page-header">
+    <div class="page-title">Faith &mdash; Japan Deployment Tracking</div>
+    <div class="page-subtitle">Project Officer monitoring &mdash; Japan visa categories (PROFESSIONAL / SSW / TITP)</div>
+  </div>
+  <!-- Script Setup -->
+  <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.4rem;">
+    <button class="btn-outline" id="faithSetupToggle" onclick="faithToggleSetup()" style="font-size:0.75rem;padding:0.3rem 0.8rem;">&#9881; Script Setup</button>
+    <span id="faithSetupIndicator" style="font-size:0.75rem;color:var(--text-muted);"></span>
+  </div>
+  <div class="faith-setup" id="faithSetupBox" style="display:none;">
+    <span>&#9881; Apps Script URL:</span>
+    <input type="text" id="faithScriptUrl" placeholder="Paste the /exec Web App URL from faith-monitoring.gs deployment..."/>
+    <button class="btn-action" onclick="faithSaveUrl()">&#10003; Set</button>
+    <div class="faith-url-status" id="faithUrlStatus"></div>
+  </div>
+  <!-- Counter Bar -->
+  <div class="faith-counter-bar" id="faithCounterBar" style="display:none;">
+    <div class="faith-counter clickable" id="faithCtrReady" onclick="faithToggleFilter('ready')" title="Click to filter Ready records">
+      <div class="faith-counter-num green" id="faithCountReady">0</div>
+      <div class="faith-counter-label">Ready for<br/>Deployment</div>
+    </div>
+    <div class="faith-counter clickable" id="faithCtrIncomplete" onclick="faithToggleFilter('incomplete')" title="Click to filter Incomplete records">
+      <div class="faith-counter-num orange" id="faithCountIncomplete">0</div>
+      <div class="faith-counter-label">Incomplete<br/>Records</div>
+    </div>
+    <div class="faith-counter clickable" id="faithCtrExpired" onclick="faithToggleFilter('expired')" title="Click to filter Expired docs">
+      <div class="faith-counter-num red" id="faithCountExpired">0</div>
+      <div class="faith-counter-label">Docs<br/>Expired</div>
+    </div>
+    <div class="faith-counter clickable" id="faithCtrExpiry" onclick="faithToggleFilter('expiry')" title="Click to filter Expiring docs">
+      <div class="faith-counter-num amber" id="faithCountExpiry">0</div>
+      <div class="faith-counter-label">Doc<br/>Expiry</div>
+    </div>
+    <div class="faith-counter">
+      <div class="faith-counter-num muted" id="faithCountTotal">0</div>
+      <div class="faith-counter-label">Total<br/>Records</div>
+    </div>
+  </div>
+  <!-- Main Panel -->
+  <div class="faith-panel">
+    <div class="faith-controls">
+      <input type="text" class="faith-search" id="faithSearch" placeholder="Search name..." oninput="faithRender()"/>
+      <button class="btn-outline" onclick="faithLoad(true)">&#8635; Refresh</button>
+      <button class="btn-action" onclick="faithOpenEditModal()">&#43; Add Entry</button>
+      <button class="btn-log" id="faithLogBtn" onclick="faithToggleActlog()">&#9776; Activity Log</button>
+      <button class="btn-expiry-filter" id="faithExpiryBtn" onclick="faithToggleExpiryFilter()" style="display:none;">&#9888; Expiring (0)</button>
+    </div>
+    <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.6rem;">Click a row to view details.</div>
+    <div class="faith-tbl-wrap" id="faithTableWrap">
+      <div class="faith-empty">Set the Apps Script URL above, then click Refresh.</div>
+    </div>
+  </div>
+  <!-- Activity Log Panel -->
+  <div class="faith-actlog-panel" id="faithActlogPanel">
+    <div class="faith-actlog-title">
+      &#9776; Activity Log
+      <button class="btn-outline" onclick="faithLoadActlog(true)" style="font-size:0.75rem;padding:0.25rem 0.7rem;margin-left:auto;">&#8635; Refresh</button>
+    </div>
+    <div id="faithActlogWrap">
+      <div class="faith-empty">Loading activity log...</div>
+    </div>
+  </div>
+</div>
+<!-- View Modal -->
+<div class="faith-view-overlay" id="faithViewOverlay" onclick="if(event.target===this)faithCloseViewModal()">
+  <div class="faith-view-modal">
+    <div class="faith-view-header">
+      <div class="faith-avatar" id="faithViewAvatar">?</div>
+      <div style="flex:1;min-width:0;">
+        <div class="faith-view-name" id="faithViewName"></div>
+        <div class="faith-view-sub" id="faithViewSub"></div>
+        <div class="faith-view-badges" id="faithViewBadges"></div>
+      </div>
+      <button class="faith-modal-close" onclick="faithCloseViewModal()">&#215;</button>
+    </div>
+    <div class="faith-view-body">
+      <div class="faith-view-grid" id="faithViewGrid"></div>
+    </div>
+    <div class="faith-view-footer">
+      <button class="btn-outline" onclick="faithCloseViewModal()">Close</button>
+      <button class="btn-action" id="faithViewEditBtn">&#9999; Edit</button>
+    </div>
+  </div>
+</div>
+<!-- Edit Modal -->
+<div class="faith-modal-overlay" id="faithModalOverlay">
+  <div class="faith-modal">
+    <div class="faith-modal-header">
+      <div class="faith-modal-title" id="faithModalTitle">Add Entry</div>
+      <button class="faith-modal-close" onclick="faithCloseEditModal()">&#215;</button>
+    </div>
+    <div class="faith-modal-body" id="faithModalBody"></div>
+    <div class="faith-modal-footer">
+      <div class="faith-msg" id="faithMsg"></div>
+      <button class="btn-outline" onclick="faithCloseEditModal()">Cancel</button>
+      <button class="btn-action" onclick="faithSubmit()">&#128190; Save</button>
+    </div>
+  </div>
+</div>
+<!-- ═══════════════════ FAITH MONITORING PAGE (HTML) — END ═══════════════════ -->
 <!-- ═══════════════════ ACTIVITY LOG (HTML) — START ═══════════════════ -->
 <div class="page" id="page-actlog">
   <div class="page-header">
@@ -1299,7 +1523,8 @@ var PAGE_MAP=[
   {n:'9',  pg:'jh',       nav:'nav-jh'},
   {n:'10', pg:'lou',      nav:'nav-lou'},
   {n:'11', pg:'ma',        nav:'nav-ma'},
-  {n:'12', pg:'ma-actlog', nav:'nav-ma-actlog'}
+  {n:'12', pg:'ma-actlog', nav:'nav-ma-actlog'},
+  {n:'13', pg:'faith',     nav:'nav-faith'}
 ];
 function applyRoleAccess(role){
   var access=userAccess[sessionUser.toLowerCase()]||[];
@@ -1311,7 +1536,7 @@ function applyRoleAccess(role){
   PAGE_MAP.forEach(function(p){vis(p.nav,can(p.n));});
   // Dividers
   vis('nav-divider-tools',can(4)||can(5));
-  vis('nav-divider-monitoring',can(8)||can(9)||can(10)||can(11)||can(12));
+  vis('nav-divider-monitoring',can(8)||can(9)||can(10)||can(11)||can(12)||can(13));
   // Auto-navigate to first accessible page in order
   var first=null;
   for(var i=0;i<PAGE_MAP.length;i++){
@@ -1338,7 +1563,7 @@ function switchPage(pg){
   if(pageEl) pageEl.classList.add('active');
   var navEl=document.getElementById('nav-'+pg);
   if(navEl) navEl.classList.add('active');
-  var monitorPages=['den','jh','lou','ma','ma-actlog'];
+  var monitorPages=['den','jh','lou','ma','ma-actlog','faith'];
   if(monitorPages.indexOf(pg)>=0){document.body.classList.add('monitor-full');}
   else{document.body.classList.remove('monitor-full');}
   if(pg==='wrk') loadWorkers();
@@ -1349,6 +1574,7 @@ function switchPage(pg){
   if(pg==='loginlog'){loginlogUrlStatus();loginlogLoad();}
   if(pg==='ma'){maUrlStatus();maLoad(false);}
   if(pg==='ma-actlog'){maalUrlStatus();maalLoad(false);}
+  if(pg==='faith'){faithUrlStatus();if(faithScriptUrl)faithLoad(false);}
 }
 // ═══════════════════ ACCREDITATION (JS) — START ═══════════════════
 async function loadData(){
@@ -1589,7 +1815,8 @@ var UM_PAGES=[
   {n:'9',  label:'9.Jhaevin'},
   {n:'10', label:'10.Lou'},
   {n:'11', label:'11.MaryAnn'},
-  {n:'12', label:'12.MA Actlog'}
+  {n:'12', label:'12.MA Actlog'},
+  {n:'13', label:'13.Faith'}
 ];
 function umGetCheckedAccess(prefix){
   return UM_PAGES.map(function(p){
@@ -2558,6 +2785,467 @@ function maalLoad(force){
   var s=document.createElement('script');s.id='maalJsonpScript';s.src=gasUrl;document.head.appendChild(s);
 }
 // ═══════════════════ MARYANN ACTIVITY LOG (JS) — END ═══════════════════
+// ═══════════════════ FAITH MONITORING (JS) — START ═══════════════════
+
+var FAITH_FIELDS=[
+  {label:'Last Name',          type:'text',   ph:'Last name',        req:true},  // 0
+  {label:'First Name',         type:'text',   ph:'First name',       req:true},  // 1
+  {label:'Middle Name',        type:'text',   ph:'Middle name'},                  // 2
+  {label:'Position',           type:'text',   ph:'e.g. Electrician'},             // 3
+  {label:'Category',           type:'select', opts:['','SSW','TITP','PROFESSIONAL','Direct Employer']}, // 4
+  {label:'Passport',           type:'text',   ph:'Passport number'},              // 5
+  {label:'Passport Date',      type:'text',   ph:'YYYY-MM-DD'},                   // 6
+  {label:'Medical Status',     type:'select', opts:['','Ongoing','Not needed','Completed']}, // 7
+  {label:'Medical Date',       type:'text',   ph:'YYYY-MM-DD'},                   // 8
+  {label:'PDOS',               type:'select', opts:['','Done','On-going']},       // 9
+  {label:'NBI Status',         type:'select', opts:['','Recieved','Waiting','Not Needed']}, // 10
+  {label:'NBI Date',           type:'text',   ph:'YYYY-MM-DD'},                   // 11
+  {label:'Japanese Language',  type:'select', opts:['','Ongoing','Not needed','Completed']}, // 12
+  {label:'Training Status',    type:'select', opts:['','Ongoing','Not needed','Completed']}, // 13
+  {label:'Training Date',      type:'text',   ph:'YYYY-MM-DD'},                   // 14
+  {label:'COE',                type:'text',   ph:'COE number or status'},         // 15
+  {label:'Visa Status',        type:'select', opts:['','Ongoing','Release','Waiting']}, // 16
+  {label:'Visa Date',          type:'text',   ph:'YYYY-MM-DD'},                   // 17
+  {label:'Contract Status',    type:'text',   ph:'Contract status'},              // 18
+  {label:'Contract Date',      type:'text',   ph:'YYYY-MM-DD'},                   // 19
+  {label:'Docs Complete',      type:'text',   ph:'e.g. 7'},                       // 20
+  {label:'Total Docs',         type:'text',   ph:'e.g. 10'},                      // 21
+  {label:'Deployment Status',  type:'select', opts:['','Ready For Deployed','Deployed','Incomplete Doc','Other']}, // 22
+  {label:'Travel Date',        type:'text',   ph:'YYYY-MM-DD'},                   // 23
+  {label:'Notes',              type:'textarea',ph:'Additional notes', full:true}  // 24
+];
+
+var FAITH_DATE_COLS=[
+  {ci:6,  label:'Passport'},
+  {ci:8,  label:'Medical'},
+  {ci:11, label:'NBI'},
+  {ci:14, label:'Training'},
+  {ci:17, label:'Visa'},
+  {ci:19, label:'Contract'}
+];
+
+var FAITH_STATUS_COLS=[7,9,10,12,13,16,22];
+var FAITH_WARN_VALS=['Ongoing','On-going','Waiting'];
+
+var faithScriptUrl=localStorage.getItem('faith_script_url')||'';
+var faithData=null;
+var faithEditRowNum=null;
+var faithActlogLoaded=false;
+var faithShowExpiring=false;
+var faithFilterMode=null;
+
+function faithDaysUntil(dateStr){
+  if(!dateStr||dateStr==='-'||dateStr.trim()==='') return null;
+  var d=new Date(dateStr);
+  if(isNaN(d.getTime())) return null;
+  var today=new Date();today.setHours(0,0,0,0);
+  return Math.round((d-today)/(1000*60*60*24));
+}
+
+function faithWorstExpiry(cells){
+  var worst=null;
+  FAITH_DATE_COLS.forEach(function(dc){
+    var d=faithDaysUntil(cells[dc.ci]||'');
+    if(d!==null&&(worst===null||d<worst)) worst=d;
+  });
+  return worst;
+}
+
+function faithIsReady(cells){
+  var dep=cells[22]||'';
+  return dep==='Ready For Deployed'||dep==='Deployed';
+}
+
+function faithIsIncomplete(cells){
+  var dep=cells[22]||'';
+  if(dep==='Incomplete Doc') return true;
+  return FAITH_STATUS_COLS.some(function(ci){
+    var v=cells[ci]||'';
+    return v===''||FAITH_WARN_VALS.indexOf(v)>=0;
+  });
+}
+
+function faithExpiryBadge(days){
+  if(days===null) return '';
+  if(days<0)   return '<span class="faith-badge-expired-doc">&#128308; Expired</span>';
+  if(days<=60) return '<span class="faith-badge-expiring-doc">&#9888; '+days+'d</span>';
+  return '<span class="faith-badge-safe-doc">&#10003; OK</span>';
+}
+
+function faithExpiryDaysLabel(days){
+  if(days===null) return '';
+  if(days<0)  return '<span class="fv-days val-expired">Expired '+Math.abs(days)+' days ago</span>';
+  if(days===0)return '<span class="fv-days val-expired">Expires today!</span>';
+  if(days<=60)return '<span class="fv-days val-expiring">'+days+' days left</span>';
+  return '<span class="fv-days val-ok">'+days+' days left</span>';
+}
+
+function faithBadge(ci,v){
+  if(!v) return '';
+  if(ci===4){
+    if(v==='PROFESSIONAL')   return '<span class="faith-badge faith-badge-pro">PROFESSIONAL</span>';
+    if(v==='SSW')            return '<span class="faith-badge faith-badge-ssw">SSW</span>';
+    if(v==='TITP')           return '<span class="faith-badge faith-badge-titp">TITP</span>';
+    if(v==='Direct Employer')return '<span class="faith-badge faith-badge-de">Direct Employer</span>';
+    return '';
+  }
+  var ok  =['Done','Completed','Recieved','Release','Ready For Deployed','Deployed'];
+  var warn=['Ongoing','On-going','Waiting','Incomplete Doc','Other'];
+  var none=['Not needed','Not Needed'];
+  if(ok.indexOf(v)>=0)   return '<span class="faith-badge faith-badge-ok">'+escH(v)+'</span>';
+  if(warn.indexOf(v)>=0) return '<span class="faith-badge faith-badge-warn">'+escH(v)+'</span>';
+  if(none.indexOf(v)>=0) return '<span class="faith-badge" style="background:var(--accent);color:var(--text-muted);">'+escH(v)+'</span>';
+  return '';
+}
+
+function logFaithActivity(act,name){
+  if(!faithScriptUrl) return;
+  var who=(typeof sessionUser!=='undefined'&&sessionUser?sessionUser:localStorage.getItem('landbase_user')||'Unknown').toUpperCase();
+  fetch(faithScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify({action:'log',who:who,act:act,name:name})})}).catch(function(){});
+}
+
+function faithSaveUrl(){
+  var v=(document.getElementById('faithScriptUrl').value||'').trim();
+  if(!v){alert('Please enter the Apps Script URL first.');return;}
+  if(v.indexOf('/exec')<0){alert('Invalid URL — must end with /exec (not /dev).');return;}
+  faithScriptUrl=v;localStorage.setItem('faith_script_url',v);
+  faithUrlStatus();faithLoad(true);
+}
+function faithUrlStatus(){
+  var st=document.getElementById('faithUrlStatus');
+  var inp=document.getElementById('faithScriptUrl');
+  var ind=document.getElementById('faithSetupIndicator');
+  if(faithScriptUrl&&inp) inp.value=faithScriptUrl;
+  if(faithScriptUrl){
+    if(st){st.style.color='green';st.textContent='Connected: '+faithScriptUrl.substring(0,70)+'...';}
+    if(ind){ind.textContent='Connected';ind.style.color='green';}
+  }else{
+    if(st){st.style.color='#c62828';st.textContent='No URL set — paste the deployed Web App URL to load data.';}
+    if(ind){ind.textContent='No URL set';ind.style.color='#c62828';}
+  }
+}
+function faithToggleSetup(){
+  var box=document.getElementById('faithSetupBox');
+  var btn=document.getElementById('faithSetupToggle');
+  var visible=box.style.display!=='none';
+  box.style.display=visible?'none':'flex';
+  btn.textContent=visible?'Script Setup':'Hide Setup';
+}
+
+function faithLoad(force){
+  var wrap=document.getElementById('faithTableWrap');
+  if(!wrap) return;
+  if(!faithScriptUrl){wrap.innerHTML='<div class="faith-empty">Set the Apps Script URL first, then click Refresh.</div>';return;}
+  if(!force&&faithData){faithRender();return;}
+  wrap.innerHTML='<div class="faith-empty">Loading data...</div>';
+  var cbName='faithCb_'+Date.now();
+  var gasUrl=faithScriptUrl+'?action=read&callback='+cbName+'&_t='+Date.now();
+  var timeoutId=setTimeout(function(){
+    cleanup();
+    wrap.innerHTML='<div class="faith-empty">Timeout loading data. Check the Apps Script URL.</div>';
+  },15000);
+  function cleanup(){clearTimeout(timeoutId);if(window[cbName])delete window[cbName];var s=document.getElementById('faithJsonpScript');if(s)s.parentNode.removeChild(s);}
+  window[cbName]=function(json){
+    cleanup();
+    if(json.status==='error'){wrap.innerHTML='<div class="faith-empty">Error: '+escH(json.message)+'</div>';return;}
+    if(json.version!=='v2'){wrap.innerHTML='<div class="faith-empty">Old script version (v2 required). Redeploy Apps Script as New version.</div>';return;}
+    faithData=json;faithRender();
+  };
+  var s=document.createElement('script');s.id='faithJsonpScript';s.src=gasUrl;document.head.appendChild(s);
+}
+
+function faithRender(){
+  var wrap=document.getElementById('faithTableWrap');
+  if(!faithData||!faithData.rows){wrap.innerHTML='<div class="faith-empty">No data loaded.</div>';return;}
+  var q=(document.getElementById('faithSearch').value||'').toLowerCase();
+
+  var allRows=faithData.rows.map(function(r){
+    var worstDays=faithWorstExpiry(r.cells);
+    var ready=faithIsReady(r.cells);
+    var incomplete=faithIsIncomplete(r.cells);
+    return {r:r, worstDays:worstDays, ready:ready, incomplete:incomplete};
+  });
+
+  var nReady     =allRows.filter(function(x){return x.ready;}).length;
+  var nIncomplete=allRows.filter(function(x){return x.incomplete;}).length;
+  var nExpired   =allRows.filter(function(x){return x.worstDays!==null&&x.worstDays<0;}).length;
+  var nExpiry    =allRows.filter(function(x){return x.worstDays!==null&&x.worstDays<=60;}).length;
+
+  var bar=document.getElementById('faithCounterBar');
+  if(bar){
+    bar.style.display='flex';
+    document.getElementById('faithCountReady').textContent=nReady;
+    document.getElementById('faithCountIncomplete').textContent=nIncomplete;
+    document.getElementById('faithCountExpired').textContent=nExpired;
+    document.getElementById('faithCountExpiry').textContent=nExpiry;
+    document.getElementById('faithCountTotal').textContent=allRows.length;
+  }
+
+  ['faithCtrReady','faithCtrIncomplete','faithCtrExpired','faithCtrExpiry'].forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.classList.toggle('counter-active', faithFilterMode==={
+      'faithCtrReady':'ready','faithCtrIncomplete':'incomplete',
+      'faithCtrExpired':'expired','faithCtrExpiry':'expiry'
+    }[id]);
+  });
+
+  var exBtn=document.getElementById('faithExpiryBtn');
+  var urgentCount=nExpiry;
+  if(exBtn){
+    exBtn.style.display=urgentCount>0?'':'none';
+    exBtn.textContent=faithShowExpiring?'Expiring ('+urgentCount+') x All':'Expiring ('+urgentCount+')';
+    exBtn.style.background=faithShowExpiring?'#c62828':'#fff5f5';
+    exBtn.style.color=faithShowExpiring?'#fff':'#c62828';
+  }
+
+  var filtered=allRows.filter(function(x){
+    var matchQ=!q||x.r.cells.some(function(c){return String(c).toLowerCase().indexOf(q)>=0;});
+    var matchMode=true;
+    if(faithFilterMode==='ready')           matchMode=x.ready;
+    else if(faithFilterMode==='incomplete') matchMode=x.incomplete;
+    else if(faithFilterMode==='expired')    matchMode=x.worstDays!==null&&x.worstDays<0;
+    else if(faithFilterMode==='expiry')     matchMode=x.worstDays!==null&&x.worstDays<=60;
+    else if(faithShowExpiring)              matchMode=x.worstDays!==null&&x.worstDays<=60;
+    return matchQ&&matchMode;
+  });
+
+  var emptyMsg='No records found.';
+  if(faithFilterMode==='ready')           emptyMsg='No ready records.';
+  else if(faithFilterMode==='incomplete') emptyMsg='No incomplete records.';
+  else if(faithFilterMode==='expired')    emptyMsg='No expired documents.';
+  else if(faithFilterMode==='expiry')     emptyMsg='No expiring documents.';
+  else if(faithShowExpiring)              emptyMsg='No expiring records found.';
+
+  if(!filtered.length){wrap.innerHTML='<div class="faith-empty">'+emptyMsg+'</div>';return;}
+
+  var tbody=filtered.map(function(x){
+    var r=x.r;
+    var rowClass='faith-main-row';
+    if(x.worstDays!==null&&x.worstDays<0)       rowClass+=' faith-row-expired';
+    else if(x.worstDays!==null&&x.worstDays<=60) rowClass+=' faith-row-expiring';
+
+    var nameCell='<td><span class="faith-row-name">'+escH(r.cells[0]||'—')+'</span></td>';
+    var fnameCell='<td>'+escH(r.cells[1]||'—')+'</td>';
+    var posCell='<td>'+escH(r.cells[3]||'—')+'</td>';
+    var catBadge=faithBadge(4,r.cells[4]||'');
+    var catCell='<td>'+(catBadge||escH(r.cells[4]||'—'))+'</td>';
+    var docsCell='<td style="font-weight:600;text-align:center;">'+(r.cells[20]||'0')+' / '+(r.cells[21]||'0')+'</td>';
+
+    var statusHtml='';
+    if(x.ready)            statusHtml='<span class="faith-badge-ready">Ready</span>';
+    else if(x.incomplete)  statusHtml='<span class="faith-badge-incomplete">Incomplete</span>';
+    var statusCell='<td>'+statusHtml+'</td>';
+
+    var expiryCell='<td>'+faithExpiryBadge(x.worstDays)+'</td>';
+    var editBtn='<button class="btn-action sm" onclick="event.stopPropagation();faithOpenEditModal('+r.rowNum+')">Edit</button>';
+
+    return '<tr class="'+rowClass+'" onclick="faithOpenViewModal('+r.rowNum+')">'
+      +nameCell+fnameCell+posCell+catCell+docsCell+statusCell+expiryCell
+      +'<td>'+editBtn+'</td>'
+      +'</tr>';
+  }).join('');
+
+  wrap.innerHTML='<table class="faith-tbl"><thead><tr>'
+    +'<th>Last Name</th><th>First Name</th><th>Position</th><th>Category</th>'
+    +'<th style="text-align:center;">Docs</th><th>Status</th><th>Expiry</th><th>Action</th>'
+    +'</tr></thead><tbody>'+tbody+'</tbody></table>';
+}
+
+function faithToggleExpiryFilter(){
+  faithShowExpiring=!faithShowExpiring;
+  if(faithShowExpiring) faithFilterMode=null;
+  faithRender();
+}
+
+function faithToggleFilter(mode){
+  faithFilterMode=(faithFilterMode===mode)?null:mode;
+  if(faithFilterMode) faithShowExpiring=false;
+  faithRender();
+}
+
+function faithOpenViewModal(rowNum){
+  if(!faithData) return;
+  var found=faithData.rows.filter(function(r){return r.rowNum===rowNum;})[0];
+  if(!found) return;
+  var cells=found.cells;
+
+  var fi=(cells[1]||'').charAt(0).toUpperCase();
+  var li=(cells[0]||'').charAt(0).toUpperCase();
+  document.getElementById('faithViewAvatar').textContent=(li+fi)||'?';
+
+  document.getElementById('faithViewName').textContent=(cells[0]||'')+(cells[1]?' '+cells[1]:'');
+  var sub=[];
+  if(cells[3]) sub.push(cells[3]);
+  if(cells[4]) sub.push(cells[4]);
+  document.getElementById('faithViewSub').textContent=sub.join(' · ');
+
+  var ready=faithIsReady(cells);
+  var incomplete=faithIsIncomplete(cells);
+  var worstDays=faithWorstExpiry(cells);
+  var badges=[];
+  if(ready)                                 badges.push('<span class="vbadge-ready">Ready for Deployment</span>');
+  else if(incomplete)                       badges.push('<span class="vbadge-incomplete">Incomplete</span>');
+  if(worstDays!==null&&worstDays<0)         badges.push('<span class="vbadge-expired">Docs Expired</span>');
+  else if(worstDays!==null&&worstDays<=60)  badges.push('<span class="vbadge-incomplete">Expiring Soon</span>');
+  document.getElementById('faithViewBadges').innerHTML=badges.join('');
+
+  document.getElementById('faithViewEditBtn').onclick=function(){faithCloseViewModal();faithOpenEditModal(rowNum);};
+
+  var sections=[
+    {title:'Personal Info',    cols:[0,1,2,3,4]},
+    {title:'Passport',         cols:[5,6]},
+    {title:'Medical',          cols:[7,8]},
+    {title:'NBI Clearance',    cols:[10,11]},
+    {title:'Japanese Language',cols:[12]},
+    {title:'Training',         cols:[13,14]},
+    {title:'PDOS',             cols:[9]},
+    {title:'COE / Visa',       cols:[15,16,17]},
+    {title:'Contract',         cols:[18,19]},
+    {title:'Deployment',       cols:[22,23]},
+    {title:'Documents',        cols:[20,21]},
+    {title:'Notes',            cols:[24]}
+  ];
+
+  var dateCis=FAITH_DATE_COLS.map(function(dc){return dc.ci;});
+  var html='';
+  sections.forEach(function(sec){
+    html+='<div class="fv-section">'+escH(sec.title)+'</div>';
+    sec.cols.forEach(function(i){
+      var f=FAITH_FIELDS[i];
+      var v=cells[i]||'';
+      var isDate=dateCis.indexOf(i)>=0;
+      var days=isDate?faithDaysUntil(v):null;
+
+      var cardClass='fv-card';
+      if(days!==null&&days<0)        cardClass+=' card-expired';
+      else if(days!==null&&days<=60) cardClass+=' card-expiring';
+
+      var valHtml='';
+      var badge=faithBadge(i,v);
+      if(badge){
+        valHtml=badge;
+      } else if(v){
+        var vc='fv-val';
+        if(days!==null&&days<0)        vc+=' val-expired';
+        else if(days!==null&&days<=60) vc+=' val-expiring';
+        valHtml='<div class="'+vc+'">'+escH(v)+'</div>';
+      } else {
+        valHtml='<span style="color:var(--text-muted);font-size:0.78rem;">—</span>';
+      }
+
+      var daysHtml=faithExpiryDaysLabel(days);
+
+      html+='<div class="'+cardClass+'">'
+        +'<div class="fv-label">'+escH(f.label)+'</div>'
+        +'<div>'+valHtml+'</div>'
+        +(daysHtml?'<div>'+daysHtml+'</div>':'')
+        +'</div>';
+    });
+  });
+
+  document.getElementById('faithViewGrid').innerHTML=html;
+  document.getElementById('faithViewOverlay').classList.add('open');
+}
+
+function faithCloseViewModal(){
+  document.getElementById('faithViewOverlay').classList.remove('open');
+}
+
+function faithOpenEditModal(rowNum){
+  faithEditRowNum=rowNum||null;
+  var existingCells=[];
+  if(rowNum&&faithData){
+    var found=faithData.rows.filter(function(r){return r.rowNum===rowNum;})[0];
+    if(found) existingCells=found.cells;
+  }
+  document.getElementById('faithModalTitle').textContent=rowNum?'Edit Entry':'Add Entry';
+  var body=document.getElementById('faithModalBody');
+  body.innerHTML=FAITH_FIELDS.map(function(f,i){
+    var val=existingCells[i]||'';
+    var cls='faith-field'+(f.full?' full':'');
+    var inp='';
+    if(f.type==='select'){
+      var opts=(f.opts||[]).map(function(o){return '<option value="'+escH(o)+'"'+(o===val?' selected':'')+'>'+escH(o||'— Select —')+'</option>';}).join('');
+      inp='<select id="faith-f-'+i+'">'+opts+'</select>';
+    }else if(f.type==='textarea'){
+      inp='<textarea id="faith-f-'+i+'" rows="3" placeholder="'+escH(f.ph||'')+'">'+escH(val)+'</textarea>';
+    }else{
+      inp='<input type="text" id="faith-f-'+i+'" value="'+escH(val)+'" placeholder="'+escH(f.ph||'')+'"/>';
+    }
+    return '<div class="'+cls+'"><label>'+escH(f.label)+(f.req?' *':'')+'</label>'+inp+'</div>';
+  }).join('');
+  document.getElementById('faithModalOverlay').classList.add('open');
+  document.getElementById('faithMsg').className='faith-msg';
+}
+
+function faithCloseEditModal(){
+  document.getElementById('faithModalOverlay').classList.remove('open');
+  faithEditRowNum=null;
+}
+
+async function faithSubmit(){
+  if(!faithScriptUrl){alert('Please set the Apps Script URL first.');return;}
+  var row=FAITH_FIELDS.map(function(f,i){var el=document.getElementById('faith-f-'+i);return el?el.value:'';});
+  if(!row[0].trim()){alert('Last Name is required.');return;}
+  var msg=document.getElementById('faithMsg');
+  msg.className='faith-msg info';msg.textContent='Saving...';
+  var payload={action:faithEditRowNum?'update':'add',row:row};
+  if(faithEditRowNum) payload.rowNum=faithEditRowNum;
+  try{
+    var res=await fetch(faithScriptUrl,{method:'POST',body:new URLSearchParams({payload:JSON.stringify(payload)}),redirect:'follow'});
+    var json={status:'ok'};try{json=JSON.parse(await res.text());}catch(e){}
+    if(json.status==='error'){msg.className='faith-msg error';msg.textContent='Error: '+json.message;}
+    else{
+      msg.className='faith-msg success';
+      msg.textContent=faithEditRowNum?'Record updated!':'Record added!';
+      var fullName=(row[0]||'')+(row[1]?' '+row[1]:'');
+      logFaithActivity(faithEditRowNum?'Edit':'Add', fullName.trim()||'(no name)');
+      faithData=null;
+      setTimeout(function(){faithCloseEditModal();faithShowExpiring=false;faithFilterMode=null;faithLoad(true);},1200);
+    }
+  }catch(err){msg.className='faith-msg error';msg.textContent='Error: '+err.message;}
+}
+
+function faithToggleActlog(){
+  var panel=document.getElementById('faithActlogPanel');
+  var btn=document.getElementById('faithLogBtn');
+  var isOpen=panel.classList.contains('open');
+  if(isOpen){
+    panel.classList.remove('open');
+    btn.textContent='Activity Log';
+  }else{
+    panel.classList.add('open');
+    btn.textContent='Hide Log';
+    if(!faithActlogLoaded) faithLoadActlog(true);
+  }
+}
+function faithLoadActlog(force){
+  var wrap=document.getElementById('faithActlogWrap');
+  if(!faithScriptUrl){wrap.innerHTML='<div class="faith-empty">Set the Apps Script URL first.</div>';return;}
+  wrap.innerHTML='<div class="faith-empty">Loading activity log...</div>';
+  faithActlogLoaded=false;
+  var cbName='faithActCb_'+Date.now();
+  var gasUrl=faithScriptUrl+'?action=actlog&callback='+cbName+'&_t='+Date.now();
+  var timeoutId=setTimeout(function(){
+    cleanup();
+    wrap.innerHTML='<div class="faith-empty">Timeout loading activity log.</div>';
+  },15000);
+  function cleanup(){clearTimeout(timeoutId);if(window[cbName])delete window[cbName];var s=document.getElementById('faithActlogScript');if(s)s.parentNode.removeChild(s);}
+  window[cbName]=function(json){
+    cleanup();faithActlogLoaded=true;
+    if(json.status==='error'){wrap.innerHTML='<div class="faith-empty">Error: '+escH(json.message)+'</div>';return;}
+    if(!json.rows||!json.rows.length){wrap.innerHTML='<div class="faith-empty">No activity recorded yet.</div>';return;}
+    var rows=json.rows.map(function(r){
+      var badge=r.act==='Add'
+        ?'<span class="actlog-badge-add">Add</span>'
+        :'<span class="actlog-badge-edit">Edit</span>';
+      return '<tr><td style="font-weight:600;">'+escH(r.who)+'</td><td>'+badge+'</td><td>'+escH(r.name)+'</td><td>'+escH(r.time)+'</td><td>'+escH(r.date)+'</td></tr>';
+    }).join('');
+    wrap.innerHTML='<div style="overflow-x:auto;"><table class="faith-actlog-tbl"><thead><tr><th>Who</th><th>Action</th><th>Name</th><th>Time</th><th>Date</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+  };
+  var s=document.createElement('script');s.id='faithActlogScript';s.src=gasUrl;document.head.appendChild(s);
+}
+// ═══════════════════ FAITH MONITORING (JS) — END ═══════════════════
 // ═══════════════════ ACTIVITY + LOGIN LOG (JS) — START ═══════════════════
 var actlogScriptUrl=localStorage.getItem('actlog_script_url')||'https://script.google.com/macros/s/AKfycbyn2_TcmEd0myVInLJ7BQ1rR_7BrpJRAYu6pLHq4SoL8xDT2PAbbJOUiAUeyolvNnqh/exec';
 var loginlogScriptUrl=localStorage.getItem('loginlog_script_url')||'https://script.google.com/macros/s/AKfycby_qbkegYGPN6kHToJAhuN1kwUgx2BIANgtxAEOqF_e9VLaP-_fyq5H4EapRYd4PApt3Q/exec';
